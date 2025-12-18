@@ -31,7 +31,7 @@ go run ./cmd/cli --version
 
 **Step 1: Register a new user**
 ```powershell
-go run ./cmd/cli auth register --username john --email john@example.com
+go run ./cmd/cli auth register --username john3 --email john3@example.com
 # When prompted:
 # Password: (enter password)
 # Confirm Password: (re-enter same password)
@@ -42,7 +42,9 @@ go run ./cmd/cli auth register --username john --email john@example.com
 go run ./cmd/cli auth login --username john2
 # When prompted:
 # Password: Thienphu123
-```
+go run ./cmd/cli auth login --username john3
+# Password: Thienphu123
+
 
 **Step 3: Check authentication status**
 ```powershell
@@ -109,51 +111,154 @@ go run ./cmd/cli progress update --manga-id one-piece --chapter 1095 --notes "Ep
 
 # View progress history
 go run ./cmd/cli progress history
+
+# Manual sync with server
+go run ./cmd/cli progress sync
+
+# Check sync status
+go run ./cmd/cli progress sync-status
 ```
 
 ### Notifications
+
 ```powershell
-# Subscribe
+# Subscribe to chapter release notifications
 go run ./cmd/cli notify subscribe
 
-# View preferences
+# Subscribe and keep listening for real-time notifications
+go run ./cmd/cli notify subscribe --listen
+
+# Subscribe to specific manga notifications
+go run ./cmd/cli notify subscribe --manga-id one-piece
+
+# Unsubscribe from notifications
+go run ./cmd/cli notify unsubscribe
+
+# Unsubscribe from specific manga
+go run ./cmd/cli notify unsubscribe --manga-id one-piece
+
+# View notification preferences
 go run ./cmd/cli notify preferences
 
-# Test notification
+# Test notification system
 go run ./cmd/cli notify test
-
-# Unsubscribe
-go run ./cmd/cli notify unsubscribe
 ```
 
-### Chat
+UDP server-client function (quick path):
+- The UDP server runs on port 9091; clients send `register` to subscribe for broadcasts.
+- Any JSON payload sent to the server is rebroadcast to all registered clients.
+- The CLI `notify subscribe|unsubscribe|preferences|test` flow exercises the same UDP channel.
+
+UDP notifications (manual test):
+
+```powershell
+# Start UDP server (separate terminal)
+go run ./cmd/udp-server
+
+# Start a UDP listener client (PowerShell)
+$udp = New-Object System.Net.Sockets.UdpClient(0)
+$udp.Connect('127.0.0.1',9091)
+$udp.Send([Text.Encoding]::UTF8.GetBytes('register'),8)  # register client
+while($true){$ep=$null; $bytes=$udp.Receive([ref]$ep); [Text.Encoding]::UTF8.GetString($bytes)}
+
+# Fire a notification (PowerShell)
+$payload = @{ type='chapter_release'; manga_id='one-piece'; message='Chapter 1101 released'; timestamp=[int][double]::Parse((Get-Date -UFormat %s)) } | ConvertTo-Json
+$client = New-Object System.Net.Sockets.UdpClient
+$client.Send([Text.Encoding]::UTF8.GetBytes($payload), $payload.Length, '127.0.0.1', 9091) | Out-Null
+```
+
+### gRPC Service Operations
+```powershell
+# Query manga via gRPC
+mangahub grpc manga get --id <manga-id>
+
+# Search via gRPC
+mangahub grpc manga search --query <search-term>
+
+# Update progress via gRPC
+mangahub grpc progress update --manga-id <id> --chapter <number>
+```
+
+### Chat System
 ```powershell
 # Join general chat
-go run ./cmd/cli chat join
+mangahub chat join
 
-# Join manga-specific chat
-go run ./cmd/cli chat join --room one-piece
+# Join specific manga discussion
+mangahub chat join --manga-id <id>
+# Example
+mangahub chat join --manga-id one-piece
 
-# Send message
-go run ./cmd/cli chat send "Hello everyone!"
+# Send message to current chat
+mangahub chat send "Hello everyone!"
 
-# View history
-go run ./cmd/cli chat history
-go run ./cmd/cli chat history --room one-piece --limit 50
+# Send message to specific manga chat
+mangahub chat send "Great chapter!" --manga-id one-piece
+
+# View recent messages
+mangahub chat history
+
+# View messages for specific manga
+mangahub chat history --manga-id one-piece --limit 50
 ```
 
-### gRPC Operations
-```powershell
-# Query manga
-go run ./cmd/cli grpc manga get --id one-piece
-
-# Search
-go run ./cmd/cli grpc manga search --query "naruto"
-
-# Update progress
-go run ./cmd/cli grpc progress update --manga-id one-piece --chapter 1095
+Chat commands (interactive mode):
+```
+/help  - Show chat commands
+/users - List online users
+/quit  - Leave chat
+/pm <username> <message> - Private message
+/manga <id> - Switch to manga-specific chat
+/history - Show recent history
+/status  - Connection status
 ```
 
+Expected output (example) for `mangahub chat join`:
+```
+Connecting to WebSocket chat server at ws://localhost:9093...
+✓ Connected to General Chat
+Chat Room: #general
+Connected users: 12
+Your status: Online
+Recent messages:
+[16:45] alice: Just finished reading the latest chapter!
+[16:47] bob: Which manga are you reading?
+[16:48] alice: Attack on Titan, it's getting intense
+[16:50] charlie: No spoilers please!
+─────────────────────────────────────────────────────────────
+You are now in chat. Type your message and press Enter.
+Type /help for commands or /quit to leave.
+johndoe>
+
+johndoe> /help
+Chat Commands:
+ /help - Show this help
+ /users - List online users
+ /quit - Leave chat
+ /pm <user> <msg>- Private message
+ /manga <id> - Switch to manga chat
+ /history - Show recent history
+ /status - Connection status
+
+johndoe> /users
+Online Users (12):
+● alice (General Chat)
+● bob (General Chat)
+● charlie (General Chat)
+● diana (One Piece Discussion)
+● elena (Attack on Titan Discussion)
+● frank (General Chat)
+[... 6 more users]
+
+johndoe> Hello everyone!
+[17:02] johndoe: Hello everyone!
+[17:02] alice: Hey johndoe! Welcome to the chat
+[17:03] bob: Hi there! What are you reading these days?
+
+johndoe> /quit
+Leaving chat...
+✓ Disconnected from chat server
+```
 ### Statistics
 ```powershell
 # Overview
