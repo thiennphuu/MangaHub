@@ -12,7 +12,7 @@ import (
 var searchCmd = &cobra.Command{
 	Use:   "search <query>",
 	Short: "Search for manga",
-	Long: `Search for manga by title, author, or other criteria.
+	Long: `Search for manga by title, author, or other criteria via the API server.
 
 Examples:
   mangahub manga search "attack on titan"
@@ -25,13 +25,10 @@ Examples:
 		status, _ := cmd.Flags().GetString("status")
 		limit, _ := cmd.Flags().GetInt("limit")
 
-		fmt.Printf("Searching for \"%s\"...\n\n", query)
+		fmt.Printf("Searching for \"%s\" via API server...\n\n", query)
 
-		// Get manga service
-		svc, err := getMangaService()
-		if err != nil {
-			return fmt.Errorf("database error: %w", err)
-		}
+		// Get HTTP client
+		httpClient := getHTTPClient()
 
 		// Build filter
 		filter := &models.MangaFilter{
@@ -45,8 +42,8 @@ Examples:
 			filter.Status = status
 		}
 
-		// Search database
-		results, err := svc.Search(filter)
+		// Search via API
+		results, err := httpClient.SearchManga(filter)
 		if err != nil {
 			return fmt.Errorf("search failed: %w", err)
 		}

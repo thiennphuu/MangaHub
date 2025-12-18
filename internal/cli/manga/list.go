@@ -11,7 +11,7 @@ import (
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all manga",
-	Long: `List manga with optional filtering and pagination.
+	Long: `List manga with optional filtering and pagination via the API server.
 
 Examples:
   mangahub manga list
@@ -23,29 +23,14 @@ Examples:
 		genre, _ := cmd.Flags().GetString("genre")
 		status, _ := cmd.Flags().GetString("status")
 
-		// Get manga service
-		svc, err := getMangaService()
-		if err != nil {
-			return fmt.Errorf("database error: %w", err)
-		}
+		// Get HTTP client
+		httpClient := getHTTPClient()
 
 		// Calculate offset
 		offset := (page - 1) * limit
 
-		// Build filter for search
-		filter := &models.MangaFilter{
-			Limit:  limit,
-			Offset: offset,
-		}
-		if genre != "" {
-			filter.Genres = []string{genre}
-		}
-		if status != "" {
-			filter.Status = status
-		}
-
-		// Search database
-		results, err := svc.Search(filter)
+		// List via API
+		mangaList, err := httpClient.ListManga(limit, offset, status, genre)
 		if err != nil {
 			return fmt.Errorf("failed to list manga: %w", err)
 		}
@@ -59,13 +44,13 @@ Examples:
 		}
 		fmt.Println()
 
-		if len(results.Manga) == 0 {
+		if len(mangaList) == 0 {
 			fmt.Println("No manga found.")
 			return nil
 		}
 
-		printMangaListTable(results.Manga)
-		fmt.Printf("\nShowing %d manga (page %d)\n", len(results.Manga), page)
+		printMangaListTable(mangaList)
+		fmt.Printf("\nShowing %d manga (page %d)\n", len(mangaList), page)
 		fmt.Println("Use --page <n> to see more results")
 
 		return nil

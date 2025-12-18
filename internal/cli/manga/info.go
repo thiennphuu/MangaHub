@@ -10,8 +10,8 @@ import (
 var infoCmd = &cobra.Command{
 	Use:   "info <manga-id>",
 	Short: "View detailed manga information",
-	Long: `Display detailed information about a specific manga including description,
-genres, chapters, and your current reading status.
+	Long: `Display detailed information about a specific manga via the API server.
+Includes description, genres, chapters, and your current reading status.
 
 Example:
   mangahub manga info one-piece`,
@@ -19,14 +19,11 @@ Example:
 	RunE: func(cmd *cobra.Command, args []string) error {
 		mangaID := args[0]
 
-		// Get manga service
-		svc, err := getMangaService()
-		if err != nil {
-			return fmt.Errorf("database error: %w", err)
-		}
+		// Get HTTP client
+		httpClient := getHTTPClient()
 
-		// Fetch manga from database
-		m, err := svc.GetByID(mangaID)
+		// Fetch manga from API
+		m, err := httpClient.GetManga(mangaID)
 		if err != nil {
 			return fmt.Errorf("manga not found: %w", err)
 		}

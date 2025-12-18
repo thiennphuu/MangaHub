@@ -52,7 +52,7 @@ func (as *AuthService) HashPassword(password string) (string, error) {
 }
 
 // VerifyPassword verifies a password against a hash
-func (as *AuthService) VerifyPassword(password, hash string) error {
+func (as *AuthService) VerifyPassword(hash, password string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 }
 

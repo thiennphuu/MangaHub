@@ -91,10 +91,29 @@ func (d *Database) Init() error {
 		FOREIGN KEY (user_id) REFERENCES users(id)
 	);
 
+	CREATE TABLE IF NOT EXISTS notification_subscriptions (
+		user_id TEXT NOT NULL,
+		manga_id TEXT NOT NULL,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		PRIMARY KEY (user_id, manga_id),
+		FOREIGN KEY (user_id) REFERENCES users(id),
+		FOREIGN KEY (manga_id) REFERENCES manga(id)
+	);
+
+	CREATE TABLE IF NOT EXISTS notification_preferences (
+		user_id TEXT PRIMARY KEY,
+		chapter_releases BOOLEAN DEFAULT 1,
+		email_notifications BOOLEAN DEFAULT 1,
+		sound_enabled BOOLEAN DEFAULT 1,
+		updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		FOREIGN KEY (user_id) REFERENCES users(id)
+	);
+
 	CREATE INDEX IF NOT EXISTS idx_user_progress_user ON user_progress(user_id);
 	CREATE INDEX IF NOT EXISTS idx_user_progress_manga ON user_progress(manga_id);
 	CREATE INDEX IF NOT EXISTS idx_chat_room ON chat_messages(room_id);
 	CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id);
+	CREATE INDEX IF NOT EXISTS idx_notification_subs_user ON notification_subscriptions(user_id);
 	`
 
 	_, err := d.DB.Exec(schema)

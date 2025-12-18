@@ -5,14 +5,14 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"mangahub/pkg/models"
+	"mangahub/pkg/client"
 	"mangahub/pkg/utils"
 )
 
 var registerCmd = &cobra.Command{
 	Use:   "register",
 	Short: "Register a new MangaHub account",
-	Long: `Register a new account on MangaHub.
+	Long: `Register a new account on MangaHub via the API server.
 
 Examples:
   mangahub auth register --username johndoe --email john@example.com`,
@@ -25,23 +25,6 @@ Examples:
 		}
 		if email == "" {
 			return fmt.Errorf("please provide --email")
-		}
-
-		// Get services
-		userSvc, err := getUserService()
-		if err != nil {
-			return fmt.Errorf("database error: %w", err)
-		}
-		authSvc := getAuthService()
-
-		// Check if username already exists
-		if _, err := userSvc.GetByUsername(username); err == nil {
-			return fmt.Errorf("username '%s' is already taken", username)
-		}
-
-		// Check if email already exists
-		if _, err := userSvc.GetByEmail(email); err == nil {
-			return fmt.Errorf("email '%s' is already registered", email)
 		}
 
 		// Prompt for password
@@ -62,29 +45,22 @@ Examples:
 			return fmt.Errorf("passwords do not match")
 		}
 
-		// Hash password
-		hashedPassword, err := authSvc.HashPassword(password)
+		// Create HTTP client
+		httpClient := client.NewHTTPClient(getAPIURL(), "")
+
+		fmt.Printf("Registering user '%s' via API server...\n", username)
+
+		// Call API server to register
+		result, err := httpClient.Register(username, email, password)
 		if err != nil {
-			return fmt.Errorf("failed to hash password: %w", err)
-		}
-
-		// Create user
-		newUser := &models.User{
-			ID:           authSvc.GenerateUserID(),
-			Username:     username,
-			Email:        email,
-			PasswordHash: hashedPassword,
-		}
-
-		if err := userSvc.Create(newUser); err != nil {
-			return fmt.Errorf("failed to create user: %w", err)
+			return fmt.Errorf("registration failed: %w", err)
 		}
 
 		fmt.Println("✓ Registration successful!")
 		fmt.Println()
-		fmt.Printf("Username: %s\n", newUser.Username)
-		fmt.Printf("Email:    %s\n", newUser.Email)
-		fmt.Printf("User ID:  %s\n", newUser.ID)
+		fmt.Printf("Username: %s\n", username)
+		fmt.Printf("Email:    %s\n", email)
+		fmt.Printf("User ID:  %s\n", result.UserID)
 		fmt.Println()
 		fmt.Println("You can now login with:")
 		fmt.Printf("  mangahub auth login --username %s\n", username)

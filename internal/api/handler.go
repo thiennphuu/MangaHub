@@ -164,6 +164,8 @@ func (h *Handler) Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, models.LoginResponse{
+		UserID:    user.ID,
+		Username:  user.Username,
 		Token:     token,
 		ExpiresAt: expiresAt,
 	})
@@ -361,13 +363,15 @@ func (h *Handler) AddToLibrary(c *gin.Context) {
 	var req struct {
 		MangaID string `json:"manga_id"`
 		Status  string `json:"status"`
+		Rating  int    `json:"rating"`
+		Notes   string `json:"notes"`
 	}
 	if err := c.BindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request"})
 		return
 	}
 
-	if err := h.libraryService.AddToLibrary(userID.(string), req.MangaID, req.Status); err != nil {
+	if err := h.libraryService.AddToLibrary(userID.(string), req.MangaID, req.Status, req.Rating, req.Notes); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to add to library"})
 		return
 	}
@@ -435,14 +439,16 @@ func (h *Handler) AuthMiddleware() gin.HandlerFunc {
 			token = token[7:]
 		}
 
-		userID, err := h.authService.VerifyToken(token)
+		claims, err := h.authService.VerifyToken(token)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token"})
 			c.Abort()
 			return
 		}
 
-		c.Set("user_id", userID)
+		c.Set("user_id", claims.UserID)
+		c.Set("username", claims.Username)
+		c.Set("email", claims.Email)
 		c.Next()
 	}
 }

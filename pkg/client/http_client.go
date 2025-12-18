@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
+	"strconv"
 
 	"mangahub/pkg/models"
 )
@@ -31,8 +33,14 @@ func (c *HTTPClient) SetToken(token string) {
 	c.Token = token
 }
 
+// RegisterResponse represents the registration response
+type RegisterResponse struct {
+	Message string `json:"message"`
+	UserID  string `json:"user_id"`
+}
+
 // Register registers a new user
-func (c *HTTPClient) Register(username, email, password string) (*models.User, error) {
+func (c *HTTPClient) Register(username, email, password string) (*RegisterResponse, error) {
 	req := models.RegisterRequest{
 		Username: username,
 		Email:    email,
@@ -51,16 +59,20 @@ func (c *HTTPClient) Register(username, email, password string) (*models.User, e
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusCreated {
-		body, _ := io.ReadAll(resp.Body)
-		return nil, fmt.Errorf("registration failed: %s", string(body))
+		var errResp map[string]string
+		json.NewDecoder(resp.Body).Decode(&errResp)
+		if msg, ok := errResp["error"]; ok {
+			return nil, fmt.Errorf("%s", msg)
+		}
+		return nil, fmt.Errorf("registration failed with status %d", resp.StatusCode)
 	}
 
-	var user models.User
-	if err := json.NewDecoder(resp.Body).Decode(&user); err != nil {
+	var result RegisterResponse
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
 		return nil, err
 	}
 
-	return &user, nil
+	return &result, nil
 }
 
 // Login logs in a user
@@ -82,8 +94,12 @@ func (c *HTTPClient) Login(username, password string) (*models.LoginResponse, er
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		body, _ := io.ReadAll(resp.Body)
-		return nil, fmt.Errorf("login failed: %s", string(body))
+		var errResp map[string]string
+		json.NewDecoder(resp.Body).Decode(&errResp)
+		if msg, ok := errResp["error"]; ok {
+			return nil, fmt.Errorf("%s", msg)
+		}
+		return nil, fmt.Errorf("login failed with status %d", resp.StatusCode)
 	}
 
 	var loginResp models.LoginResponse
@@ -95,9 +111,69 @@ func (c *HTTPClient) Login(username, password string) (*models.LoginResponse, er
 	return &loginResp, nil
 }
 
-// SearchManga searches for manga
-func (c *HTTPClient) SearchManga(query string) (*models.SearchResult, error) {
-	resp, err := c.get("/manga?q=" + query)
+// GetProfile retrieves the current user's profile
+func (c *HTTPClient) GetProfile() (*models.User, error) {
+	resp, err := c.get("/users/profile")
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusUnauthorized {
+		return nil, fmt.Errorf("session expired or invalid")
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("failed to get profile with status %d", resp.StatusCode)
+	}
+
+	var user models.User
+	if err := json.NewDecoder(resp.Body).Decode(&user); err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+// ListManga lists manga with pagination and optional filters
+func (c *HTTPClient) ListManga(limit, offset int, status, genre string) ([]models.Manga, error) {
+	params := url.Values{}
+	params.Set("limit", strconv.Itoa(limit))
+	params.Set("offset", strconv.Itoa(offset))
+	if status != "" {
+		params.Set("status", status)
+	}
+	if genre != "" {
+		params.Set("genre", genre)
+	}
+
+	endpoint := "/manga?" + params.Encode()
+	resp, err := c.get(endpoint)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("failed to list manga with status %d", resp.StatusCode)
+	}
+
+	var mangaList []models.Manga
+	if err := json.NewDecoder(resp.Body).Decode(&mangaList); err != nil {
+		return nil, err
+	}
+
+	return mangaList, nil
+}
+
+// SearchManga searches for manga using POST with filters
+func (c *HTTPClient) SearchManga(filter *models.MangaFilter) (*models.SearchResult, error) {
+	data, err := json.Marshal(filter)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.post("/manga/search", data)
 	if err != nil {
 		return nil, err
 	}
@@ -122,6 +198,10 @@ func (c *HTTPClient) GetManga(id string) (*models.Manga, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusNotFound {
+		return nil, fmt.Errorf("manga not found")
+	}
 
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("get manga failed with status %d", resp.StatusCode)
@@ -193,10 +273,17 @@ func (c *HTTPClient) delete(endpoint string) (*http.Response, error) {
 }
 
 // GetLibrary retrieves user's library
-func (c *HTTPClient) GetLibrary(status string) ([]models.Progress, error) {
-	endpoint := "/users/library"
+func (c *HTTPClient) GetLibrary(status string, limit, offset int) ([]models.Progress, error) {
+	params := url.Values{}
 	if status != "" {
-		endpoint += "?status=" + status
+		params.Set("status", status)
+	}
+	params.Set("limit", strconv.Itoa(limit))
+	params.Set("offset", strconv.Itoa(offset))
+
+	endpoint := "/users/library"
+	if len(params) > 0 {
+		endpoint += "?" + params.Encode()
 	}
 
 	resp, err := c.get(endpoint)
@@ -204,6 +291,10 @@ func (c *HTTPClient) GetLibrary(status string) ([]models.Progress, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusUnauthorized {
+		return nil, fmt.Errorf("unauthorized: please login first")
+	}
 
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("failed to get library: status %d", resp.StatusCode)
@@ -218,10 +309,12 @@ func (c *HTTPClient) GetLibrary(status string) ([]models.Progress, error) {
 }
 
 // AddToLibrary adds a manga to the user's library
-func (c *HTTPClient) AddToLibrary(mangaID, status string) error {
-	payload := map[string]string{
+func (c *HTTPClient) AddToLibrary(mangaID, status string, rating int, notes string) error {
+	payload := map[string]interface{}{
 		"manga_id": mangaID,
 		"status":   status,
+		"rating":   rating,
+		"notes":    notes,
 	}
 
 	data, err := json.Marshal(payload)
@@ -235,7 +328,16 @@ func (c *HTTPClient) AddToLibrary(mangaID, status string) error {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode == http.StatusUnauthorized {
+		return fmt.Errorf("unauthorized: please login first")
+	}
+
 	if resp.StatusCode != http.StatusCreated {
+		var errResp map[string]string
+		json.NewDecoder(resp.Body).Decode(&errResp)
+		if msg, ok := errResp["error"]; ok {
+			return fmt.Errorf("%s", msg)
+		}
 		return fmt.Errorf("failed to add to library: status %d", resp.StatusCode)
 	}
 
@@ -250,6 +352,10 @@ func (c *HTTPClient) RemoveFromLibrary(mangaID string) error {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode == http.StatusUnauthorized {
+		return fmt.Errorf("unauthorized: please login first")
+	}
+
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("failed to remove from library: status %d", resp.StatusCode)
 	}
@@ -258,12 +364,12 @@ func (c *HTTPClient) RemoveFromLibrary(mangaID string) error {
 }
 
 // UpdateProgress updates reading progress for a manga
-func (c *HTTPClient) UpdateProgress(mangaID string, chapter int, status string, rating int) error {
-	payload := models.Progress{
-		MangaID:        mangaID,
-		CurrentChapter: chapter,
-		Status:         status,
-		Rating:         rating,
+func (c *HTTPClient) UpdateProgress(mangaID string, chapter int, status string, rating int, notes string) error {
+	payload := map[string]interface{}{
+		"current_chapter": chapter,
+		"status":          status,
+		"rating":          rating,
+		"notes":           notes,
 	}
 
 	data, err := json.Marshal(payload)
@@ -277,7 +383,16 @@ func (c *HTTPClient) UpdateProgress(mangaID string, chapter int, status string, 
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode == http.StatusUnauthorized {
+		return fmt.Errorf("unauthorized: please login first")
+	}
+
 	if resp.StatusCode != http.StatusOK {
+		var errResp map[string]string
+		json.NewDecoder(resp.Body).Decode(&errResp)
+		if msg, ok := errResp["error"]; ok {
+			return fmt.Errorf("%s", msg)
+		}
 		return fmt.Errorf("failed to update progress: status %d", resp.StatusCode)
 	}
 

@@ -12,7 +12,7 @@ import (
 var advancedSearchCmd = &cobra.Command{
 	Use:   "advanced-search",
 	Short: "Advanced manga search with filters",
-	Long: `Perform advanced search with multiple filter options.
+	Long: `Perform advanced search with multiple filter options via the API server.
 
 Examples:
   mangahub manga advanced-search "keyword" --genre "action,adventure" --status "ongoing" --author "author name" --year-from 2020 --year-to 2024 --min-chapters 50 --sort-by "popularity" --order "desc"`,
@@ -49,11 +49,8 @@ Examples:
 		fmt.Printf("  Sort: %s (%s)\n", sortBy, order)
 		fmt.Println()
 
-		// Get manga service
-		svc, err := getMangaService()
-		if err != nil {
-			return fmt.Errorf("database error: %w", err)
-		}
+		// Get HTTP client
+		httpClient := getHTTPClient()
 
 		// Build filter
 		filter := &models.MangaFilter{
@@ -69,8 +66,8 @@ Examples:
 			filter.Genres = strings.Split(genres, ",")
 		}
 
-		// Search database
-		results, err := svc.Search(filter)
+		// Search via API
+		results, err := httpClient.SearchManga(filter)
 		if err != nil {
 			return fmt.Errorf("search failed: %w", err)
 		}

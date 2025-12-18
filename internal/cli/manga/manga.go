@@ -1,46 +1,29 @@
 package manga
 
 import (
-	"fmt"
 	"os"
-	"path/filepath"
 
 	"github.com/spf13/cobra"
 
-	"mangahub/internal/manga"
-	"mangahub/pkg/database"
+	"mangahub/pkg/client"
 )
 
 // MangaCmd is the main manga command
 var MangaCmd = &cobra.Command{
 	Use:   "manga",
 	Short: "Manga search and discovery commands",
-	Long:  `Search, discover, and view information about manga titles.`,
+	Long:  `Search, discover, and view information about manga titles via the API server.`,
 }
 
-// getDBPath returns the path to the database file
-func getDBPath() string {
-	// Try multiple locations for the database
-	paths := []string{
-		"data/mangahub.db",
-		"./data/mangahub.db",
-		filepath.Join(os.Getenv("HOME"), ".mangahub", "mangahub.db"),
+// getAPIURL returns the API server URL
+func getAPIURL() string {
+	if url := os.Getenv("MANGAHUB_API_URL"); url != "" {
+		return url
 	}
-
-	for _, p := range paths {
-		if _, err := os.Stat(p); err == nil {
-			return p
-		}
-	}
-	return "data/mangahub.db"
+	return "http://localhost:8080"
 }
 
-// getMangaService creates and returns a manga service connected to the database
-func getMangaService() (*manga.Service, error) {
-	dbPath := getDBPath()
-	db, err := database.New(dbPath)
-	if err != nil {
-		return nil, fmt.Errorf("failed to connect to database: %w", err)
-	}
-	return manga.NewService(db), nil
+// getHTTPClient returns an HTTP client for manga operations
+func getHTTPClient() *client.HTTPClient {
+	return client.NewHTTPClient(getAPIURL(), "")
 }

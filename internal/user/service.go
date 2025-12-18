@@ -92,6 +92,16 @@ func (s *Service) Update(user *models.User) error {
 	return nil
 }
 
+// UpdatePassword updates a user's password
+func (s *Service) UpdatePassword(userID string, hashedPassword string) error {
+	query := `UPDATE users SET password_hash = ?, updated_at = ? WHERE id = ?`
+	_, err := s.db.Exec(query, hashedPassword, time.Now(), userID)
+	if err != nil {
+		return fmt.Errorf("failed to update password: %w", err)
+	}
+	return nil
+}
+
 // Delete deletes a user
 func (s *Service) Delete(id string) error {
 	query := "DELETE FROM users WHERE id = ?"
@@ -113,17 +123,34 @@ func NewLibraryService(db *database.Database) *LibraryService {
 }
 
 // AddToLibrary adds a manga to user's library
-func (ls *LibraryService) AddToLibrary(userID, mangaID string, status string) error {
+func (ls *LibraryService) AddToLibrary(userID, mangaID string, status string, rating int, notes string) error {
 	query := `
-		INSERT INTO user_progress (user_id, manga_id, status, started_at, updated_at)
-		VALUES (?, ?, ?, ?, ?)
+		INSERT INTO user_progress (user_id, manga_id, status, rating, notes, current_chapter, started_at, updated_at)
+		VALUES (?, ?, ?, ?, ?, 0, ?, ?)
 	`
 	now := time.Now()
-	_, err := ls.db.Exec(query, userID, mangaID, status, now, now)
+	_, err := ls.db.Exec(query, userID, mangaID, status, rating, notes, now, now)
 	if err != nil {
 		return fmt.Errorf("failed to add to library: %w", err)
 	}
 	return nil
+}
+
+// GetLibraryEntry retrieves a single library entry
+func (ls *LibraryService) GetLibraryEntry(userID, mangaID string) (*models.Progress, error) {
+	query := `
+		SELECT user_id, manga_id, current_chapter, status, rating, notes, started_at, completed_at, updated_at
+		FROM user_progress WHERE user_id = ? AND manga_id = ?
+	`
+	row := ls.db.QueryRow(query, userID, mangaID)
+
+	var progress models.Progress
+	err := row.Scan(&progress.UserID, &progress.MangaID, &progress.CurrentChapter, &progress.Status,
+		&progress.Rating, &progress.Notes, &progress.StartedAt, &progress.CompletedAt, &progress.UpdatedAt)
+	if err != nil {
+		return nil, err
+	}
+	return &progress, nil
 }
 
 // RemoveFromLibrary removes a manga from user's library

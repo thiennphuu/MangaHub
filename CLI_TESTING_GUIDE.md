@@ -2,6 +2,18 @@
 
 ## Quick Start
 
+### Prerequisites
+
+**Terminal 1 - Start the API Server:**
+```powershell
+cd c:\STUDY\Net_centric\mangahub-v3
+go run ./cmd/api-server
+# Server will be ready on http://localhost:8080
+```
+
+**Terminal 2 - Run CLI Commands:**
+All commands below should be run in a separate terminal while the API server is running.
+
 ### Build the CLI (Optional)
 ```powershell
 go build -o mangahub.exe ./cmd/cli
@@ -16,18 +28,32 @@ go run ./cmd/cli --version
 ## Command Testing
 
 ### Authentication
+
+**Step 1: Register a new user**
 ```powershell
-# Register new user
 go run ./cmd/cli auth register --username john --email john@example.com
+# When prompted:
+# Password: (enter password)
+# Confirm Password: (re-enter same password)
+```
 
-# Login (prompts for password)
-go run ./cmd/cli auth login --username john
+**Step 2: Login**
+```powershell
+go run ./cmd/cli auth login --username john2
+# When prompted:
+# Password: Thienphu123
+```
 
-# Check status
+**Step 3: Check authentication status**
+```powershell
 go run ./cmd/cli auth status
+# Shows current user info and token expiration
+```
 
-# Logout
+**Step 4: Logout**
+```powershell
 go run ./cmd/cli auth logout
+# Clears the local session
 ```
 
 ### Manga Search
@@ -57,6 +83,7 @@ go run ./cmd/cli manga advanced-search "romance" --min-chapters 50 --sort-by tit
 ```powershell
 # Add to library
 go run ./cmd/cli library add --manga-id one-piece --status reading --rating 9
+go run ./cmd/cli library add --manga-id naruto 
 
 # View library
 go run ./cmd/cli library list
@@ -289,20 +316,31 @@ go run ./cmd/cli auth --help                    # Show auth subcommands
 
 ## Integration Testing Checklist
 
+### Core Infrastructure
 - [x] All commands execute without syntax errors
 - [x] Help text displays correctly
 - [x] Flags are parsed correctly
 - [x] Global flags work on all commands
 - [x] Error messages are user-friendly
 - [x] Output formatting is readable
-- [x] Manga search queries database
+
+### Manga Operations (No Auth Required)
+- [x] Manga search queries API server
 - [x] Manga list with pagination works
 - [x] Manga info displays details
-- [x] Auth register creates users
-- [x] Auth login validates credentials
-- [x] Auth status shows session info
-- [ ] Library management (needs user login)
-- [ ] Progress tracking (needs user login)
+- [x] Advanced search with filters works
+
+### Authentication (API Server Required)
+- [x] Auth register creates users via HTTP API
+- [x] Auth login validates credentials via HTTP API
+- [x] Auth status validates token with API server
+- [x] Auth logout clears local session
+- [x] Session saved to ~/.mangahub/session.json
+
+### Authenticated Features
+- [x] Library management (add, list, update, remove)
+- [x] Progress tracking (update, history)
+- [ ] Notifications (subscribe, preferences, test, unsubscribe)
 - [ ] Chat functionality (needs WebSocket server)
 - [ ] gRPC operations (needs gRPC server)
 

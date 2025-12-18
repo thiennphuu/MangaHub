@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"mangahub/pkg/client"
+	"mangahub/pkg/models"
 	"mangahub/pkg/utils"
 )
 
@@ -79,7 +80,8 @@ func (cmd *Commander) SearchManga() error {
 
 	title, _ := cmd.prompt.String("Title (or part of): ")
 
-	results, err := cmd.httpClient.SearchManga(title)
+	filter := &models.MangaFilter{Query: title}
+	results, err := cmd.httpClient.SearchManga(filter)
 	if err != nil {
 		return err
 	}
@@ -125,7 +127,7 @@ func (cmd *Commander) AddToLibrary() error {
 	mangaID, _ := cmd.prompt.String("Manga ID: ")
 	status, _ := cmd.prompt.String("Status (reading/completed/on-hold/dropped): ")
 
-	if err := cmd.httpClient.AddToLibrary(mangaID, status); err != nil {
+	if err := cmd.httpClient.AddToLibrary(mangaID, status, 0, ""); err != nil {
 		return err
 	}
 
@@ -139,7 +141,7 @@ func (cmd *Commander) ViewLibrary() error {
 
 	status, _ := cmd.prompt.String("Filter by status (or leave blank): ")
 
-	lib, err := cmd.httpClient.GetLibrary(status)
+	lib, err := cmd.httpClient.GetLibrary(status, 50, 0)
 	if err != nil {
 		return err
 	}
@@ -172,7 +174,7 @@ func (cmd *Commander) UpdateProgress() error {
 	rating := 0
 	fmt.Sscanf(ratingStr, "%d", &rating)
 
-	if err := cmd.httpClient.UpdateProgress(mangaID, chapter, statusStr, rating); err != nil {
+	if err := cmd.httpClient.UpdateProgress(mangaID, chapter, statusStr, rating, ""); err != nil {
 		return err
 	}
 
