@@ -1,0 +1,3853 @@
+[
+  {
+    "id": "one-piece",
+    "title": "One Piece",
+    "author": "Eiichiro Oda",
+    "artist": "Eiichiro Oda",
+    "genres": [
+      "shounen",
+      "action",
+      "adventure",
+      "comedy",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 1100,
+    "volumes": 107,
+    "description": "Monkey D. Luffy sets off on an adventure to find the legendary One Piece treasure and become the Pirate King.",
+    "year": 1997,
+    "rating": 9.2,
+    "source": "manual"
+  },
+  {
+    "id": "naruto",
+    "title": "Naruto",
+    "author": "Masashi Kishimoto",
+    "artist": "Masashi Kishimoto",
+    "genres": [
+      "shounen",
+      "action",
+      "adventure",
+      "martial-arts"
+    ],
+    "status": "completed",
+    "chapters": 700,
+    "volumes": 72,
+    "description": "Naruto Uzumaki, a young ninja with a sealed demon fox within him, strives to become the Hokage of his village.",
+    "year": 1999,
+    "rating": 8.9,
+    "source": "manual"
+  },
+  {
+    "id": "bleach",
+    "title": "Bleach",
+    "author": "Tite Kubo",
+    "artist": "Tite Kubo",
+    "genres": [
+      "shounen",
+      "action",
+      "supernatural",
+      "adventure"
+    ],
+    "status": "completed",
+    "chapters": 686,
+    "volumes": 74,
+    "description": "Ichigo Kurosaki gains Soul Reaper powers and must protect the living world from evil spirits called Hollows.",
+    "year": 2001,
+    "rating": 8.5,
+    "source": "manual"
+  },
+  {
+    "id": "dragon-ball",
+    "title": "Dragon Ball",
+    "author": "Akira Toriyama",
+    "artist": "Akira Toriyama",
+    "genres": [
+      "shounen",
+      "action",
+      "adventure",
+      "martial-arts",
+      "comedy"
+    ],
+    "status": "completed",
+    "chapters": 520,
+    "volumes": 42,
+    "description": "Son Goku's journey from childhood to adulthood as he trains in martial arts and explores the world in search of Dragon Balls.",
+    "year": 1984,
+    "rating": 9,
+    "source": "manual"
+  },
+  {
+    "id": "attack-on-titan",
+    "title": "Attack on Titan",
+    "author": "Hajime Isayama",
+    "artist": "Hajime Isayama",
+    "genres": [
+      "shounen",
+      "action",
+      "drama",
+      "fantasy",
+      "horror"
+    ],
+    "status": "completed",
+    "chapters": 141,
+    "volumes": 34,
+    "description": "In a world where humanity lives within enormous walled cities to protect themselves from Titans, giant humanoid creatures.",
+    "year": 2009,
+    "rating": 9.1,
+    "source": "manual"
+  },
+  {
+    "id": "death-note",
+    "title": "Death Note",
+    "author": "Tsugumi Ohba",
+    "artist": "Takeshi Obata",
+    "genres": [
+      "shounen",
+      "psychological",
+      "thriller",
+      "supernatural",
+      "mystery"
+    ],
+    "status": "completed",
+    "chapters": 108,
+    "volumes": 12,
+    "description": "Light Yagami finds a supernatural notebook that allows him to kill anyone by writing their name in it.",
+    "year": 2003,
+    "rating": 9,
+    "source": "manual"
+  },
+  {
+    "id": "fullmetal-alchemist",
+    "title": "Fullmetal Alchemist",
+    "author": "Hiromu Arakawa",
+    "artist": "Hiromu Arakawa",
+    "genres": [
+      "shounen",
+      "action",
+      "adventure",
+      "fantasy",
+      "drama"
+    ],
+    "status": "completed",
+    "chapters": 116,
+    "volumes": 27,
+    "description": "Two brothers use alchemy in their quest to restore their bodies after a failed attempt to bring their mother back to life.",
+    "year": 2001,
+    "rating": 9.2,
+    "source": "manual"
+  },
+  {
+    "id": "my-hero-academia",
+    "title": "My Hero Academia",
+    "author": "Kohei Horikoshi",
+    "artist": "Kohei Horikoshi",
+    "genres": [
+      "shounen",
+      "action",
+      "superhero",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 430,
+    "volumes": 41,
+    "description": "In a world where most people have superpowers, a powerless boy dreams of becoming a hero.",
+    "year": 2014,
+    "rating": 8.7,
+    "source": "manual"
+  },
+  {
+    "id": "demon-slayer",
+    "title": "Demon Slayer: Kimetsu no Yaiba",
+    "author": "Koyoharu Gotouge",
+    "artist": "Koyoharu Gotouge",
+    "genres": [
+      "shounen",
+      "action",
+      "supernatural",
+      "historical"
+    ],
+    "status": "completed",
+    "chapters": 207,
+    "volumes": 23,
+    "description": "Tanjiro becomes a demon slayer after his family is slaughtered and his sister is turned into a demon.",
+    "year": 2016,
+    "rating": 8.9,
+    "source": "manual"
+  },
+  {
+    "id": "jujutsu-kaisen",
+    "title": "Jujutsu Kaisen",
+    "author": "Gege Akutami",
+    "artist": "Gege Akutami",
+    "genres": [
+      "shounen",
+      "action",
+      "supernatural",
+      "horror"
+    ],
+    "status": "completed",
+    "chapters": 271,
+    "volumes": 28,
+    "description": "Yuji Itadori joins a secret organization of Jujutsu Sorcerers to kill a powerful Curse named Ryomen Sukuna.",
+    "year": 2018,
+    "rating": 8.8,
+    "source": "manual"
+  },
+  {
+    "id": "hunter-x-hunter",
+    "title": "Hunter x Hunter",
+    "author": "Yoshihiro Togashi",
+    "artist": "Yoshihiro Togashi",
+    "genres": [
+      "shounen",
+      "action",
+      "adventure",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 400,
+    "volumes": 37,
+    "description": "Gon Freecss discovers his father is a world-renowned Hunter and decides to follow in his footsteps.",
+    "year": 1998,
+    "rating": 9.1,
+    "source": "manual"
+  },
+  {
+    "id": "one-punch-man",
+    "title": "One-Punch Man",
+    "author": "ONE",
+    "artist": "Yusuke Murata",
+    "genres": [
+      "seinen",
+      "action",
+      "comedy",
+      "superhero",
+      "parody"
+    ],
+    "status": "ongoing",
+    "chapters": 200,
+    "volumes": 29,
+    "description": "Saitama, a hero who can defeat any opponent with a single punch, seeks to find a worthy opponent.",
+    "year": 2012,
+    "rating": 9,
+    "source": "manual"
+  },
+  {
+    "id": "tokyo-ghoul",
+    "title": "Tokyo Ghoul",
+    "author": "Sui Ishida",
+    "artist": "Sui Ishida",
+    "genres": [
+      "seinen",
+      "action",
+      "horror",
+      "psychological",
+      "supernatural"
+    ],
+    "status": "completed",
+    "chapters": 144,
+    "volumes": 14,
+    "description": "Ken Kaneki becomes half-ghoul after a deadly encounter and must navigate both human and ghoul society.",
+    "year": 2011,
+    "rating": 8.6,
+    "source": "manual"
+  },
+  {
+    "id": "berserk",
+    "title": "Berserk",
+    "author": "Kentaro Miura",
+    "artist": "Kentaro Miura",
+    "genres": [
+      "seinen",
+      "action",
+      "dark-fantasy",
+      "horror",
+      "adventure"
+    ],
+    "status": "ongoing",
+    "chapters": 374,
+    "volumes": 42,
+    "description": "Guts, a lone mercenary, struggles against his fate while battling demons in a dark medieval world.",
+    "year": 1989,
+    "rating": 9.4,
+    "source": "manual"
+  },
+  {
+    "id": "vinland-saga",
+    "title": "Vinland Saga",
+    "author": "Makoto Yukimura",
+    "artist": "Makoto Yukimura",
+    "genres": [
+      "seinen",
+      "action",
+      "adventure",
+      "historical",
+      "drama"
+    ],
+    "status": "completed",
+    "chapters": 208,
+    "volumes": 27,
+    "description": "Thorfinn, son of a great warrior, seeks revenge against the man who killed his father.",
+    "year": 2005,
+    "rating": 9.1,
+    "source": "manual"
+  },
+  {
+    "id": "kingdom",
+    "title": "Kingdom",
+    "author": "Yasuhisa Hara",
+    "artist": "Yasuhisa Hara",
+    "genres": [
+      "seinen",
+      "action",
+      "historical",
+      "military",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 800,
+    "volumes": 72,
+    "description": "Two war orphans dream of becoming great generals during China's Warring States period.",
+    "year": 2006,
+    "rating": 9,
+    "source": "manual"
+  },
+  {
+    "id": "vagabond",
+    "title": "Vagabond",
+    "author": "Takehiko Inoue",
+    "artist": "Takehiko Inoue",
+    "genres": [
+      "seinen",
+      "action",
+      "historical",
+      "martial-arts",
+      "drama"
+    ],
+    "status": "hiatus",
+    "chapters": 327,
+    "volumes": 37,
+    "description": "The story of Miyamoto Musashi, Japan's greatest swordsman, on his path to enlightenment.",
+    "year": 1998,
+    "rating": 9.3,
+    "source": "manual"
+  },
+  {
+    "id": "monster",
+    "title": "Monster",
+    "author": "Naoki Urasawa",
+    "artist": "Naoki Urasawa",
+    "genres": [
+      "seinen",
+      "mystery",
+      "psychological",
+      "thriller",
+      "drama"
+    ],
+    "status": "completed",
+    "chapters": 162,
+    "volumes": 18,
+    "description": "A brilliant surgeon's life is turned upside down when the boy he saved turns out to be a serial killer.",
+    "year": 1994,
+    "rating": 9.2,
+    "source": "manual"
+  },
+  {
+    "id": "20th-century-boys",
+    "title": "20th Century Boys",
+    "author": "Naoki Urasawa",
+    "artist": "Naoki Urasawa",
+    "genres": [
+      "seinen",
+      "mystery",
+      "psychological",
+      "sci-fi",
+      "drama"
+    ],
+    "status": "completed",
+    "chapters": 249,
+    "volumes": 22,
+    "description": "A group of friends must stop a cult leader whose plans mirror a story they wrote as children.",
+    "year": 1999,
+    "rating": 9,
+    "source": "manual"
+  },
+  {
+    "id": "gantz",
+    "title": "Gantz",
+    "author": "Hiroya Oku",
+    "artist": "Hiroya Oku",
+    "genres": [
+      "seinen",
+      "action",
+      "sci-fi",
+      "horror",
+      "psychological"
+    ],
+    "status": "completed",
+    "chapters": 383,
+    "volumes": 37,
+    "description": "People who die are transported to a room where they must hunt aliens to earn their freedom.",
+    "year": 2000,
+    "rating": 8.3,
+    "source": "manual"
+  },
+  {
+    "id": "fruits-basket",
+    "title": "Fruits Basket",
+    "author": "Natsuki Takaya",
+    "artist": "Natsuki Takaya",
+    "genres": [
+      "shoujo",
+      "romance",
+      "comedy",
+      "drama",
+      "supernatural"
+    ],
+    "status": "completed",
+    "chapters": 136,
+    "volumes": 23,
+    "description": "Tohru Honda discovers that members of the Soma family transform into zodiac animals when hugged.",
+    "year": 1998,
+    "rating": 8.8,
+    "source": "manual"
+  },
+  {
+    "id": "ouran-high-school-host-club",
+    "title": "Ouran High School Host Club",
+    "author": "Bisco Hatori",
+    "artist": "Bisco Hatori",
+    "genres": [
+      "shoujo",
+      "comedy",
+      "romance",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 87,
+    "volumes": 18,
+    "description": "Haruhi Fujioka accidentally breaks a vase and must work as a host to pay off her debt.",
+    "year": 2002,
+    "rating": 8.7,
+    "source": "manual"
+  },
+  {
+    "id": "skip-beat",
+    "title": "Skip Beat!",
+    "author": "Yoshiki Nakamura",
+    "artist": "Yoshiki Nakamura",
+    "genres": [
+      "shoujo",
+      "comedy",
+      "drama",
+      "romance"
+    ],
+    "status": "ongoing",
+    "chapters": 330,
+    "volumes": 49,
+    "description": "Kyoko Mogami enters show business to get revenge on the childhood friend who used her.",
+    "year": 2002,
+    "rating": 8.9,
+    "source": "manual"
+  },
+  {
+    "id": "kamisama-kiss",
+    "title": "Kamisama Kiss",
+    "author": "Julietta Suzuki",
+    "artist": "Julietta Suzuki",
+    "genres": [
+      "shoujo",
+      "romance",
+      "comedy",
+      "supernatural",
+      "fantasy"
+    ],
+    "status": "completed",
+    "chapters": 154,
+    "volumes": 25,
+    "description": "A homeless girl becomes a land god and must deal with her fox familiar who refuses to accept her.",
+    "year": 2008,
+    "rating": 8.5,
+    "source": "manual"
+  },
+  {
+    "id": "maid-sama",
+    "title": "Kaichou wa Maid-sama!",
+    "author": "Hiro Fujiwara",
+    "artist": "Hiro Fujiwara",
+    "genres": [
+      "shoujo",
+      "comedy",
+      "romance",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 85,
+    "volumes": 18,
+    "description": "A strict student council president secretly works at a maid café and is discovered by the school's most popular boy.",
+    "year": 2006,
+    "rating": 8.6,
+    "source": "manual"
+  },
+  {
+    "id": "vampire-knight",
+    "title": "Vampire Knight",
+    "author": "Matsuri Hino",
+    "artist": "Matsuri Hino",
+    "genres": [
+      "shoujo",
+      "romance",
+      "supernatural",
+      "drama",
+      "fantasy"
+    ],
+    "status": "completed",
+    "chapters": 93,
+    "volumes": 19,
+    "description": "Yuki Cross protects the secret of the Night Class at her academy, where all the students are vampires.",
+    "year": 2004,
+    "rating": 8.2,
+    "source": "manual"
+  },
+  {
+    "id": "nana",
+    "title": "Nana",
+    "author": "Ai Yazawa",
+    "artist": "Ai Yazawa",
+    "genres": [
+      "shoujo",
+      "drama",
+      "romance",
+      "music",
+      "slice-of-life"
+    ],
+    "status": "hiatus",
+    "chapters": 84,
+    "volumes": 21,
+    "description": "Two young women named Nana, with very different personalities, become roommates in Tokyo.",
+    "year": 2000,
+    "rating": 9,
+    "source": "manual"
+  },
+  {
+    "id": "lovely-complex",
+    "title": "Lovely Complex",
+    "author": "Aya Nakahara",
+    "artist": "Aya Nakahara",
+    "genres": [
+      "shoujo",
+      "comedy",
+      "romance",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 68,
+    "volumes": 17,
+    "description": "A tall girl and a short boy, known as 'All Hanshin Kyojin,' navigate high school love and comedy.",
+    "year": 2001,
+    "rating": 8.4,
+    "source": "manual"
+  },
+  {
+    "id": "special-a",
+    "title": "Special A",
+    "author": "Maki Minami",
+    "artist": "Maki Minami",
+    "genres": [
+      "shoujo",
+      "comedy",
+      "romance",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 99,
+    "volumes": 17,
+    "description": "Hikari has always been second to Kei in everything and is determined to beat him one day.",
+    "year": 2003,
+    "rating": 8.3,
+    "source": "manual"
+  },
+  {
+    "id": "kare-kano",
+    "title": "Kare Kano",
+    "author": "Masami Tsuda",
+    "artist": "Masami Tsuda",
+    "genres": [
+      "shoujo",
+      "comedy",
+      "drama",
+      "romance",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 103,
+    "volumes": 21,
+    "description": "Two model students who hide their true selves discover each other's secrets.",
+    "year": 1996,
+    "rating": 8.5,
+    "source": "manual"
+  },
+  {
+    "id": "nodame-cantabile",
+    "title": "Nodame Cantabile",
+    "author": "Tomoko Ninomiya",
+    "artist": "Tomoko Ninomiya",
+    "genres": [
+      "josei",
+      "comedy",
+      "romance",
+      "music",
+      "slice-of-life"
+    ],
+    "status": "completed",
+    "chapters": 146,
+    "volumes": 25,
+    "description": "A perfectionist music student meets an eccentric piano prodigy who changes his life.",
+    "year": 2001,
+    "rating": 8.8,
+    "source": "manual"
+  },
+  {
+    "id": "honey-and-clover",
+    "title": "Honey and Clover",
+    "author": "Chica Umino",
+    "artist": "Chica Umino",
+    "genres": [
+      "josei",
+      "comedy",
+      "drama",
+      "romance",
+      "slice-of-life"
+    ],
+    "status": "completed",
+    "chapters": 64,
+    "volumes": 10,
+    "description": "The lives and loves of a group of art college students as they navigate their futures.",
+    "year": 2000,
+    "rating": 8.7,
+    "source": "manual"
+  },
+  {
+    "id": "chihayafuru",
+    "title": "Chihayafuru",
+    "author": "Yuki Suetsugu",
+    "artist": "Yuki Suetsugu",
+    "genres": [
+      "josei",
+      "drama",
+      "romance",
+      "sports",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 247,
+    "volumes": 50,
+    "description": "Chihaya dreams of becoming the best karuta player in Japan.",
+    "year": 2007,
+    "rating": 8.9,
+    "source": "manual"
+  },
+  {
+    "id": "paradise-kiss",
+    "title": "Paradise Kiss",
+    "author": "Ai Yazawa",
+    "artist": "Ai Yazawa",
+    "genres": [
+      "josei",
+      "drama",
+      "romance",
+      "fashion"
+    ],
+    "status": "completed",
+    "chapters": 48,
+    "volumes": 5,
+    "description": "A high school student is recruited by fashion design students to be their model.",
+    "year": 1999,
+    "rating": 8.4,
+    "source": "manual"
+  },
+  {
+    "id": "usagi-drop",
+    "title": "Usagi Drop",
+    "author": "Yumi Unita",
+    "artist": "Yumi Unita",
+    "genres": [
+      "josei",
+      "drama",
+      "slice-of-life",
+      "family"
+    ],
+    "status": "completed",
+    "chapters": 56,
+    "volumes": 10,
+    "description": "A 30-year-old bachelor takes in his grandfather's illegitimate 6-year-old daughter.",
+    "year": 2005,
+    "rating": 8.3,
+    "source": "manual"
+  },
+  {
+    "id": "sakamichi-no-apollon",
+    "title": "Kids on the Slope",
+    "author": "Yuki Kodama",
+    "artist": "Yuki Kodama",
+    "genres": [
+      "josei",
+      "drama",
+      "romance",
+      "music",
+      "historical"
+    ],
+    "status": "completed",
+    "chapters": 45,
+    "volumes": 9,
+    "description": "In 1960s Japan, a classical pianist bonds with a jazz-loving delinquent.",
+    "year": 2007,
+    "rating": 8.6,
+    "source": "manual"
+  },
+  {
+    "id": "kuragehime",
+    "title": "Princess Jellyfish",
+    "author": "Akiko Higashimura",
+    "artist": "Akiko Higashimura",
+    "genres": [
+      "josei",
+      "comedy",
+      "romance",
+      "slice-of-life"
+    ],
+    "status": "completed",
+    "chapters": 184,
+    "volumes": 17,
+    "description": "A jellyfish-obsessed girl and her otaku housemates befriend a cross-dressing fashionista.",
+    "year": 2008,
+    "rating": 8.5,
+    "source": "manual"
+  },
+  {
+    "id": "3-gatsu-no-lion",
+    "title": "March Comes in Like a Lion",
+    "author": "Chica Umino",
+    "artist": "Chica Umino",
+    "genres": [
+      "seinen",
+      "drama",
+      "slice-of-life",
+      "sports"
+    ],
+    "status": "ongoing",
+    "chapters": 200,
+    "volumes": 18,
+    "description": "A young professional shogi player deals with depression while finding family in three sisters.",
+    "year": 2007,
+    "rating": 9.1,
+    "source": "manual"
+  },
+  {
+    "id": "7-seeds",
+    "title": "7 Seeds",
+    "author": "Yumi Tamura",
+    "artist": "Yumi Tamura",
+    "genres": [
+      "josei",
+      "adventure",
+      "drama",
+      "sci-fi",
+      "survival"
+    ],
+    "status": "completed",
+    "chapters": 178,
+    "volumes": 35,
+    "description": "Groups of young people wake up in a post-apocalyptic Japan and must survive.",
+    "year": 2001,
+    "rating": 8.4,
+    "source": "manual"
+  },
+  {
+    "id": "black-clover",
+    "title": "Black Clover",
+    "author": "Yuki Tabata",
+    "artist": "Yuki Tabata",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "comedy"
+    ],
+    "status": "ongoing",
+    "chapters": 370,
+    "volumes": 36,
+    "description": "In a world where everyone has magic, Asta is born without any and dreams of becoming the Wizard King.",
+    "year": 2015,
+    "rating": 8.3,
+    "source": "manual"
+  },
+  {
+    "id": "fairy-tail",
+    "title": "Fairy Tail",
+    "author": "Hiro Mashima",
+    "artist": "Hiro Mashima",
+    "genres": [
+      "shounen",
+      "action",
+      "adventure",
+      "fantasy",
+      "comedy"
+    ],
+    "status": "completed",
+    "chapters": 545,
+    "volumes": 63,
+    "description": "Lucy joins the Fairy Tail wizard guild and embarks on adventures with Natsu and friends.",
+    "year": 2006,
+    "rating": 8.2,
+    "source": "manual"
+  },
+  {
+    "id": "blue-exorcist",
+    "title": "Blue Exorcist",
+    "author": "Kazue Kato",
+    "artist": "Kazue Kato",
+    "genres": [
+      "shounen",
+      "action",
+      "supernatural",
+      "fantasy"
+    ],
+    "status": "completed",
+    "chapters": 145,
+    "volumes": 29,
+    "description": "Rin Okumura discovers he is the son of Satan and decides to become an exorcist.",
+    "year": 2009,
+    "rating": 8.4,
+    "source": "manual"
+  },
+  {
+    "id": "soul-eater",
+    "title": "Soul Eater",
+    "author": "Atsushi Ohkubo",
+    "artist": "Atsushi Ohkubo",
+    "genres": [
+      "shounen",
+      "action",
+      "supernatural",
+      "comedy"
+    ],
+    "status": "completed",
+    "chapters": 117,
+    "volumes": 25,
+    "description": "Students at Death Weapon Meister Academy train to create Death Scythes from human weapons.",
+    "year": 2004,
+    "rating": 8.5,
+    "source": "manual"
+  },
+  {
+    "id": "seven-deadly-sins",
+    "title": "The Seven Deadly Sins",
+    "author": "Nakaba Suzuki",
+    "artist": "Nakaba Suzuki",
+    "genres": [
+      "shounen",
+      "action",
+      "adventure",
+      "fantasy"
+    ],
+    "status": "completed",
+    "chapters": 346,
+    "volumes": 41,
+    "description": "Princess Elizabeth seeks the legendary knights known as the Seven Deadly Sins to save her kingdom.",
+    "year": 2012,
+    "rating": 8.1,
+    "source": "manual"
+  },
+  {
+    "id": "food-wars",
+    "title": "Food Wars! Shokugeki no Soma",
+    "author": "Yuto Tsukuda",
+    "artist": "Shun Saeki",
+    "genres": [
+      "shounen",
+      "comedy",
+      "cooking",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 315,
+    "volumes": 36,
+    "description": "Soma Yukihira enrolls in an elite culinary academy to become a top chef.",
+    "year": 2012,
+    "rating": 8.4,
+    "source": "manual"
+  },
+  {
+    "id": "haikyuu",
+    "title": "Haikyuu!!",
+    "author": "Haruichi Furudate",
+    "artist": "Haruichi Furudate",
+    "genres": [
+      "shounen",
+      "sports",
+      "comedy",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 402,
+    "volumes": 45,
+    "description": "Hinata Shoyo joins his high school volleyball team despite his short stature.",
+    "year": 2012,
+    "rating": 9,
+    "source": "manual"
+  },
+  {
+    "id": "kuroko-no-basket",
+    "title": "Kuroko's Basketball",
+    "author": "Tadatoshi Fujimaki",
+    "artist": "Tadatoshi Fujimaki",
+    "genres": [
+      "shounen",
+      "sports",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 276,
+    "volumes": 30,
+    "description": "The invisible sixth man of the Generation of Miracles teams up with a talented player.",
+    "year": 2008,
+    "rating": 8.6,
+    "source": "manual"
+  },
+  {
+    "id": "slam-dunk",
+    "title": "Slam Dunk",
+    "author": "Takehiko Inoue",
+    "artist": "Takehiko Inoue",
+    "genres": [
+      "shounen",
+      "sports",
+      "comedy",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 276,
+    "volumes": 31,
+    "description": "A delinquent joins the basketball team to impress a girl and discovers his talent.",
+    "year": 1990,
+    "rating": 9.1,
+    "source": "manual"
+  },
+  {
+    "id": "ace-of-diamond",
+    "title": "Ace of Diamond",
+    "author": "Yuji Terajima",
+    "artist": "Yuji Terajima",
+    "genres": [
+      "shounen",
+      "sports",
+      "school"
+    ],
+    "status": "ongoing",
+    "chapters": 470,
+    "volumes": 47,
+    "description": "A young pitcher joins a prestigious baseball school aiming for Koshien.",
+    "year": 2006,
+    "rating": 8.5,
+    "source": "manual"
+  },
+  {
+    "id": "eyeshield-21",
+    "title": "Eyeshield 21",
+    "author": "Riichiro Inagaki",
+    "artist": "Yusuke Murata",
+    "genres": [
+      "shounen",
+      "sports",
+      "comedy",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 333,
+    "volumes": 37,
+    "description": "A timid boy's incredible running ability makes him the secret weapon of his football team.",
+    "year": 2002,
+    "rating": 8.7,
+    "source": "manual"
+  },
+  {
+    "id": "spy-x-family",
+    "title": "SPY x FAMILY",
+    "author": "Tatsuya Endo",
+    "artist": "Tatsuya Endo",
+    "genres": [
+      "shounen",
+      "action",
+      "comedy",
+      "family"
+    ],
+    "status": "ongoing",
+    "chapters": 105,
+    "volumes": 14,
+    "description": "A spy must build a fake family to complete a mission, unknowingly adopting a telepath and marrying an assassin.",
+    "year": 2019,
+    "rating": 9,
+    "source": "manual"
+  },
+  {
+    "id": "chainsaw-man",
+    "title": "Chainsaw Man",
+    "author": "Tatsuki Fujimoto",
+    "artist": "Tatsuki Fujimoto",
+    "genres": [
+      "shounen",
+      "action",
+      "horror",
+      "supernatural"
+    ],
+    "status": "ongoing",
+    "chapters": 180,
+    "volumes": 17,
+    "description": "Denji becomes Chainsaw Man after merging with his chainsaw devil dog to pay off his debt.",
+    "year": 2018,
+    "rating": 8.9,
+    "source": "manual"
+  },
+  {
+    "id": "kaiju-no-8",
+    "title": "Kaiju No. 8",
+    "author": "Naoya Matsumoto",
+    "artist": "Naoya Matsumoto",
+    "genres": [
+      "shounen",
+      "action",
+      "sci-fi",
+      "supernatural"
+    ],
+    "status": "ongoing",
+    "chapters": 115,
+    "volumes": 13,
+    "description": "A man who dreams of joining the Defense Force gains the power to transform into a kaiju.",
+    "year": 2020,
+    "rating": 8.6,
+    "source": "manual"
+  },
+  {
+    "id": "mashle",
+    "title": "Mashle: Magic and Muscles",
+    "author": "Hajime Komoto",
+    "artist": "Hajime Komoto",
+    "genres": [
+      "shounen",
+      "action",
+      "comedy",
+      "fantasy"
+    ],
+    "status": "completed",
+    "chapters": 162,
+    "volumes": 18,
+    "description": "In a world of magic, a boy with no magic uses his muscles to survive in a magic school.",
+    "year": 2020,
+    "rating": 8.3,
+    "source": "manual"
+  },
+  {
+    "id": "promised-neverland",
+    "title": "The Promised Neverland",
+    "author": "Kaiu Shirai",
+    "artist": "Posuka Demizu",
+    "genres": [
+      "shounen",
+      "thriller",
+      "mystery",
+      "horror",
+      "sci-fi"
+    ],
+    "status": "completed",
+    "chapters": 181,
+    "volumes": 20,
+    "description": "Orphans discover the dark truth about their idyllic orphanage and plan their escape.",
+    "year": 2016,
+    "rating": 8.8,
+    "source": "manual"
+  },
+  {
+    "id": "dr-stone",
+    "title": "Dr. Stone",
+    "author": "Riichiro Inagaki",
+    "artist": "Boichi",
+    "genres": [
+      "shounen",
+      "adventure",
+      "sci-fi",
+      "comedy"
+    ],
+    "status": "completed",
+    "chapters": 232,
+    "volumes": 26,
+    "description": "After humanity is petrified for 3,700 years, a genius scientist works to rebuild civilization.",
+    "year": 2017,
+    "rating": 8.7,
+    "source": "manual"
+  },
+  {
+    "id": "world-trigger",
+    "title": "World Trigger",
+    "author": "Daisuke Ashihara",
+    "artist": "Daisuke Ashihara",
+    "genres": [
+      "shounen",
+      "action",
+      "sci-fi",
+      "supernatural"
+    ],
+    "status": "ongoing",
+    "chapters": 245,
+    "volumes": 26,
+    "description": "An organization defends Earth from interdimensional invaders called Neighbors.",
+    "year": 2013,
+    "rating": 8.5,
+    "source": "manual"
+  },
+  {
+    "id": "assassination-classroom",
+    "title": "Assassination Classroom",
+    "author": "Yusei Matsui",
+    "artist": "Yusei Matsui",
+    "genres": [
+      "shounen",
+      "action",
+      "comedy",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 187,
+    "volumes": 21,
+    "description": "Students must assassinate their alien teacher before he destroys the Earth.",
+    "year": 2012,
+    "rating": 8.8,
+    "source": "manual"
+  },
+  {
+    "id": "gintama",
+    "title": "Gintama",
+    "author": "Hideaki Sorachi",
+    "artist": "Hideaki Sorachi",
+    "genres": [
+      "shounen",
+      "action",
+      "comedy",
+      "sci-fi",
+      "historical"
+    ],
+    "status": "completed",
+    "chapters": 704,
+    "volumes": 77,
+    "description": "In an alternate Edo period invaded by aliens, a samurai takes on odd jobs.",
+    "year": 2003,
+    "rating": 9.1,
+    "source": "manual"
+  },
+  {
+    "id": "hell-paradise",
+    "title": "Hell's Paradise: Jigokuraku",
+    "author": "Yuji Kaku",
+    "artist": "Yuji Kaku",
+    "genres": [
+      "shounen",
+      "action",
+      "adventure",
+      "supernatural"
+    ],
+    "status": "completed",
+    "chapters": 127,
+    "volumes": 13,
+    "description": "A ninja on death row is sent to find the elixir of immortality on a dangerous island.",
+    "year": 2018,
+    "rating": 8.6,
+    "source": "manual"
+  },
+  {
+    "id": "parasyte",
+    "title": "Parasyte",
+    "author": "Hitoshi Iwaaki",
+    "artist": "Hitoshi Iwaaki",
+    "genres": [
+      "seinen",
+      "action",
+      "horror",
+      "sci-fi",
+      "psychological"
+    ],
+    "status": "completed",
+    "chapters": 64,
+    "volumes": 10,
+    "description": "A teenager's right hand is taken over by an alien parasite, and they must coexist.",
+    "year": 1988,
+    "rating": 8.8,
+    "source": "manual"
+  },
+  {
+    "id": "ajin",
+    "title": "Ajin: Demi-Human",
+    "author": "Gamon Sakurai",
+    "artist": "Gamon Sakurai",
+    "genres": [
+      "seinen",
+      "action",
+      "horror",
+      "supernatural",
+      "thriller"
+    ],
+    "status": "completed",
+    "chapters": 86,
+    "volumes": 17,
+    "description": "A student discovers he is an immortal Ajin and becomes a target for the government.",
+    "year": 2012,
+    "rating": 8.4,
+    "source": "manual"
+  },
+  {
+    "id": "blade-of-immortal",
+    "title": "Blade of the Immortal",
+    "author": "Hiroaki Samura",
+    "artist": "Hiroaki Samura",
+    "genres": [
+      "seinen",
+      "action",
+      "historical",
+      "martial-arts"
+    ],
+    "status": "completed",
+    "chapters": 207,
+    "volumes": 30,
+    "description": "An immortal samurai agrees to help a girl avenge her parents' deaths.",
+    "year": 1993,
+    "rating": 8.5,
+    "source": "manual"
+  },
+  {
+    "id": "claymore",
+    "title": "Claymore",
+    "author": "Norihiro Yagi",
+    "artist": "Norihiro Yagi",
+    "genres": [
+      "seinen",
+      "action",
+      "dark-fantasy",
+      "adventure"
+    ],
+    "status": "completed",
+    "chapters": 159,
+    "volumes": 27,
+    "description": "Half-human, half-demon warriors called Claymores fight demons in a medieval world.",
+    "year": 2001,
+    "rating": 8.6,
+    "source": "manual"
+  },
+  {
+    "id": "pluto",
+    "title": "Pluto",
+    "author": "Naoki Urasawa",
+    "artist": "Naoki Urasawa",
+    "genres": [
+      "seinen",
+      "mystery",
+      "sci-fi",
+      "psychological"
+    ],
+    "status": "completed",
+    "chapters": 65,
+    "volumes": 8,
+    "description": "A robot detective investigates a series of murders targeting the world's most advanced robots.",
+    "year": 2003,
+    "rating": 9,
+    "source": "manual"
+  },
+  {
+    "id": "holyland",
+    "title": "Holyland",
+    "author": "Kouji Mori",
+    "artist": "Kouji Mori",
+    "genres": [
+      "seinen",
+      "action",
+      "martial-arts",
+      "psychological",
+      "drama"
+    ],
+    "status": "completed",
+    "chapters": 182,
+    "volumes": 18,
+    "description": "A bullied teenager finds purpose through street fighting.",
+    "year": 2000,
+    "rating": 8.7,
+    "source": "manual"
+  },
+  {
+    "id": "homunculus",
+    "title": "Homunculus",
+    "author": "Hideo Yamamoto",
+    "artist": "Hideo Yamamoto",
+    "genres": [
+      "seinen",
+      "horror",
+      "psychological",
+      "supernatural"
+    ],
+    "status": "completed",
+    "chapters": 166,
+    "volumes": 15,
+    "description": "A man gains the ability to see people's inner selves after undergoing trepanation.",
+    "year": 2003,
+    "rating": 8.3,
+    "source": "manual"
+  },
+  {
+    "id": "ichi-the-killer",
+    "title": "Ichi the Killer",
+    "author": "Hideo Yamamoto",
+    "artist": "Hideo Yamamoto",
+    "genres": [
+      "seinen",
+      "action",
+      "horror",
+      "psychological"
+    ],
+    "status": "completed",
+    "chapters": 101,
+    "volumes": 10,
+    "description": "A yakuza enforcer searches for a psychotic killer who murdered his boss.",
+    "year": 1998,
+    "rating": 7.8,
+    "source": "manual"
+  },
+  {
+    "id": "ghost-in-shell",
+    "title": "Ghost in the Shell",
+    "author": "Masamune Shirow",
+    "artist": "Masamune Shirow",
+    "genres": [
+      "seinen",
+      "action",
+      "sci-fi",
+      "cyberpunk"
+    ],
+    "status": "completed",
+    "chapters": 11,
+    "volumes": 1,
+    "description": "A cyborg policewoman hunts criminals in a futuristic Japan.",
+    "year": 1989,
+    "rating": 8.7,
+    "source": "manual"
+  },
+  {
+    "id": "akira",
+    "title": "Akira",
+    "author": "Katsuhiro Otomo",
+    "artist": "Katsuhiro Otomo",
+    "genres": [
+      "seinen",
+      "action",
+      "sci-fi",
+      "cyberpunk"
+    ],
+    "status": "completed",
+    "chapters": 120,
+    "volumes": 6,
+    "description": "In post-apocalyptic Neo-Tokyo, a biker gang member gains psychic powers.",
+    "year": 1982,
+    "rating": 9,
+    "source": "manual"
+  },
+  {
+    "id": "blue-lock",
+    "title": "Blue Lock",
+    "author": "Muneyuki Kaneshiro",
+    "artist": "Yusuke Nomura",
+    "genres": [
+      "shounen",
+      "sports",
+      "psychological"
+    ],
+    "status": "ongoing",
+    "chapters": 280,
+    "volumes": 30,
+    "description": "300 young strikers compete in a prison-like facility to become Japan's best striker.",
+    "year": 2018,
+    "rating": 8.6,
+    "source": "manual"
+  },
+  {
+    "id": "ao-ashi",
+    "title": "Ao Ashi",
+    "author": "Yugo Kobayashi",
+    "artist": "Yugo Kobayashi",
+    "genres": [
+      "shounen",
+      "sports",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 390,
+    "volumes": 38,
+    "description": "A talented soccer player from Ehime joins a J-League youth team.",
+    "year": 2015,
+    "rating": 8.7,
+    "source": "manual"
+  },
+  {
+    "id": "yotsuba",
+    "title": "Yotsuba\u0026!",
+    "author": "Kiyohiko Azuma",
+    "artist": "Kiyohiko Azuma",
+    "genres": [
+      "seinen",
+      "comedy",
+      "slice-of-life"
+    ],
+    "status": "ongoing",
+    "chapters": 116,
+    "volumes": 16,
+    "description": "A quirky green-haired girl discovers the wonders of everyday life.",
+    "year": 2003,
+    "rating": 9,
+    "source": "manual"
+  },
+  {
+    "id": "grand-blue",
+    "title": "Grand Blue Dreaming",
+    "author": "Kenji Inoue",
+    "artist": "Kimitake Yoshioka",
+    "genres": [
+      "seinen",
+      "comedy",
+      "slice-of-life",
+      "sports"
+    ],
+    "status": "ongoing",
+    "chapters": 90,
+    "volumes": 22,
+    "description": "A college student joins a diving club that's more about drinking than diving.",
+    "year": 2014,
+    "rating": 8.9,
+    "source": "manual"
+  },
+  {
+    "id": "hinamatsuri",
+    "title": "Hinamatsuri",
+    "author": "Masao Ohtake",
+    "artist": "Masao Ohtake",
+    "genres": [
+      "seinen",
+      "comedy",
+      "sci-fi",
+      "slice-of-life"
+    ],
+    "status": "completed",
+    "chapters": 100,
+    "volumes": 19,
+    "description": "A yakuza member becomes the guardian of a girl with psychic powers.",
+    "year": 2010,
+    "rating": 8.6,
+    "source": "manual"
+  },
+  {
+    "id": "spy-classroom",
+    "title": "Spy Classroom",
+    "author": "Takemachi",
+    "artist": "Tomari",
+    "genres": [
+      "shounen",
+      "action",
+      "comedy",
+      "mystery"
+    ],
+    "status": "ongoing",
+    "chapters": 55,
+    "volumes": 7,
+    "description": "A legendary spy trains a group of misfit girls to become elite spies.",
+    "year": 2020,
+    "rating": 7.8,
+    "source": "manual"
+  },
+  {
+    "id": "horimiya",
+    "title": "Horimiya",
+    "author": "HERO",
+    "artist": "Daisuke Hagiwara",
+    "genres": [
+      "shounen",
+      "romance",
+      "comedy",
+      "school",
+      "slice-of-life"
+    ],
+    "status": "completed",
+    "chapters": 140,
+    "volumes": 16,
+    "description": "Two high school students discover each other's secret personas.",
+    "year": 2011,
+    "rating": 8.7,
+    "source": "manual"
+  },
+  {
+    "id": "kaguya-sama",
+    "title": "Kaguya-sama: Love Is War",
+    "author": "Aka Akasaka",
+    "artist": "Aka Akasaka",
+    "genres": [
+      "seinen",
+      "comedy",
+      "romance",
+      "psychological",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 281,
+    "volumes": 28,
+    "description": "Two prideful geniuses try to make the other confess their love first.",
+    "year": 2015,
+    "rating": 9,
+    "source": "manual"
+  },
+  {
+    "id": "quintessential-quintuplets",
+    "title": "The Quintessential Quintuplets",
+    "author": "Negi Haruba",
+    "artist": "Negi Haruba",
+    "genres": [
+      "shounen",
+      "comedy",
+      "romance",
+      "school",
+      "harem"
+    ],
+    "status": "completed",
+    "chapters": 122,
+    "volumes": 14,
+    "description": "A poor student tutors five identical quintuplet sisters and falls for one of them.",
+    "year": 2017,
+    "rating": 8.4,
+    "source": "manual"
+  },
+  {
+    "id": "rent-a-girlfriend",
+    "title": "Rent-A-Girlfriend",
+    "author": "Reiji Miyajima",
+    "artist": "Reiji Miyajima",
+    "genres": [
+      "shounen",
+      "comedy",
+      "romance",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 360,
+    "volumes": 37,
+    "description": "After being dumped, a college student rents a girlfriend and gets caught in a web of lies.",
+    "year": 2017,
+    "rating": 7.5,
+    "source": "manual"
+  },
+  {
+    "id": "nagatoro",
+    "title": "Don't Toy with Me, Miss Nagatoro",
+    "author": "Nanashi",
+    "artist": "Nanashi",
+    "genres": [
+      "shounen",
+      "comedy",
+      "romance",
+      "school",
+      "slice-of-life"
+    ],
+    "status": "completed",
+    "chapters": 150,
+    "volumes": 20,
+    "description": "A sadistic girl constantly teases her shy upperclassman.",
+    "year": 2017,
+    "rating": 7.9,
+    "source": "manual"
+  },
+  {
+    "id": "tonikaku-kawaii",
+    "title": "Fly Me to the Moon",
+    "author": "Kenjiro Hata",
+    "artist": "Kenjiro Hata",
+    "genres": [
+      "shounen",
+      "comedy",
+      "romance",
+      "slice-of-life"
+    ],
+    "status": "ongoing",
+    "chapters": 270,
+    "volumes": 28,
+    "description": "A boy agrees to marry a mysterious girl who saved his life.",
+    "year": 2018,
+    "rating": 8.3,
+    "source": "manual"
+  },
+  {
+    "id": "toradora",
+    "title": "Toradora!",
+    "author": "Yuyuko Takemiya",
+    "artist": "Zekkyo",
+    "genres": [
+      "shounen",
+      "comedy",
+      "romance",
+      "school",
+      "drama"
+    ],
+    "status": "completed",
+    "chapters": 70,
+    "volumes": 10,
+    "description": "A fierce girl and a scary-looking boy team up to help each other with their crushes.",
+    "year": 2008,
+    "rating": 8.6,
+    "source": "manual"
+  },
+  {
+    "id": "nisekoi",
+    "title": "Nisekoi",
+    "author": "Naoshi Komi",
+    "artist": "Naoshi Komi",
+    "genres": [
+      "shounen",
+      "comedy",
+      "romance",
+      "school",
+      "harem"
+    ],
+    "status": "completed",
+    "chapters": 229,
+    "volumes": 25,
+    "description": "A yakuza heir and gang leader's daughter pretend to date to keep peace.",
+    "year": 2011,
+    "rating": 8.1,
+    "source": "manual"
+  },
+  {
+    "id": "your-lie-in-april",
+    "title": "Your Lie in April",
+    "author": "Naoshi Arakawa",
+    "artist": "Naoshi Arakawa",
+    "genres": [
+      "shounen",
+      "drama",
+      "romance",
+      "music",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 44,
+    "volumes": 11,
+    "description": "A former piano prodigy meets a violinist who helps him return to music.",
+    "year": 2011,
+    "rating": 8.9,
+    "source": "manual"
+  },
+  {
+    "id": "a-silent-voice",
+    "title": "A Silent Voice",
+    "author": "Yoshitoki Oima",
+    "artist": "Yoshitoki Oima",
+    "genres": [
+      "shounen",
+      "drama",
+      "romance",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 62,
+    "volumes": 7,
+    "description": "A former bully seeks redemption by reconnecting with the deaf girl he tormented.",
+    "year": 2013,
+    "rating": 9,
+    "source": "manual"
+  },
+  {
+    "id": "land-of-lustrous",
+    "title": "Land of the Lustrous",
+    "author": "Haruko Ichikawa",
+    "artist": "Haruko Ichikawa",
+    "genres": [
+      "seinen",
+      "action",
+      "drama",
+      "fantasy",
+      "sci-fi"
+    ],
+    "status": "completed",
+    "chapters": 108,
+    "volumes": 12,
+    "description": "Gem-people fight against moon dwellers who seek to capture them.",
+    "year": 2012,
+    "rating": 8.8,
+    "source": "manual"
+  },
+  {
+    "id": "made-in-abyss",
+    "title": "Made in Abyss",
+    "author": "Akihito Tsukushi",
+    "artist": "Akihito Tsukushi",
+    "genres": [
+      "seinen",
+      "adventure",
+      "fantasy",
+      "sci-fi",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 70,
+    "volumes": 12,
+    "description": "A girl descends into a mysterious abyss to find her mother with a robot companion.",
+    "year": 2012,
+    "rating": 9,
+    "source": "manual"
+  },
+  {
+    "id": "golden-kamuy",
+    "title": "Golden Kamuy",
+    "author": "Satoru Noda",
+    "artist": "Satoru Noda",
+    "genres": [
+      "seinen",
+      "action",
+      "adventure",
+      "historical",
+      "comedy"
+    ],
+    "status": "completed",
+    "chapters": 314,
+    "volumes": 31,
+    "description": "A war veteran and an Ainu girl search for hidden gold in Hokkaido.",
+    "year": 2014,
+    "rating": 9,
+    "source": "manual"
+  },
+  {
+    "id": "dorohedoro",
+    "title": "Dorohedoro",
+    "author": "Q Hayashida",
+    "artist": "Q Hayashida",
+    "genres": [
+      "seinen",
+      "action",
+      "comedy",
+      "horror",
+      "fantasy"
+    ],
+    "status": "completed",
+    "chapters": 190,
+    "volumes": 23,
+    "description": "A man with a lizard head searches for the sorcerer who cursed him.",
+    "year": 2000,
+    "rating": 8.7,
+    "source": "manual"
+  },
+  {
+    "id": "mob-psycho-100",
+    "title": "Mob Psycho 100",
+    "author": "ONE",
+    "artist": "ONE",
+    "genres": [
+      "shounen",
+      "action",
+      "comedy",
+      "supernatural",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 101,
+    "volumes": 16,
+    "description": "An overpowered psychic middle schooler tries to live a normal life.",
+    "year": 2012,
+    "rating": 8.9,
+    "source": "manual"
+  },
+  {
+    "id": "to-your-eternity",
+    "title": "To Your Eternity",
+    "author": "Yoshitoki Oima",
+    "artist": "Yoshitoki Oima",
+    "genres": [
+      "shounen",
+      "adventure",
+      "drama",
+      "fantasy",
+      "supernatural"
+    ],
+    "status": "ongoing",
+    "chapters": 200,
+    "volumes": 21,
+    "description": "An immortal being takes on forms of things that leave strong impressions on it.",
+    "year": 2016,
+    "rating": 8.8,
+    "source": "manual"
+  },
+  {
+    "id": "frieren",
+    "title": "Frieren: Beyond Journey's End",
+    "author": "Kanehito Yamada",
+    "artist": "Tsukasa Abe",
+    "genres": [
+      "shounen",
+      "adventure",
+      "drama",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 140,
+    "volumes": 13,
+    "description": "An elf mage reflects on her journey with heroes after their quest ends.",
+    "year": 2020,
+    "rating": 9.2,
+    "source": "manual"
+  },
+  {
+    "id": "dandadan",
+    "title": "Dandadan",
+    "author": "Yukinobu Tatsu",
+    "artist": "Yukinobu Tatsu",
+    "genres": [
+      "shounen",
+      "action",
+      "comedy",
+      "supernatural",
+      "romance"
+    ],
+    "status": "ongoing",
+    "chapters": 180,
+    "volumes": 17,
+    "description": "A girl who believes in ghosts and a boy who believes in aliens team up.",
+    "year": 2021,
+    "rating": 8.8,
+    "source": "manual"
+  },
+  {
+    "id": "sakamoto-days",
+    "title": "Sakamoto Days",
+    "author": "Yuto Suzuki",
+    "artist": "Yuto Suzuki",
+    "genres": [
+      "shounen",
+      "action",
+      "comedy"
+    ],
+    "status": "ongoing",
+    "chapters": 190,
+    "volumes": 18,
+    "description": "A retired legendary hitman now runs a convenience store with his family.",
+    "year": 2020,
+    "rating": 8.7,
+    "source": "manual"
+  },
+  {
+    "id": "rurouni-kenshin",
+    "title": "Rurouni Kenshin",
+    "author": "Nobuhiro Watsuki",
+    "artist": "Nobuhiro Watsuki",
+    "genres": [
+      "shounen",
+      "action",
+      "historical",
+      "martial-arts",
+      "romance"
+    ],
+    "status": "completed",
+    "chapters": 255,
+    "volumes": 28,
+    "description": "A wandering samurai with a reverse-blade sword seeks redemption in Meiji-era Japan.",
+    "year": 1994,
+    "rating": 8.7,
+    "source": "manual"
+  },
+  {
+    "id": "inuyasha",
+    "title": "InuYasha",
+    "author": "Rumiko Takahashi",
+    "artist": "Rumiko Takahashi",
+    "genres": [
+      "shounen",
+      "action",
+      "adventure",
+      "fantasy",
+      "romance"
+    ],
+    "status": "completed",
+    "chapters": 558,
+    "volumes": 56,
+    "description": "A modern girl travels to feudal Japan and teams up with a half-demon to find jewel shards.",
+    "year": 1996,
+    "rating": 8.4,
+    "source": "manual"
+  },
+  {
+    "id": "ranma-half",
+    "title": "Ranma 1/2",
+    "author": "Rumiko Takahashi",
+    "artist": "Rumiko Takahashi",
+    "genres": [
+      "shounen",
+      "comedy",
+      "romance",
+      "martial-arts"
+    ],
+    "status": "completed",
+    "chapters": 407,
+    "volumes": 38,
+    "description": "A martial artist cursed to change gender when splashed with water.",
+    "year": 1987,
+    "rating": 8.3,
+    "source": "manual"
+  },
+  {
+    "id": "sailor-moon",
+    "title": "Sailor Moon",
+    "author": "Naoko Takeuchi",
+    "artist": "Naoko Takeuchi",
+    "genres": [
+      "shoujo",
+      "action",
+      "romance",
+      "magical-girl",
+      "fantasy"
+    ],
+    "status": "completed",
+    "chapters": 52,
+    "volumes": 18,
+    "description": "A teenage girl transforms into a magical warrior to save the world.",
+    "year": 1991,
+    "rating": 8.6,
+    "source": "manual"
+  },
+  {
+    "id": "cardcaptor-sakura",
+    "title": "Cardcaptor Sakura",
+    "author": "CLAMP",
+    "artist": "CLAMP",
+    "genres": [
+      "shoujo",
+      "adventure",
+      "magical-girl",
+      "fantasy",
+      "romance"
+    ],
+    "status": "completed",
+    "chapters": 50,
+    "volumes": 12,
+    "description": "A girl must capture magical cards she accidentally released.",
+    "year": 1996,
+    "rating": 8.5,
+    "source": "manual"
+  },
+  {
+    "id": "solo-leveling",
+    "title": "Solo Leveling",
+    "author": "Chugong",
+    "artist": "Dubu",
+    "genres": [
+      "shounen",
+      "action",
+      "adventure",
+      "fantasy"
+    ],
+    "status": "completed",
+    "chapters": 200,
+    "volumes": 14,
+    "description": "The weakest hunter becomes the strongest after gaining a mysterious power to level up.",
+    "year": 2018,
+    "rating": 8.9,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "tower-of-god",
+    "title": "Tower of God",
+    "author": "SIU",
+    "artist": "SIU",
+    "genres": [
+      "shounen",
+      "action",
+      "adventure",
+      "fantasy",
+      "mystery"
+    ],
+    "status": "ongoing",
+    "chapters": 600,
+    "volumes": 12,
+    "description": "A boy enters a mysterious tower to find his friend and must pass deadly tests.",
+    "year": 2010,
+    "rating": 8.7,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "noblesse",
+    "title": "Noblesse",
+    "author": "Son Jeho",
+    "artist": "Lee Kwangsu",
+    "genres": [
+      "shounen",
+      "action",
+      "supernatural",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 544,
+    "volumes": 11,
+    "description": "A powerful noble awakens after 820 years and must adapt to modern society.",
+    "year": 2007,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "god-of-high-school",
+    "title": "The God of High School",
+    "author": "Park Yongje",
+    "artist": "Park Yongje",
+    "genres": [
+      "shounen",
+      "action",
+      "martial-arts",
+      "supernatural"
+    ],
+    "status": "completed",
+    "chapters": 569,
+    "volumes": 15,
+    "description": "High school students compete in a martial arts tournament with supernatural powers.",
+    "year": 2011,
+    "rating": 8.2,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "unordinary",
+    "title": "unOrdinary",
+    "author": "uru-chan",
+    "artist": "uru-chan",
+    "genres": [
+      "shounen",
+      "action",
+      "drama",
+      "supernatural",
+      "school"
+    ],
+    "status": "ongoing",
+    "chapters": 350,
+    "volumes": 8,
+    "description": "In a world of superpowers, a powerless boy hides a dangerous secret.",
+    "year": 2016,
+    "rating": 8.1,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "omniscient-reader",
+    "title": "Omniscient Reader's Viewpoint",
+    "author": "Sing Shong",
+    "artist": "Sleepy-C",
+    "genres": [
+      "shounen",
+      "action",
+      "adventure",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 200,
+    "volumes": 10,
+    "description": "The only reader of a web novel finds himself inside the story when it becomes reality.",
+    "year": 2020,
+    "rating": 8.8,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "beginning-after-end",
+    "title": "The Beginning After The End",
+    "author": "TurtleMe",
+    "artist": "Fuyuki23",
+    "genres": [
+      "shounen",
+      "action",
+      "adventure",
+      "fantasy",
+      "isekai"
+    ],
+    "status": "ongoing",
+    "chapters": 200,
+    "volumes": 12,
+    "description": "A king reincarnates into a new world and must navigate his new life.",
+    "year": 2018,
+    "rating": 8.6,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "eleceed",
+    "title": "Eleceed",
+    "author": "Son Jeho",
+    "artist": "ZHENA",
+    "genres": [
+      "shounen",
+      "action",
+      "comedy",
+      "supernatural"
+    ],
+    "status": "ongoing",
+    "chapters": 300,
+    "volumes": 10,
+    "description": "A cat-loving boy gains powers from a cat who is actually a powerful awakener.",
+    "year": 2018,
+    "rating": 8.5,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "return-of-disaster-class-hero",
+    "title": "Return of the Disaster-Class Hero",
+    "author": "SAN.G",
+    "artist": "Redice Studio",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "revenge"
+    ],
+    "status": "ongoing",
+    "chapters": 120,
+    "volumes": 6,
+    "description": "A hero betrayed and left for dead returns for revenge against the 12 zodiacs.",
+    "year": 2022,
+    "rating": 8.1,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "overgeared",
+    "title": "Overgeared",
+    "author": "Park Saenal",
+    "artist": "Team Argo",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "gaming"
+    ],
+    "status": "ongoing",
+    "chapters": 220,
+    "volumes": 8,
+    "description": "A unlucky player becomes the only legendary blacksmith in a VR game.",
+    "year": 2020,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "dungeon-reset",
+    "title": "Dungeon Reset",
+    "author": "Ant Studio",
+    "artist": "Ant Studio",
+    "genres": [
+      "shounen",
+      "action",
+      "comedy",
+      "fantasy"
+    ],
+    "status": "completed",
+    "chapters": 200,
+    "volumes": 8,
+    "description": "A player gets left behind during a dungeon reset and gains unique abilities.",
+    "year": 2020,
+    "rating": 8,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "tomb-raider-king",
+    "title": "Tomb Raider King",
+    "author": "SAN.G",
+    "artist": "3B2S",
+    "genres": [
+      "shounen",
+      "action",
+      "adventure",
+      "fantasy"
+    ],
+    "status": "completed",
+    "chapters": 412,
+    "volumes": 15,
+    "description": "A tomb raider goes back in time to claim powerful relics before anyone else.",
+    "year": 2019,
+    "rating": 8.2,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "nano-machine",
+    "title": "Nano Machine",
+    "author": "Han Joong Wueol Ya",
+    "artist": "GOLD KYUN",
+    "genres": [
+      "shounen",
+      "action",
+      "martial-arts",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 200,
+    "volumes": 10,
+    "description": "A rejected prince receives nano machines from the future that change his fate.",
+    "year": 2020,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "legend-northern-blade",
+    "title": "Legend of the Northern Blade",
+    "author": "Woo-Gak",
+    "artist": "Hae-Min",
+    "genres": [
+      "shounen",
+      "action",
+      "martial-arts",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 180,
+    "volumes": 8,
+    "description": "The son of a disgraced martial arts sect leader seeks to restore his family's honor.",
+    "year": 2019,
+    "rating": 8.7,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "magic-emperor",
+    "title": "Magic Emperor",
+    "author": "Qidian",
+    "artist": "Qidian",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "martial-arts"
+    ],
+    "status": "ongoing",
+    "chapters": 500,
+    "volumes": 20,
+    "description": "A demon emperor reincarnates as a weak boy and reclaims his power.",
+    "year": 2018,
+    "rating": 8,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "sss-class-suicide-hunter",
+    "title": "SSS-Class Suicide Hunter",
+    "author": "Shin Noah",
+    "artist": "Bill K",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "psychological"
+    ],
+    "status": "ongoing",
+    "chapters": 130,
+    "volumes": 6,
+    "description": "A hunter gains the ability to copy skills by dying and uses it to become the strongest.",
+    "year": 2021,
+    "rating": 8.5,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "return-mount-hua-sect",
+    "title": "Return of the Mount Hua Sect",
+    "author": "Biga",
+    "artist": "LICO",
+    "genres": [
+      "shounen",
+      "action",
+      "martial-arts",
+      "comedy"
+    ],
+    "status": "ongoing",
+    "chapters": 150,
+    "volumes": 6,
+    "description": "The Plum Blossom Sword Saint reincarnates 100 years later to restore his sect.",
+    "year": 2021,
+    "rating": 8.6,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "second-life-ranker",
+    "title": "Second Life Ranker",
+    "author": "Sadoyeon",
+    "artist": "Nong Nong",
+    "genres": [
+      "shounen",
+      "action",
+      "adventure",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 170,
+    "volumes": 7,
+    "description": "A man enters a deadly tower to avenge his twin brother's death.",
+    "year": 2019,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "skeleton-soldier",
+    "title": "Skeleton Soldier Couldn't Protect the Dungeon",
+    "author": "Sosori",
+    "artist": "Antstudio",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "comedy"
+    ],
+    "status": "ongoing",
+    "chapters": 280,
+    "volumes": 12,
+    "description": "A skeleton soldier keeps returning to the past to save his master.",
+    "year": 2017,
+    "rating": 8.1,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "villain-to-kill",
+    "title": "Villain to Kill",
+    "author": "Eunji",
+    "artist": "Sidamin",
+    "genres": [
+      "shounen",
+      "action",
+      "supernatural",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 150,
+    "volumes": 6,
+    "description": "A hero is reborn as a villain and must navigate his new identity.",
+    "year": 2021,
+    "rating": 8,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "sweet-home",
+    "title": "Sweet Home",
+    "author": "Kim Carnby",
+    "artist": "Hwang Young-chan",
+    "genres": [
+      "seinen",
+      "horror",
+      "thriller",
+      "supernatural"
+    ],
+    "status": "completed",
+    "chapters": 141,
+    "volumes": 12,
+    "description": "Residents of an apartment complex fight to survive as people turn into monsters.",
+    "year": 2017,
+    "rating": 8.6,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "bastard",
+    "title": "Bastard",
+    "author": "Kim Carnby",
+    "artist": "Hwang Young-chan",
+    "genres": [
+      "seinen",
+      "thriller",
+      "psychological",
+      "drama"
+    ],
+    "status": "completed",
+    "chapters": 94,
+    "volumes": 5,
+    "description": "A boy discovers his father is a serial killer and must decide what to do.",
+    "year": 2014,
+    "rating": 8.9,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "weak-hero",
+    "title": "Weak Hero",
+    "author": "SEOPASS",
+    "artist": "RAZEN",
+    "genres": [
+      "shounen",
+      "action",
+      "school",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 280,
+    "volumes": 10,
+    "description": "A seemingly weak student uses his intelligence to defeat bullies.",
+    "year": 2018,
+    "rating": 8.7,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "windbreaker-korean",
+    "title": "Wind Breaker",
+    "author": "Jo Yongseok",
+    "artist": "Jo Yongseok",
+    "genres": [
+      "shounen",
+      "sports",
+      "drama",
+      "school"
+    ],
+    "status": "ongoing",
+    "chapters": 480,
+    "volumes": 15,
+    "description": "A student becomes the top cyclist in the underground racing scene.",
+    "year": 2013,
+    "rating": 8.5,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "lookism",
+    "title": "Lookism",
+    "author": "Park Tae-jun",
+    "artist": "Park Tae-jun",
+    "genres": [
+      "shounen",
+      "action",
+      "drama",
+      "school",
+      "supernatural"
+    ],
+    "status": "ongoing",
+    "chapters": 500,
+    "volumes": 12,
+    "description": "An ugly boy gains a handsome second body he can switch between.",
+    "year": 2014,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "true-beauty",
+    "title": "True Beauty",
+    "author": "Yaongyi",
+    "artist": "Yaongyi",
+    "genres": [
+      "shoujo",
+      "romance",
+      "comedy",
+      "school",
+      "drama"
+    ],
+    "status": "completed",
+    "chapters": 220,
+    "volumes": 12,
+    "description": "A girl transforms herself with makeup and navigates high school romance.",
+    "year": 2018,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "lore-olympus",
+    "title": "Lore Olympus",
+    "author": "Rachel Smythe",
+    "artist": "Rachel Smythe",
+    "genres": [
+      "shoujo",
+      "romance",
+      "drama",
+      "fantasy"
+    ],
+    "status": "completed",
+    "chapters": 280,
+    "volumes": 6,
+    "description": "A modern retelling of Hades and Persephone's love story.",
+    "year": 2018,
+    "rating": 8.7,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "my-dear-cold-blooded-king",
+    "title": "My Dear Cold-Blooded King",
+    "author": "Lifelight",
+    "artist": "Lifelight",
+    "genres": [
+      "shoujo",
+      "romance",
+      "drama",
+      "historical"
+    ],
+    "status": "completed",
+    "chapters": 167,
+    "volumes": 8,
+    "description": "A commoner girl gets entangled with the kingdom's mysterious assassin king.",
+    "year": 2017,
+    "rating": 8.2,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "subzero",
+    "title": "SubZero",
+    "author": "Junepurrr",
+    "artist": "Junepurrr",
+    "genres": [
+      "shoujo",
+      "romance",
+      "drama",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 200,
+    "volumes": 8,
+    "description": "A princess from a dragon clan must marry the prince of an enemy kingdom.",
+    "year": 2018,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "remarried-empress",
+    "title": "The Remarried Empress",
+    "author": "Alpha Tart",
+    "artist": "Sumpul",
+    "genres": [
+      "josei",
+      "romance",
+      "drama",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 180,
+    "volumes": 10,
+    "description": "An empress divorces her cheating husband and remarries to become empress again.",
+    "year": 2020,
+    "rating": 8.6,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "villainess-reverses-hourglass",
+    "title": "The Villainess Reverses the Hourglass",
+    "author": "Sansobee",
+    "artist": "ANTSTUDIO",
+    "genres": [
+      "josei",
+      "romance",
+      "drama",
+      "fantasy",
+      "revenge"
+    ],
+    "status": "completed",
+    "chapters": 135,
+    "volumes": 7,
+    "description": "A woman goes back in time to get revenge on her stepsister who killed her.",
+    "year": 2020,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "who-made-me-princess",
+    "title": "Who Made Me a Princess",
+    "author": "Plutus",
+    "artist": "Spoon",
+    "genres": [
+      "shoujo",
+      "romance",
+      "fantasy",
+      "comedy"
+    ],
+    "status": "completed",
+    "chapters": 130,
+    "volumes": 7,
+    "description": "A woman reincarnates as the princess destined to be killed by her father.",
+    "year": 2017,
+    "rating": 8.5,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "duchess-way",
+    "title": "Duchess's 50 Tea Recipes",
+    "author": "Lee Jiha",
+    "artist": "HONGBOWL",
+    "genres": [
+      "josei",
+      "romance",
+      "fantasy",
+      "slice-of-life"
+    ],
+    "status": "completed",
+    "chapters": 150,
+    "volumes": 8,
+    "description": "A tea connoisseur reincarnates as a duchess in a fantasy world.",
+    "year": 2019,
+    "rating": 8.1,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "under-the-oak-tree",
+    "title": "Under the Oak Tree",
+    "author": "Kim Suji",
+    "artist": "P",
+    "genres": [
+      "josei",
+      "romance",
+      "fantasy",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 130,
+    "volumes": 6,
+    "description": "A stuttering noble woman's knight husband returns as a war hero.",
+    "year": 2020,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "surviving-romance",
+    "title": "Surviving Romance",
+    "author": "Lee Yone",
+    "artist": "Lee Yone",
+    "genres": [
+      "shoujo",
+      "romance",
+      "horror",
+      "supernatural"
+    ],
+    "status": "completed",
+    "chapters": 102,
+    "volumes": 5,
+    "description": "A romance novel protagonist discovers zombies have invaded her story.",
+    "year": 2020,
+    "rating": 8.5,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "death-is-only-ending",
+    "title": "Death Is the Only Ending for the Villainess",
+    "author": "Gwon Gyeoeul",
+    "artist": "SUOL",
+    "genres": [
+      "shoujo",
+      "romance",
+      "fantasy",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 140,
+    "volumes": 7,
+    "description": "A woman must survive a deadly otome game as the villainess.",
+    "year": 2020,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "lady-baby",
+    "title": "Lady Baby",
+    "author": "Pingmin",
+    "artist": "Hyangi",
+    "genres": [
+      "shoujo",
+      "romance",
+      "fantasy",
+      "family"
+    ],
+    "status": "ongoing",
+    "chapters": 180,
+    "volumes": 8,
+    "description": "A woman reborn as a baby works to prevent her family's tragic fate.",
+    "year": 2018,
+    "rating": 8,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "roxana",
+    "title": "Roxana",
+    "author": "BAEK JI-YEON",
+    "artist": "Juniljus",
+    "genres": [
+      "josei",
+      "romance",
+      "drama",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 120,
+    "volumes": 5,
+    "description": "A woman born into a villain family must navigate dangerous politics.",
+    "year": 2020,
+    "rating": 8.6,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "beware-villainess",
+    "title": "Beware of the Villainess!",
+    "author": "Berry",
+    "artist": "Pureunkanna",
+    "genres": [
+      "shoujo",
+      "comedy",
+      "romance",
+      "fantasy"
+    ],
+    "status": "completed",
+    "chapters": 108,
+    "volumes": 5,
+    "description": "A woman reincarnates as a villainess and decides to reject all the toxic male leads.",
+    "year": 2020,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "doctor-elise",
+    "title": "Doctor Elise",
+    "author": "Yuin",
+    "artist": "Mini",
+    "genres": [
+      "shoujo",
+      "romance",
+      "fantasy",
+      "medical"
+    ],
+    "status": "completed",
+    "chapters": 147,
+    "volumes": 8,
+    "description": "A surgeon reincarnates as her past life's villainess self and uses modern medicine.",
+    "year": 2017,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "secret-lady",
+    "title": "The Secret Lady",
+    "author": "Hamu",
+    "artist": "Gungso",
+    "genres": [
+      "josei",
+      "romance",
+      "fantasy",
+      "drama"
+    ],
+    "status": "completed",
+    "chapters": 120,
+    "volumes": 6,
+    "description": "A woman with the ability to see ghosts becomes entangled with a duke.",
+    "year": 2020,
+    "rating": 8.2,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "crimson-karma",
+    "title": "Crimson Karma",
+    "author": "Lemon Frog",
+    "artist": "Subtil",
+    "genres": [
+      "shoujo",
+      "action",
+      "romance",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 130,
+    "volumes": 6,
+    "description": "A female soldier is reincarnated into a fantasy world as a noble lady.",
+    "year": 2019,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "light-shadow",
+    "title": "Light and Shadow",
+    "author": "Ryu Hyang",
+    "artist": "Hyan",
+    "genres": [
+      "josei",
+      "romance",
+      "drama",
+      "historical"
+    ],
+    "status": "completed",
+    "chapters": 107,
+    "volumes": 5,
+    "description": "A servant girl is forced to marry a duke in place of the real bride.",
+    "year": 2016,
+    "rating": 8.5,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "a-royal-princess",
+    "title": "A Royal Princess with Black Hair",
+    "author": "milcha",
+    "artist": "Dolphin",
+    "genres": [
+      "shoujo",
+      "romance",
+      "fantasy",
+      "historical"
+    ],
+    "status": "completed",
+    "chapters": 130,
+    "volumes": 6,
+    "description": "A woman with unique black hair navigates royal politics and romance.",
+    "year": 2020,
+    "rating": 8.1,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "endo-and-kobayashi",
+    "title": "Endo and Kobayashi Live!",
+    "author": "Akai Enishi",
+    "artist": "Akai Enishi",
+    "genres": [
+      "shoujo",
+      "romance",
+      "comedy",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 80,
+    "volumes": 4,
+    "description": "Game commentators' commentary reaches into a game world affecting the prince.",
+    "year": 2020,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "i-stan-prince",
+    "title": "I Stan the Prince",
+    "author": "GB",
+    "artist": "kiwi",
+    "genres": [
+      "shoujo",
+      "comedy",
+      "romance",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 100,
+    "volumes": 5,
+    "description": "A fangirl reincarnates into a novel as the villainess who bullied her bias.",
+    "year": 2020,
+    "rating": 8.2,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "i-became-tyrant",
+    "title": "I Became the Tyrant's Secretary",
+    "author": "Bbaejabae",
+    "artist": "Yong Yong",
+    "genres": [
+      "josei",
+      "romance",
+      "fantasy",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 110,
+    "volumes": 5,
+    "description": "A woman becomes secretary to the tyrant emperor to survive.",
+    "year": 2021,
+    "rating": 8,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "into-light-again",
+    "title": "Into the Light Once Again",
+    "author": "Bestard",
+    "artist": "Lerepe",
+    "genres": [
+      "shoujo",
+      "romance",
+      "fantasy",
+      "family"
+    ],
+    "status": "ongoing",
+    "chapters": 100,
+    "volumes": 5,
+    "description": "A woman sacrificed by her family is reborn as a princess in another empire.",
+    "year": 2021,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "age-matters",
+    "title": "Age Matters",
+    "author": "Enjelicious",
+    "artist": "Enjelicious",
+    "genres": [
+      "josei",
+      "romance",
+      "comedy",
+      "slice-of-life"
+    ],
+    "status": "completed",
+    "chapters": 188,
+    "volumes": 6,
+    "description": "A 29-year-old woman falls for her younger boss.",
+    "year": 2018,
+    "rating": 8.1,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "lets-play",
+    "title": "Let's Play",
+    "author": "Mongie",
+    "artist": "Mongie",
+    "genres": [
+      "josei",
+      "romance",
+      "comedy",
+      "gaming"
+    ],
+    "status": "completed",
+    "chapters": 256,
+    "volumes": 4,
+    "description": "A game developer's life changes when her neighbor reviews her game.",
+    "year": 2016,
+    "rating": 8,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "i-love-yoo",
+    "title": "I Love Yoo",
+    "author": "Quimchee",
+    "artist": "Quimchee",
+    "genres": [
+      "shoujo",
+      "romance",
+      "drama",
+      "school"
+    ],
+    "status": "ongoing",
+    "chapters": 200,
+    "volumes": 6,
+    "description": "A girl's life is complicated by two rich brothers after an accidental encounter.",
+    "year": 2017,
+    "rating": 8.5,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "freaking-romance",
+    "title": "Freaking Romance",
+    "author": "snailords",
+    "artist": "snailords",
+    "genres": [
+      "shoujo",
+      "romance",
+      "supernatural",
+      "mystery"
+    ],
+    "status": "completed",
+    "chapters": 115,
+    "volumes": 4,
+    "description": "A woman moves into an apartment haunted by a handsome ghost.",
+    "year": 2018,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "midnight-poppy-land",
+    "title": "Midnight Poppy Land",
+    "author": "Lilydusk",
+    "artist": "Lilydusk",
+    "genres": [
+      "josei",
+      "romance",
+      "drama",
+      "action"
+    ],
+    "status": "ongoing",
+    "chapters": 120,
+    "volumes": 5,
+    "description": "A book editor accidentally gets involved with a dangerous mafia member.",
+    "year": 2018,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "cursed-princess-club",
+    "title": "Cursed Princess Club",
+    "author": "LambCat",
+    "artist": "LambCat",
+    "genres": [
+      "shoujo",
+      "comedy",
+      "romance",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 200,
+    "volumes": 4,
+    "description": "A princess labeled ugly joins a club of cursed princesses.",
+    "year": 2019,
+    "rating": 8.6,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "purple-hyacinth",
+    "title": "Purple Hyacinth",
+    "author": "Sophism",
+    "artist": "Ephemerys",
+    "genres": [
+      "shoujo",
+      "action",
+      "mystery",
+      "romance"
+    ],
+    "status": "ongoing",
+    "chapters": 200,
+    "volumes": 6,
+    "description": "A police officer who can detect lies teams up with an assassin.",
+    "year": 2019,
+    "rating": 8.7,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "nevermore",
+    "title": "Nevermore",
+    "author": "PALE",
+    "artist": "PALE",
+    "genres": [
+      "shoujo",
+      "romance",
+      "supernatural",
+      "horror"
+    ],
+    "status": "ongoing",
+    "chapters": 90,
+    "volumes": 4,
+    "description": "A woman forms a bond with a mysterious creature in a gothic setting.",
+    "year": 2020,
+    "rating": 8.2,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "unholy-blood",
+    "title": "Unholy Blood",
+    "author": "Lina Im",
+    "artist": "Lina Im",
+    "genres": [
+      "shoujo",
+      "action",
+      "romance",
+      "supernatural"
+    ],
+    "status": "completed",
+    "chapters": 78,
+    "volumes": 4,
+    "description": "A half-vampire woman fights against vampires who destroyed her life.",
+    "year": 2020,
+    "rating": 8.5,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "down-to-earth",
+    "title": "Down to Earth",
+    "author": "Pookie Senpai",
+    "artist": "Pookie Senpai",
+    "genres": [
+      "shounen",
+      "romance",
+      "comedy",
+      "sci-fi"
+    ],
+    "status": "completed",
+    "chapters": 134,
+    "volumes": 4,
+    "description": "A reclusive man's life changes when an alien girl lands in his backyard.",
+    "year": 2019,
+    "rating": 8.1,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "kubera",
+    "title": "Kubera",
+    "author": "Currygom",
+    "artist": "Currygom",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 550,
+    "volumes": 15,
+    "description": "A girl with a god's name embarks on a journey in a world of gods and suras.",
+    "year": 2010,
+    "rating": 8.6,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "dice",
+    "title": "DICE: The Cube that Changes Everything",
+    "author": "Yun Hyunseok",
+    "artist": "Yun Hyunseok",
+    "genres": [
+      "shounen",
+      "action",
+      "drama",
+      "supernatural",
+      "school"
+    ],
+    "status": "completed",
+    "chapters": 400,
+    "volumes": 12,
+    "description": "Students gain the power to change their stats through mysterious dice.",
+    "year": 2013,
+    "rating": 8.2,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "city-of-blank",
+    "title": "City of Blank",
+    "author": "66",
+    "artist": "66",
+    "genres": [
+      "shounen",
+      "action",
+      "mystery",
+      "supernatural"
+    ],
+    "status": "ongoing",
+    "chapters": 120,
+    "volumes": 5,
+    "description": "In a city where showing your face is dangerous, a boy searches for his brother.",
+    "year": 2019,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "gourmet-hound",
+    "title": "Gourmet Hound",
+    "author": "Leehama",
+    "artist": "Leehama",
+    "genres": [
+      "seinen",
+      "slice-of-life",
+      "comedy",
+      "cooking"
+    ],
+    "status": "completed",
+    "chapters": 180,
+    "volumes": 5,
+    "description": "A woman with a perfect taste memory searches for chefs from her favorite restaurant.",
+    "year": 2016,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "ghost-teller",
+    "title": "Ghost Teller",
+    "author": "QTT",
+    "artist": "QTT",
+    "genres": [
+      "seinen",
+      "horror",
+      "supernatural",
+      "drama"
+    ],
+    "status": "completed",
+    "chapters": 122,
+    "volumes": 5,
+    "description": "Ghosts share stories of their past lives with each other.",
+    "year": 2018,
+    "rating": 8.5,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "shotgun-boy",
+    "title": "Shotgun Boy",
+    "author": "Kim Carnby",
+    "artist": "Hwang Young-chan",
+    "genres": [
+      "seinen",
+      "horror",
+      "action",
+      "supernatural"
+    ],
+    "status": "completed",
+    "chapters": 90,
+    "volumes": 4,
+    "description": "A bullied boy must survive when monsters attack a campsite.",
+    "year": 2021,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "pigpen",
+    "title": "Pigpen",
+    "author": "Carnby Kim",
+    "artist": "Hwang Young-chan",
+    "genres": [
+      "seinen",
+      "horror",
+      "thriller",
+      "psychological"
+    ],
+    "status": "completed",
+    "chapters": 75,
+    "volumes": 3,
+    "description": "A man wakes up in a pig pen with no memory and must survive.",
+    "year": 2022,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "jungle-juice",
+    "title": "Jungle Juice",
+    "author": "JUDER",
+    "artist": "JUDER",
+    "genres": [
+      "shounen",
+      "action",
+      "sci-fi",
+      "supernatural"
+    ],
+    "status": "ongoing",
+    "chapters": 160,
+    "volumes": 6,
+    "description": "People gain insect abilities and powers from a mysterious drink.",
+    "year": 2021,
+    "rating": 8.2,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "teenage-mercenary",
+    "title": "Teenage Mercenary",
+    "author": "YC",
+    "artist": "Rakyeon",
+    "genres": [
+      "shounen",
+      "action",
+      "school",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 180,
+    "volumes": 7,
+    "description": "A trained mercenary reunites with his family and attends high school.",
+    "year": 2020,
+    "rating": 8.5,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "study-group",
+    "title": "Study Group",
+    "author": "Yu Hyun",
+    "artist": "Ahn Yong-jin",
+    "genres": [
+      "shounen",
+      "action",
+      "school",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 200,
+    "volumes": 8,
+    "description": "A fighter in a delinquent school tries to study for college entrance exams.",
+    "year": 2019,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "girls-of-the-wild",
+    "title": "Girls of the Wild's",
+    "author": "Hun",
+    "artist": "Zhena",
+    "genres": [
+      "shounen",
+      "action",
+      "romance",
+      "school",
+      "martial-arts"
+    ],
+    "status": "completed",
+    "chapters": 260,
+    "volumes": 10,
+    "description": "A male student enrolls in a former all-girls school famous for fighting.",
+    "year": 2011,
+    "rating": 8,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "viral-hit",
+    "title": "Viral Hit",
+    "author": "Park Tae-jun",
+    "artist": "Kim Junghyun",
+    "genres": [
+      "shounen",
+      "action",
+      "comedy",
+      "school"
+    ],
+    "status": "ongoing",
+    "chapters": 250,
+    "volumes": 8,
+    "description": "A weak student becomes a fighting YouTuber to earn money.",
+    "year": 2019,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "manager-kim",
+    "title": "Manager Kim",
+    "author": "Park Tae-jun",
+    "artist": "Ryu hyunseo",
+    "genres": [
+      "seinen",
+      "action",
+      "drama",
+      "thriller"
+    ],
+    "status": "ongoing",
+    "chapters": 100,
+    "volumes": 5,
+    "description": "A former special forces soldier now works as a manager in entertainment.",
+    "year": 2022,
+    "rating": 8.2,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "quest-supremacy",
+    "title": "Quest Supremacy",
+    "author": "Hyunggeun Park",
+    "artist": "Kang Minseo",
+    "genres": [
+      "shounen",
+      "action",
+      "school",
+      "supernatural"
+    ],
+    "status": "ongoing",
+    "chapters": 200,
+    "volumes": 8,
+    "description": "A bullied student gains a system that gives him quests and powers.",
+    "year": 2021,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "reality-quest",
+    "title": "Reality Quest",
+    "author": "Lee Sarang",
+    "artist": "Lee Sarang",
+    "genres": [
+      "shounen",
+      "action",
+      "school",
+      "gaming"
+    ],
+    "status": "ongoing",
+    "chapters": 180,
+    "volumes": 7,
+    "description": "A student trapped in a game must become the strongest in his school to escape.",
+    "year": 2020,
+    "rating": 8.1,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "mercenary-enrollment",
+    "title": "Mercenary Enrollment",
+    "author": "YC",
+    "artist": "Rak Hyun",
+    "genres": [
+      "shounen",
+      "action",
+      "drama",
+      "school"
+    ],
+    "status": "ongoing",
+    "chapters": 190,
+    "volumes": 7,
+    "description": "A former child soldier returns to Korea to live with his family.",
+    "year": 2020,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "northern-blade",
+    "title": "Record of the War God",
+    "author": "Woo-Gak",
+    "artist": "Hae-Min",
+    "genres": [
+      "shounen",
+      "action",
+      "martial-arts",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 130,
+    "volumes": 5,
+    "description": "A war god awakens after thousands of years to protect his descendant.",
+    "year": 2021,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "how-to-fight",
+    "title": "How to Fight",
+    "author": "Park Tae-jun",
+    "artist": "Kim Junghyun",
+    "genres": [
+      "shounen",
+      "action",
+      "comedy",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 230,
+    "volumes": 8,
+    "description": "A weak YouTuber learns fighting techniques to deal with bullies.",
+    "year": 2019,
+    "rating": 8.5,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "doom-breaker",
+    "title": "Doom Breaker",
+    "author": "Blue-Deep",
+    "artist": "Cheong-Dam",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 200,
+    "volumes": 8,
+    "description": "The last human warrior goes back in time to prevent humanity's doom.",
+    "year": 2021,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "player-bug",
+    "title": "The Player That Can't Level Up",
+    "author": "Rou",
+    "artist": "Rou",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "gaming"
+    ],
+    "status": "completed",
+    "chapters": 130,
+    "volumes": 5,
+    "description": "A player who couldn't level up for 10 years finally discovers his power.",
+    "year": 2020,
+    "rating": 8,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "leveling-with-the-gods",
+    "title": "Leveling with the Gods",
+    "author": "Black Ajin",
+    "artist": "Studio All-Stars",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "status": "ongoing",
+    "chapters": 140,
+    "volumes": 6,
+    "description": "A warrior returns to the past to become strong enough to defeat the Outer Gods.",
+    "year": 2022,
+    "rating": 8.5,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "max-level-hero",
+    "title": "Return of the Max Level Hero",
+    "author": "Davey",
+    "artist": "Seo Ji-Yoon",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "comedy"
+    ],
+    "status": "ongoing",
+    "chapters": 120,
+    "volumes": 5,
+    "description": "A prince with memories of nine past lives gains incredible power.",
+    "year": 2021,
+    "rating": 8.1,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "arcane-sniper",
+    "title": "Arcane Sniper",
+    "author": "Barking Dog",
+    "artist": "HYUUGA",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "gaming"
+    ],
+    "status": "ongoing",
+    "chapters": 170,
+    "volumes": 7,
+    "description": "A disabled sniper plays a VR game and becomes an arcane marksman.",
+    "year": 2020,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "wandering-warrior",
+    "title": "Wandering Warrior of Wudang",
+    "author": "UNSING",
+    "artist": "TAEKEUCHI",
+    "genres": [
+      "shounen",
+      "action",
+      "martial-arts",
+      "comedy"
+    ],
+    "status": "ongoing",
+    "chapters": 130,
+    "volumes": 5,
+    "description": "The strongest Taoist of Wudang is reincarnated as a young disciple.",
+    "year": 2022,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "sword-sheath-child",
+    "title": "The Sword and the Child",
+    "author": "MUIN",
+    "artist": "MUIN",
+    "genres": [
+      "shounen",
+      "action",
+      "martial-arts",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 100,
+    "volumes": 4,
+    "description": "A legendary swordsman protects a child who holds a dangerous secret.",
+    "year": 2023,
+    "rating": 8.2,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "murim-login",
+    "title": "Murim Login",
+    "author": "Zero Bigin",
+    "artist": "Jang, Cheolbyeok",
+    "genres": [
+      "shounen",
+      "action",
+      "martial-arts",
+      "gaming"
+    ],
+    "status": "ongoing",
+    "chapters": 190,
+    "volumes": 8,
+    "description": "A hunter enters a VR game and gains martial arts skills that work in reality.",
+    "year": 2020,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "memorize",
+    "title": "Memorize",
+    "author": "Ro Yu-jin",
+    "artist": "Heoji",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "status": "ongoing",
+    "chapters": 100,
+    "volumes": 4,
+    "description": "A player who cleared the Hall Plain returns to the beginning to save everyone.",
+    "year": 2022,
+    "rating": 8.2,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "reformation-deadbeat-noble",
+    "title": "Reformation of the Deadbeat Noble",
+    "author": "Innocent",
+    "artist": "Sainomin",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "comedy"
+    ],
+    "status": "ongoing",
+    "chapters": 120,
+    "volumes": 5,
+    "description": "A lazy noble who slept for years awakens with determination to become strong.",
+    "year": 2021,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "return-blossoming-blade",
+    "title": "Return of the Blossoming Blade",
+    "author": "BNCP",
+    "artist": "Mad Man",
+    "genres": [
+      "shounen",
+      "action",
+      "martial-arts",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 160,
+    "volumes": 6,
+    "description": "A disciple who witnessed his sect's destruction returns to the past.",
+    "year": 2021,
+    "rating": 8.5,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "heavenly-demon-reborn",
+    "title": "Heavenly Demon Reborn!",
+    "author": "UNSING",
+    "artist": "IlHwan",
+    "genres": [
+      "shounen",
+      "action",
+      "martial-arts",
+      "revenge"
+    ],
+    "status": "ongoing",
+    "chapters": 220,
+    "volumes": 8,
+    "description": "A demonic cult leader is betrayed and reborn to seek revenge.",
+    "year": 2020,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "kill-hero",
+    "title": "I Am the Sorcerer King",
+    "author": "Miro",
+    "artist": "Decaspell",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "supernatural"
+    ],
+    "status": "completed",
+    "chapters": 200,
+    "volumes": 8,
+    "description": "A man awakens powers as a sorcerer king in a world of dungeons.",
+    "year": 2019,
+    "rating": 8,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "greatest-estate-developer",
+    "title": "The Greatest Estate Developer",
+    "author": "Lee Hyunmin",
+    "artist": "Kim Hyunsoo",
+    "genres": [
+      "shounen",
+      "comedy",
+      "fantasy",
+      "slice-of-life"
+    ],
+    "status": "ongoing",
+    "chapters": 180,
+    "volumes": 7,
+    "description": "An engineering graduate reincarnates as a noble and uses modern knowledge.",
+    "year": 2021,
+    "rating": 8.6,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "regressor-instruction-manual",
+    "title": "Regressor Instruction Manual",
+    "author": "BNCP",
+    "artist": "Fantasy",
+    "genres": [
+      "seinen",
+      "action",
+      "fantasy",
+      "psychological"
+    ],
+    "status": "ongoing",
+    "chapters": 110,
+    "volumes": 5,
+    "description": "A man manipulates a regressor to survive in a dangerous world.",
+    "year": 2021,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "trapped-in-webtoon",
+    "title": "Trapped in a Webnovel as a Good-for-Nothing",
+    "author": "Nayeon",
+    "artist": "Godcall",
+    "genres": [
+      "shounen",
+      "action",
+      "comedy",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 140,
+    "volumes": 6,
+    "description": "A reader is trapped in a novel as a minor villain character.",
+    "year": 2021,
+    "rating": 8.2,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "max-level-returner",
+    "title": "Max Level Returner",
+    "author": "Kkeureup",
+    "artist": "Park",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "gaming"
+    ],
+    "status": "completed",
+    "chapters": 150,
+    "volumes": 6,
+    "description": "A player trapped in a game for 22 years returns to Earth at max level.",
+    "year": 2020,
+    "rating": 8.1,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "rankers-return",
+    "title": "Ranker's Return",
+    "author": "Yeombyeokga",
+    "artist": "JJun",
+    "genres": [
+      "shounen",
+      "action",
+      "gaming",
+      "fantasy"
+    ],
+    "status": "ongoing",
+    "chapters": 170,
+    "volumes": 7,
+    "description": "A former top ranker returns to the game after three years.",
+    "year": 2020,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "sword-fanatic",
+    "title": "Sword Fanatic Wanders Through The Night",
+    "author": "HYUNJJANG",
+    "artist": "Jungkeong",
+    "genres": [
+      "shounen",
+      "action",
+      "martial-arts",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 130,
+    "volumes": 5,
+    "description": "A swordsman seeks justice in the martial arts world.",
+    "year": 2022,
+    "rating": 8.5,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "academy-villain",
+    "title": "Academy's Undercover Professor",
+    "author": "Maxtreme",
+    "artist": "AKAAK",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "mystery"
+    ],
+    "status": "ongoing",
+    "chapters": 150,
+    "volumes": 6,
+    "description": "A con artist must pose as a professor at a prestigious magic academy.",
+    "year": 2022,
+    "rating": 8.4,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "player-super-senses",
+    "title": "A Returner's Magic Should Be Special",
+    "author": "Usonan",
+    "artist": "Wookjakga",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "status": "completed",
+    "chapters": 230,
+    "volumes": 10,
+    "description": "A survivor of a dimensional disaster returns to the past to save everyone.",
+    "year": 2018,
+    "rating": 8.5,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "limit-breaker",
+    "title": "Limit Breaker",
+    "author": "Harim",
+    "artist": "YesOrNo",
+    "genres": [
+      "shounen",
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "status": "ongoing",
+    "chapters": 110,
+    "volumes": 5,
+    "description": "The strongest hunter breaks through his limits after training for millennia.",
+    "year": 2021,
+    "rating": 8.2,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "fist-demon-mount-hua",
+    "title": "Fist Demon of Mount Hua",
+    "author": "Apple",
+    "artist": "Ylab",
+    "genres": [
+      "shounen",
+      "action",
+      "martial-arts",
+      "comedy"
+    ],
+    "status": "ongoing",
+    "chapters": 100,
+    "volumes": 4,
+    "description": "A fist fighter reincarnates and joins the Mount Hua Sect.",
+    "year": 2023,
+    "rating": 8.3,
+    "source": "mangadex-api"
+  },
+  {
+    "id": "epic-of-gilgamesh",
+    "title": "Epic of Gilgamesh",
+    "author": "Park Jinhan",
+    "artist": "Lee Hyunseok",
+    "genres": [
+      "seinen",
+      "action",
+      "historical",
+      "fantasy",
+      "drama"
+    ],
+    "status": "ongoing",
+    "chapters": 90,
+    "volumes": 4,
+    "description": "An adaptation of the ancient Sumerian epic about the king of Uruk.",
+    "year": 2022,
+    "rating": 8.1,
+    "source": "mangadex-api"
+  }
+]
