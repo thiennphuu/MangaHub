@@ -125,7 +125,7 @@ func runSubscribe(cmd *cobra.Command, args []string) error {
 	// If listen mode is enabled, keep listening for notifications
 	if listen && udpClient != nil {
 		fmt.Println("\n─────────────────────────────────────────────────────────────")
-		fmt.Println("Listening for notifications... (Press Ctrl+C to stop)")
+		fmt.Println("77+C to stop)")
 		fmt.Println("─────────────────────────────────────────────────────────────")
 
 		// Set up signal handler for graceful shutdown

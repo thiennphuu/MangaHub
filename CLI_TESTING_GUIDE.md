@@ -170,36 +170,36 @@ $client.Send([Text.Encoding]::UTF8.GetBytes($payload), $payload.Length, '127.0.0
 ### gRPC Service Operations
 ```powershell
 # Query manga via gRPC
-mangahub grpc manga get --id <manga-id>
+go run ./cmd/cli grpc manga get --id one-piece
 
 # Search via gRPC
-mangahub grpc manga search --query <search-term>
+go run ./cmd/cli grpc manga search --query "naruto"
 
 # Update progress via gRPC
-mangahub grpc progress update --manga-id <id> --chapter <number>
+go run ./cmd/cli grpc progress update --manga-id one-piece --chapter 1095
 ```
 
 ### Chat System
 ```powershell
 # Join general chat
-mangahub chat join
+go run ./cmd/cli chat join
 
 # Join specific manga discussion
-mangahub chat join --manga-id <id>
+go run ./cmd/cli chat join --manga-id <id>
 # Example
-mangahub chat join --manga-id one-piece
+go run ./cmd/cli chat join --manga-id one-piece
 
 # Send message to current chat
-mangahub chat send "Hello everyone!"
+go run ./cmd/cli chat send "Hello everyone!"
 
 # Send message to specific manga chat
-mangahub chat send "Great chapter!" --manga-id one-piece
+go run ./cmd/cli chat send "Great chapter!" --manga-id one-piece
 
 # View recent messages
-mangahub chat history
+go run ./cmd/cli chat history
 
 # View messages for specific manga
-mangahub chat history --manga-id one-piece --limit 50
+go run ./cmd/cli chat history --manga-id one-piece --limit 50
 ```
 
 Chat commands (interactive mode):

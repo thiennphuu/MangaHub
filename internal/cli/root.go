@@ -13,14 +13,16 @@ import (
 	"mangahub/internal/cli/server"
 	"mangahub/internal/cli/stats"
 	"mangahub/internal/cli/sync"
+	"mangahub/pkg/session"
 
 	"github.com/spf13/cobra"
 )
 
 var (
-	token   string
-	apiURL  string = "http://localhost:8080"
-	verbose bool
+	token       string
+	apiURL      string = "http://localhost:8080"
+	verbose     bool
+	profileName string
 )
 
 var rootCmd = &cobra.Command{
@@ -33,12 +35,19 @@ var rootCmd = &cobra.Command{
 - Real-time chat and notifications
 - Cross-device synchronization`,
 	Version: "3.0.0",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		// Set the profile before any command runs
+		if profileName != "" {
+			session.SetProfile(profileName)
+		}
+	},
 }
 
 func init() {
 	rootCmd.PersistentFlags().StringVar(&token, "token", "", "Authentication token")
 	rootCmd.PersistentFlags().StringVar(&apiURL, "api", apiURL, "API server URL")
 	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Enable verbose output")
+	rootCmd.PersistentFlags().StringVarP(&profileName, "profile", "p", "", "User profile name (allows multiple users in different terminals)")
 
 	// Add subcommands
 	rootCmd.AddCommand(manga.MangaCmd)

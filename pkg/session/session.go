@@ -6,6 +6,9 @@ import (
 	"path/filepath"
 )
 
+// CurrentProfile holds the active profile name
+var CurrentProfile = "default"
+
 // Session stores the current user session
 type Session struct {
 	UserID    string `json:"user_id"`
@@ -15,13 +18,34 @@ type Session struct {
 	ExpiresAt string `json:"expires_at"`
 }
 
-// GetPath returns the path to the session file
+// SetProfile sets the current profile name
+func SetProfile(profile string) {
+	if profile != "" {
+		CurrentProfile = profile
+	}
+}
+
+// GetProfile returns the current profile name
+func GetProfile() string {
+	return CurrentProfile
+}
+
+// GetPath returns the path to the session file for the current profile
 func GetPath() string {
+	return GetPathForProfile(CurrentProfile)
+}
+
+// GetPathForProfile returns the path to the session file for a specific profile
+func GetPathForProfile(profile string) string {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		return ".mangahub_session"
+		return ".mangahub_session_" + profile + ".json"
 	}
-	return filepath.Join(homeDir, ".mangahub", "session.json")
+
+	if profile == "" || profile == "default" {
+		return filepath.Join(homeDir, ".mangahub", "session.json")
+	}
+	return filepath.Join(homeDir, ".mangahub", "session_"+profile+".json")
 }
 
 // Save saves the current session to file
@@ -55,4 +79,32 @@ func Load() (*Session, error) {
 func Clear() error {
 	sessionPath := GetPath()
 	return os.Remove(sessionPath)
+}
+
+// ListProfiles returns all available profile names
+func ListProfiles() ([]string, error) {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return nil, err
+	}
+
+	mangahubDir := filepath.Join(homeDir, ".mangahub")
+	entries, err := os.ReadDir(mangahubDir)
+	if err != nil {
+		return nil, err
+	}
+
+	profiles := []string{}
+	for _, entry := range entries {
+		name := entry.Name()
+		if name == "session.json" {
+			profiles = append(profiles, "default")
+		} else if len(name) > 13 && name[:8] == "session_" && name[len(name)-5:] == ".json" {
+			// Extract profile name from session_<profile>.json
+			profileName := name[8 : len(name)-5]
+			profiles = append(profiles, profileName)
+		}
+	}
+
+	return profiles, nil
 }

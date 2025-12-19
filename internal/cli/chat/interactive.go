@@ -1,3 +1,4 @@
 package chat
 
-// chat interactive command
+// Interactive chat helpers
+// Note: Main interactive logic is in join.go

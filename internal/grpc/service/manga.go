@@ -47,8 +47,15 @@ func (s *MangaService) GetManga(ctx context.Context, req *pb.MangaRequest) (*pb.
 // SearchManga searches for manga
 func (s *MangaService) SearchManga(ctx context.Context, req *pb.SearchRequest) (*pb.SearchResponse, error) {
 	filter := &models.MangaFilter{
+		Query:  req.Title,
+		Author: req.Author,
 		Status: req.Status,
 		Genres: req.Genres,
+		Limit:  int(req.Limit),
+	}
+
+	if filter.Limit == 0 {
+		filter.Limit = 10
 	}
 
 	results, err := s.mangaService.Search(filter)
