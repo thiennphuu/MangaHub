@@ -39,10 +39,10 @@ go run ./cmd/cli auth register --username john3 --email john3@example.com
 
 **Step 2: Login**
 ```powershell
-go run ./cmd/cli auth login --username john2
+go run ./cmd/cli --profile user1 auth login --username john2
 # When prompted:
 # Password: Thienphu123
-go run ./cmd/cli auth login --username john3
+go run ./cmd/cli --profile user2 auth login --username john3
 # Password: Thienphu123
 
 
