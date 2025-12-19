@@ -5,6 +5,7 @@
 ### Prerequisites
 
 **Terminal 1 - Start the API Server:**
+
 ```powershell
 cd c:\STUDY\Net_centric\mangahub-v3
 go run ./cmd/api-server
@@ -15,11 +16,13 @@ go run ./cmd/api-server
 All commands below should be run in a separate terminal while the API server is running.
 
 ### Build the CLI (Optional)
+
 ```powershell
 go build -o mangahub.exe ./cmd/cli
 ```
 
 ### Run Commands Directly
+
 ```powershell
 go run ./cmd/cli --help
 go run ./cmd/cli --version
@@ -30,6 +33,7 @@ go run ./cmd/cli --version
 ### Authentication
 
 **Step 1: Register a new user**
+
 ```powershell
 go run ./cmd/cli auth register --username john3 --email john3@example.com
 # When prompted:
@@ -38,7 +42,8 @@ go run ./cmd/cli auth register --username john3 --email john3@example.com
 ```
 
 **Step 2: Login**
-```powershell
+
+````powershell
 go run ./cmd/cli --profile user1 auth login --username john2
 # When prompted:
 # Password: Thienphu123
@@ -50,15 +55,17 @@ go run ./cmd/cli --profile user2 auth login --username john3
 ```powershell
 go run ./cmd/cli auth status
 # Shows current user info and token expiration
-```
+````
 
 **Step 4: Logout**
+
 ```powershell
 go run ./cmd/cli auth logout
 # Clears the local session
 ```
 
 ### Manga Search
+
 ```powershell
 # Basic search
 go run ./cmd/cli manga search "attack on titan"
@@ -82,10 +89,11 @@ go run ./cmd/cli manga advanced-search "romance" --min-chapters 50 --sort-by tit
 ```
 
 ### Library Management
+
 ```powershell
 # Add to library
 go run ./cmd/cli library add --manga-id one-piece --status reading --rating 9
-go run ./cmd/cli library add --manga-id naruto 
+go run ./cmd/cli library add --manga-id naruto
 
 # View library
 go run ./cmd/cli library list
@@ -102,6 +110,7 @@ go run ./cmd/cli library remove --manga-id one-piece
 ```
 
 ### Progress Tracking
+
 ```powershell
 # Update progress
 go run ./cmd/cli progress update --manga-id naruto --chapter 700
@@ -117,6 +126,25 @@ go run ./cmd/cli progress sync
 
 # Check sync status
 go run ./cmd/cli progress sync-status
+```
+
+### TCP Synchronization (TCP Sync)
+
+```powershell
+# Make sure TCP server is running (separate terminal)
+go run ./cmd/tcp-server
+
+# Connect to TCP sync server
+go run ./cmd/cli sync connect
+
+# Check TCP sync status
+go run ./cmd/cli sync status
+
+# Monitor real-time progress updates (press Ctrl+C to stop)
+go run ./cmd/cli sync monitor
+
+# Simulate explicit disconnect
+go run ./cmd/cli sync disconnect
 ```
 
 ### Notifications
@@ -145,6 +173,7 @@ go run ./cmd/cli notify test
 ```
 
 UDP server-client function (quick path):
+
 - The UDP server runs on port 9091; clients send `register` to subscribe for broadcasts.
 - Any JSON payload sent to the server is rebroadcast to all registered clients.
 - The CLI `notify subscribe|unsubscribe|preferences|test` flow exercises the same UDP channel.
@@ -168,6 +197,7 @@ $client.Send([Text.Encoding]::UTF8.GetBytes($payload), $payload.Length, '127.0.0
 ```
 
 ### gRPC Service Operations
+
 ```powershell
 # Query manga via gRPC
 go run ./cmd/cli grpc manga get --id one-piece
@@ -180,6 +210,7 @@ go run ./cmd/cli grpc progress update --manga-id one-piece --chapter 1095
 ```
 
 ### Chat System
+
 ```powershell
 # Join general chat
 go run ./cmd/cli chat join
@@ -203,6 +234,7 @@ go run ./cmd/cli chat history --manga-id one-piece --limit 50
 ```
 
 Chat commands (interactive mode):
+
 ```
 /help  - Show chat commands
 /users - List online users
@@ -214,6 +246,7 @@ Chat commands (interactive mode):
 ```
 
 Expected output (example) for `mangahub chat join`:
+
 ```
 Connecting to WebSocket chat server at ws://localhost:9093...
 ✓ Connected to General Chat
@@ -259,7 +292,9 @@ johndoe> /quit
 Leaving chat...
 ✓ Disconnected from chat server
 ```
+
 ### Statistics
+
 ```powershell
 # Overview
 go run ./cmd/cli stats overview
@@ -269,6 +304,7 @@ go run ./cmd/cli stats detailed
 ```
 
 ### Data Export
+
 ```powershell
 # Export library
 go run ./cmd/cli export library --format json --output my-library.json
@@ -281,6 +317,7 @@ go run ./cmd/cli export all --output mangahub-backup.tar.gz
 ```
 
 ### Configuration
+
 ```powershell
 # View config
 go run ./cmd/cli config show
@@ -293,6 +330,7 @@ go run ./cmd/cli config reset
 ```
 
 ### Server Management
+
 ```powershell
 # Check server health
 go run ./cmd/cli server health
@@ -302,6 +340,7 @@ go run ./cmd/cli server logs
 ```
 
 ### Database Management
+
 ```powershell
 # Check database
 go run ./cmd/cli db check
@@ -316,6 +355,7 @@ go run ./cmd/cli db repair
 ## Testing Output Examples
 
 ### Successful Search
+
 ```
 Searching for "attack on titan"...
 
@@ -332,6 +372,7 @@ Use 'mangahub library add --manga-id <id>' to add to your library
 ```
 
 ### Manga List
+
 ```
 Listing manga (page 1, limit 15)
 
@@ -348,6 +389,7 @@ Use --page <n> to see more results
 ```
 
 ### Manga Info
+
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
 │ ONE PIECE                                                            │
@@ -376,6 +418,7 @@ Actions:
 ```
 
 ### Auth Status
+
 ```
 Authentication Status: ✓ Logged in
 
@@ -388,6 +431,7 @@ Expires:  2025-12-19 09:30:00 UTC
 ## Global Flags Testing
 
 ### All commands support:
+
 ```powershell
 # With auth token
 go run ./cmd/cli manga search "naruto" --token your-token-here
@@ -405,6 +449,7 @@ go run ./cmd/cli manga search --help
 ## Error Testing
 
 ### Invalid flags
+
 ```powershell
 go run ./cmd/cli library add                    # Error: --manga-id required
 go run ./cmd/cli progress update                # Error: --manga-id and --chapter required
@@ -412,6 +457,7 @@ go run ./cmd/cli auth login                     # Error: --username or --email r
 ```
 
 ### Command help
+
 ```powershell
 go run ./cmd/cli --help                         # Show all commands
 go run ./cmd/cli manga --help                   # Show manga subcommands
@@ -422,6 +468,7 @@ go run ./cmd/cli auth --help                    # Show auth subcommands
 ## Integration Testing Checklist
 
 ### Core Infrastructure
+
 - [x] All commands execute without syntax errors
 - [x] Help text displays correctly
 - [x] Flags are parsed correctly
@@ -430,12 +477,14 @@ go run ./cmd/cli auth --help                    # Show auth subcommands
 - [x] Output formatting is readable
 
 ### Manga Operations (No Auth Required)
+
 - [x] Manga search queries API server
 - [x] Manga list with pagination works
 - [x] Manga info displays details
 - [x] Advanced search with filters works
 
 ### Authentication (API Server Required)
+
 - [x] Auth register creates users via HTTP API
 - [x] Auth login validates credentials via HTTP API
 - [x] Auth status validates token with API server
@@ -443,6 +492,7 @@ go run ./cmd/cli auth --help                    # Show auth subcommands
 - [x] Session saved to ~/.mangahub/session.json
 
 ### Authenticated Features
+
 - [x] Library management (add, list, update, remove)
 - [x] Progress tracking (update, history)
 - [ ] Notifications (subscribe, preferences, test, unsubscribe)
