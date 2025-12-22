@@ -51,3 +51,4 @@ Use this periodically after large imports or many updates to keep the database c
 func init() {
 	DBCmd.AddCommand(optimizeCmd)
 }
+
