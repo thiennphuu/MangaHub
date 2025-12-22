@@ -54,7 +54,9 @@ go run ./cmd/cli --profile user2 auth login --username john3
 **Step 3: Check authentication status**
 ```powershell
 # If you logged in with --profile, always use the same profile for status and all authenticated commands:
-go run ./cmd/cli --profile user2 auth status
+go run ./cmd/cli --profile user2 auth status - john3
+go run ./cmd/cli --profile user1 auth status - john2
+
 # Shows current user info and token expiration
 ````
 
@@ -304,10 +306,10 @@ Leaving chat...
 
 ```powershell
 # Overview
-go run ./cmd/cli stats overview
+go run ./cmd/cli --profile user2 stats overview
 
 # Detailed
-go run ./cmd/cli stats detailed
+go run ./cmd/cli --profile user2 stats detailed
 ```
 
 ### Data Export
