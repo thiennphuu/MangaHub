@@ -234,7 +234,7 @@ go run ./cmd/cli --profile user1 chat send "Great chapter!" --manga-id one-piece
 go run ./cmd/cli --profile user2 chat send "Great chapter!" --manga-id aot
 
 # View recent messages
-go run ./cmd/cli chat history
+go run ./cmd/cli --profile user1 chat history
 
 # View messages for specific manga
 go run ./cmd/cli --profile user2 chat history --manga-id aot --limit 50
