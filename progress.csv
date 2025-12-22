@@ -1,0 +1,3 @@
+user_id,manga_id,status,current_chapter,rating,notes,created_at,updated_at
+user_12679e407e3b48f5,naruto,completed,700,9,Classic shounen,2025-12-18 12:17:19
+user_12679e407e3b48f5,one-piece,reading,1095,9,Epic chapter!,2025-12-18 12:20:54

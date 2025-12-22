@@ -3,6 +3,7 @@ package cli
 import (
 	"mangahub/internal/cli/auth"
 	"mangahub/internal/cli/chat"
+	"mangahub/internal/cli/config"
 	"mangahub/internal/cli/export"
 	"mangahub/internal/cli/grpc"
 	"mangahub/internal/cli/library"
@@ -61,7 +62,7 @@ func init() {
 	rootCmd.AddCommand(export.ExportCmd)
 	rootCmd.AddCommand(auth.AuthCmd)
 	rootCmd.AddCommand(server.ServerCmd)
-	rootCmd.AddCommand(configCmd)
+	rootCmd.AddCommand(config.ConfigCmd)
 	rootCmd.AddCommand(profile.ProfileCmd)
 }
 

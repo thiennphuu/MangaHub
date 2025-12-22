@@ -1,0 +1,23 @@
+[
+  {
+    "user_id": "user_12679e407e3b48f5",
+    "manga_id": "naruto",
+    "current_chapter": 700,
+    "status": "completed",
+    "rating": 9,
+    "notes": "Classic shounen",
+    "started_at": "2025-12-18T11:55:19.1376021+07:00",
+    "completed_at": "2025-12-18T12:17:19.6789544+07:00",
+    "updated_at": "2025-12-18T12:17:19.6789544+07:00"
+  },
+  {
+    "user_id": "user_12679e407e3b48f5",
+    "manga_id": "one-piece",
+    "current_chapter": 1095,
+    "status": "reading",
+    "rating": 9,
+    "notes": "Epic chapter!",
+    "started_at": "2025-12-18T12:17:48.9545641+07:00",
+    "updated_at": "2025-12-18T12:20:54.820632+07:00"
+  }
+]
