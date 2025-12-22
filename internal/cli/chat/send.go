@@ -3,11 +3,13 @@ package chat
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 
 	"mangahub/pkg/client"
 	"mangahub/pkg/session"
+	"mangahub/internal/cli/progress"
 )
 
 var sendCmd = &cobra.Command{
@@ -55,6 +57,23 @@ var sendCmd = &cobra.Command{
 		fmt.Println("✓ Message sent successfully")
 		fmt.Printf("Chat room: #%s\n", roomID)
 		fmt.Printf("Message: %s\n", message)
+
+		// Store message in SQLite
+		// Import progress.RequireDatabase and models.ChatMessage at top if not already
+		dbPath := "./data/mangahub.db"
+		db, err := progress.RequireDatabase(dbPath)
+		if err == nil {
+			defer db.Close()
+			msgID := fmt.Sprintf("%s-%d", sess.UserID, time.Now().UnixNano())
+			timestamp := time.Now().Unix()
+			_, err := db.Exec(`INSERT INTO chat_messages (id, user_id, username, room_id, message, timestamp) VALUES (?, ?, ?, ?, ?, ?)`,
+				msgID, sess.UserID, sess.Username, roomID, message, timestamp)
+			if err != nil {
+				fmt.Printf("(SQLite) Failed to store message: %v\n", err)
+			}
+		} else {
+			fmt.Printf("(SQLite) Failed to open DB: %v\n", err)
+		}
 
 		wsClient.Disconnect()
 		return nil

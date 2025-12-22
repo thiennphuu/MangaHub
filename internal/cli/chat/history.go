@@ -2,8 +2,8 @@ package chat
 
 import (
 	"fmt"
-
 	"github.com/spf13/cobra"
+	"mangahub/internal/cli/progress"
 )
 
 var historyCmd = &cobra.Command{
@@ -18,7 +18,6 @@ var historyCmd = &cobra.Command{
 		if mangaID != "" {
 			roomID = mangaID
 		}
-
 		if limit == 0 {
 			limit = 20
 		}
@@ -26,8 +25,11 @@ var historyCmd = &cobra.Command{
 		fmt.Printf("Chat History for #%s (last %d messages):\n", roomID, limit)
 		fmt.Println("─────────────────────────────────────────────────────")
 
-		// Note: In a real implementation, this would fetch from the API
-		fmt.Println("(Chat history requires API server support)")
+		// Show messages from local SQLite
+		err := showMessagesHistory(roomID, limit)
+		if err != nil {
+			fmt.Printf("Error: %v\n", err)
+		}
 		fmt.Println()
 		fmt.Println("To view live messages, use:")
 		fmt.Printf("  go run ./cmd/cli chat join")
@@ -35,9 +37,48 @@ var historyCmd = &cobra.Command{
 			fmt.Printf(" --manga-id %s", mangaID)
 		}
 		fmt.Println()
-
 		return nil
 	},
+}
+
+// showMessagesHistory prints recent chat messages from SQLite for a room
+func showMessagesHistory(roomID string, limit int) error {
+	// Open DB
+	dbPath := "./data/mangahub.db"
+	db, err := progress.RequireDatabase(dbPath)
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	rows, err := db.Query(`SELECT username, message, created_at FROM chat_messages WHERE room_id = ? ORDER BY created_at DESC LIMIT ?`, roomID, limit)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+
+	type msg struct {
+		Username  string
+		Message   string
+		CreatedAt string
+	}
+	var messages []msg
+	for rows.Next() {
+		var m msg
+		if err := rows.Scan(&m.Username, &m.Message, &m.CreatedAt); err != nil {
+			return err
+		}
+		messages = append(messages, m)
+	}
+	if len(messages) == 0 {
+		fmt.Println("No messages found.")
+		return nil
+	}
+	// Print in reverse (oldest first)
+	for i := len(messages) - 1; i >= 0; i-- {
+		fmt.Printf("[%s] %s: %s\n", messages[i].CreatedAt, messages[i].Username, messages[i].Message)
+	}
+	return nil
 }
 
 func init() {

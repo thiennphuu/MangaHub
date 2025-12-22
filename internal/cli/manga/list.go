@@ -62,7 +62,7 @@ func init() {
 	listCmd.Flags().IntP("page", "p", 1, "Page number")
 	listCmd.Flags().IntP("limit", "l", 20, "Results per page")
 	listCmd.Flags().StringP("genre", "g", "", "Filter by genre")
-	listCmd.Flags().StringP("status", "s", "", "Filter by status (ongoing, completed)")
+	listCmd.Flags().String("status", "", "Filter by status (ongoing, completed)")
 }
 
 // printMangaListTable prints manga list in a formatted table

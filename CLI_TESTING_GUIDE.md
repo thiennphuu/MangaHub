@@ -53,7 +53,8 @@ go run ./cmd/cli --profile user2 auth login --username john3
 
 **Step 3: Check authentication status**
 ```powershell
-go run ./cmd/cli auth status
+# If you logged in with --profile, always use the same profile for status and all authenticated commands:
+go run ./cmd/cli --profile user2 auth status
 # Shows current user info and token expiration
 ````
 
@@ -91,41 +92,42 @@ go run ./cmd/cli manga advanced-search "romance" --min-chapters 50 --sort-by tit
 ### Library Management
 
 ```powershell
-# Add to library
-go run ./cmd/cli library add --manga-id one-piece --status reading --rating 9
-go run ./cmd/cli library add --manga-id naruto
+
+# Add to library (if you logged in with --profile, include it here too)
+go run ./cmd/cli --profile user2 library add --manga-id one-piece --status reading --rating 9
+go run ./cmd/cli --profile user2 library add --manga-id naruto
+
 
 # View library
-go run ./cmd/cli library list
+go run ./cmd/cli --profile user2 library list
 
 # Filter library
-go run ./cmd/cli library list --status reading
-go run ./cmd/cli library list --status completed --sort-by title --order asc
+go run ./cmd/cli --profile user2 library list --status reading
+go run ./cmd/cli --profile user2 library list --status completed --sort-by title --order asc
+
 
 # Update entry
-go run ./cmd/cli library update --manga-id one-piece --status completed --rating 10
+go run ./cmd/cli --profile user2 library update --manga-id one-piece --status completed --rating 10
 
 # Remove from library
-go run ./cmd/cli library remove --manga-id one-piece
+go run ./cmd/cli --profile user2 library remove --manga-id one-piece
 ```
 
 ### Progress Tracking
 
 ```powershell
 # Update progress
-go run ./cmd/cli progress update --manga-id naruto --chapter 700
-
+go run ./cmd/cli --profile user2 progress update --manga-id naruto --chapter 700
 # With additional info
-go run ./cmd/cli progress update --manga-id one-piece --chapter 1095 --notes "Epic chapter!"
+go run ./cmd/cli --profile user2 progress update --manga-id one-piece --chapter 1095 --notes "Epic chapter!"
 
 # View progress history
-go run ./cmd/cli progress history
+go run ./cmd/cli --profile user2 progress history
 
 # Manual sync with server
-go run ./cmd/cli progress sync
+go run ./cmd/cli --profile user2 progress sync
 
-# Check sync status
-go run ./cmd/cli progress sync-status
+
 ```
 
 ### TCP Synchronization (TCP Sync)
@@ -213,24 +215,29 @@ go run ./cmd/cli grpc progress update --manga-id one-piece --chapter 1095
 
 ```powershell
 # Join general chat
-go run ./cmd/cli chat join
+go run ./cmd/cli --profile user1 chat join
+go run ./cmd/cli --profile user2 chat join
 
 # Join specific manga discussion
-go run ./cmd/cli chat join --manga-id <id>
+go run ./cmd/cli --profile user1 chat join --manga-id aot
+go run ./cmd/cli --profile user2 chat join --manga-id aot
+
 # Example
 go run ./cmd/cli chat join --manga-id one-piece
 
 # Send message to current chat
-go run ./cmd/cli chat send "Hello everyone!"
+go run ./cmd/cli --profile user1 chat send "Hello everyone!"
+
 
 # Send message to specific manga chat
-go run ./cmd/cli chat send "Great chapter!" --manga-id one-piece
+go run ./cmd/cli --profile user1 chat send "Great chapter!" --manga-id one-piece
+go run ./cmd/cli --profile user2 chat send "Great chapter!" --manga-id aot
 
 # View recent messages
 go run ./cmd/cli chat history
 
 # View messages for specific manga
-go run ./cmd/cli chat history --manga-id one-piece --limit 50
+go run ./cmd/cli --profile user2 chat history --manga-id aot --limit 50
 ```
 
 Chat commands (interactive mode):

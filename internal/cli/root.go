@@ -47,7 +47,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&token, "token", "", "Authentication token")
 	rootCmd.PersistentFlags().StringVar(&apiURL, "api", apiURL, "API server URL")
 	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Enable verbose output")
-	rootCmd.PersistentFlags().StringVarP(&profileName, "profile", "p", "", "User profile name (allows multiple users in different terminals)")
+	rootCmd.PersistentFlags().StringVar(&profileName, "profile", "", "User profile name (allows multiple users in different terminals)")
 
 	// Add subcommands
 	rootCmd.AddCommand(manga.MangaCmd)
