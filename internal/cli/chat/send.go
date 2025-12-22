@@ -7,9 +7,9 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"mangahub/internal/cli/progress"
 	"mangahub/pkg/client"
 	"mangahub/pkg/session"
-	"mangahub/internal/cli/progress"
 )
 
 var sendCmd = &cobra.Command{

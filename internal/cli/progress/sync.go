@@ -1,13 +1,13 @@
 package progress
 
-
 import (
 	"fmt"
-	"os"
-	"time"
-	"github.com/spf13/cobra"
 	"mangahub/pkg/database"
 	"mangahub/pkg/models"
+	"os"
+	"time"
+
+	"github.com/spf13/cobra"
 )
 
 var syncCmd = &cobra.Command{
@@ -114,7 +114,13 @@ func fetchLocalProgress(db *database.Database, userID string) ([]models.Progress
 func updateLocalProgress(db *database.Database, p models.Progress) error {
 	_, err := db.Exec(`INSERT OR REPLACE INTO user_progress (user_id, manga_id, current_chapter, status, rating, notes, started_at, completed_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 		p.UserID, p.MangaID, p.CurrentChapter, p.Status, p.Rating, p.Notes, p.StartedAt.Format(time.RFC3339),
-		func() interface{} { if p.CompletedAt != nil { return p.CompletedAt.Format(time.RFC3339) } else { return nil } }(),
+		func() interface{} {
+			if p.CompletedAt != nil {
+				return p.CompletedAt.Format(time.RFC3339)
+			} else {
+				return nil
+			}
+		}(),
 		p.UpdatedAt.Format(time.RFC3339),
 	)
 	return err
@@ -154,7 +160,6 @@ func mergeProgress(local, remote []models.Progress) (merged, toUpdateLocal, toUp
 	}
 	return
 }
-
 
 func init() {
 	ProgressCmd.AddCommand(syncCmd)
