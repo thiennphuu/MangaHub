@@ -20,7 +20,14 @@ All commands below should be run in a separate terminal while the API server is 
 ```powershell
 go build -o mangahub.exe ./cmd/cli
 ```
+# Fetch 100 additional series (popular) and just print them
+go run ./cmd/cli manga dex
 
+# Fetch 100 series and store them for seeding / integration
+go run ./cmd/cli manga dex --output data/manga_api.json
+
+# Search MangaDex by title and show 20 results
+go run ./cmd/cli manga dex "attack on titan" --limit 20
 ### Run Commands Directly
 
 ```powershell
@@ -347,6 +354,12 @@ go run ./cmd/cli server health
 # View server logs
 go run ./cmd/cli server logs
 ```
+go run ./cmd/cli server status
+
+go run ./cmd/cli server start
+
+go run ./cmd/cli server stop
+
 
 ### Database Management
 
@@ -360,7 +373,7 @@ go run ./cmd/cli db stats
 # Repair database
 go run ./cmd/cli db repair
 ```
-
+go run ./cmd/cli db optimize
 ## Testing Output Examples
 
 ### Successful Search
