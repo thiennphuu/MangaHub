@@ -173,5 +173,5 @@ func init() {
 	subscribeCmd.Flags().StringP("manga-id", "m", "", "Subscribe to specific manga")
 	subscribeCmd.Flags().BoolP("all", "a", false, "Subscribe to all manga in library")
 	subscribeCmd.Flags().BoolP("listen", "l", false, "Keep listening for notifications after subscribing")
-	subscribeCmd.Flags().StringP("server", "s", "127.0.0.1:9091", "UDP server address")
+	subscribeCmd.Flags().StringP("server", "s", "10.238.53.72:9091", "UDP server address")
 }

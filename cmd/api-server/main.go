@@ -75,9 +75,31 @@ func main() {
 	handler := api.NewHandler(db, logger)
 	handler.RegisterRoutes(engine)
 
-	// Health check endpoint
+	// Health check endpoint with server configuration
 	engine.GET("/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"status": "healthy"})
+		c.JSON(http.StatusOK, gin.H{
+			"status": "healthy",
+			"http": gin.H{
+				"host": cfg.HTTP.Host,
+				"port": cfg.HTTP.Port,
+			},
+			"tcp": gin.H{
+				"host": cfg.TCP.Host,
+				"port": cfg.TCP.Port,
+			},
+			"udp": gin.H{
+				"host": cfg.UDP.Host,
+				"port": cfg.UDP.Port,
+			},
+			"grpc": gin.H{
+				"host": cfg.GRPC.Host,
+				"port": cfg.GRPC.Port,
+			},
+			"websocket": gin.H{
+				"host": cfg.WebSocket.Host,
+				"port": cfg.WebSocket.Port,
+			},
+		})
 	})
 
 	// Create HTTP server

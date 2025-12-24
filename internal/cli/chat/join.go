@@ -41,10 +41,10 @@ var joinCmd = &cobra.Command{
 			roomName = mangaID + " Discussion"
 		}
 
-		fmt.Println("Connecting to WebSocket chat server at ws://localhost:9093...")
+		fmt.Println("Connecting to WebSocket chat server at ws://10.238.53.72:9093...")
 
 		// Create WebSocket client
-		wsClient = client.NewWebSocketClient("ws://localhost:9093", sess.UserID, sess.Username)
+		wsClient = client.NewWebSocketClient("ws://10.238.53.72:9093", sess.UserID, sess.Username)
 
 		// Set callbacks
 		wsClient.SetCallbacks(

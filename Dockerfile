@@ -27,6 +27,7 @@ COPY --from=builder /bin/tcp-server /bin/tcp-server
 COPY --from=builder /bin/udp-server /bin/udp-server
 COPY --from=builder /bin/grpc-server /bin/grpc-server
 COPY config.yaml ./config.yaml
+# Default ports are configured in config.yaml; environment variables (e.g., DB_PATH, TCP_PORT, UDP_PORT, GRPC_PORT, WS_PORT) can override per container.
 
 # Default command can be overridden per-service in docker-compose
 CMD ["/bin/api-server"]

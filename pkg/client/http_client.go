@@ -398,3 +398,58 @@ func (c *HTTPClient) UpdateProgress(mangaID string, chapter int, status string, 
 
 	return nil
 }
+
+// GetServerHealth fetches server health/status information
+func (c *HTTPClient) GetServerHealth() (map[string]interface{}, error) {
+	resp, err := c.get("/health")
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("server returned status %d", resp.StatusCode)
+	}
+
+	var health map[string]interface{}
+	if err := json.NewDecoder(resp.Body).Decode(&health); err != nil {
+		return nil, err
+	}
+
+	return health, nil
+}
+
+// ServerLogsResponse represents the server logs API response
+type ServerLogsResponse struct {
+	Logs     []string `json:"logs"`
+	Count    int      `json:"count"`
+	MaxLines int      `json:"max_lines"`
+	Level    string   `json:"level"`
+}
+
+// GetServerLogs fetches server logs from the API
+func (c *HTTPClient) GetServerLogs(maxLines int, level string) (*ServerLogsResponse, error) {
+	// Build query parameters
+	endpoint := fmt.Sprintf("/server/logs?max_lines=%d", maxLines)
+	if level != "" {
+		endpoint += fmt.Sprintf("&level=%s", level)
+	}
+
+	resp, err := c.get(endpoint)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("failed to fetch logs with status %d: %s", resp.StatusCode, string(body))
+	}
+
+	var logsResp ServerLogsResponse
+	if err := json.NewDecoder(resp.Body).Decode(&logsResp); err != nil {
+		return nil, fmt.Errorf("failed to decode logs response: %w", err)
+	}
+
+	return &logsResp, nil
+}

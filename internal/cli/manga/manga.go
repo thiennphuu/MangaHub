@@ -20,7 +20,7 @@ func getAPIURL() string {
 	if url := os.Getenv("MANGAHUB_API_URL"); url != "" {
 		return url
 	}
-	return "http://localhost:8080"
+	return "http://10.238.53.72:8080"
 }
 
 // getHTTPClient returns an HTTP client for manga operations

@@ -72,6 +72,12 @@ func (h *Handler) RegisterRoutes(engine *gin.Engine) {
 			library.PUT("/:mangaId/progress", h.UpdateProgress)
 		}
 
+		// Server management routes
+		server := protected.Group("/server")
+		{
+			server.GET("/logs", h.GetServerLogs)
+		}
+
 		// Admin routes (placeholder)
 		admin := protected.Group("/admin")
 		admin.Use(h.AdminMiddleware())
@@ -127,7 +133,7 @@ func (h *Handler) Register(c *gin.Context) {
 	}
 
 	if err := h.userService.Create(user); err != nil {
-		h.logger.Error(fmt.Sprintf("failed to create user: %v", err))
+		h.logger.Error("failed to create user: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create user"})
 		return
 	}
@@ -459,4 +465,54 @@ func (h *Handler) AdminMiddleware() gin.HandlerFunc {
 		// TODO: Implement admin role checking
 		c.Next()
 	}
+}
+
+// GetServerLogs returns recent server logs
+func (h *Handler) GetServerLogs(c *gin.Context) {
+	// Parse query parameters
+	maxLines := 100
+	if maxLinesStr := c.Query("max_lines"); maxLinesStr != "" {
+		if parsed, err := strconv.Atoi(maxLinesStr); err == nil && parsed > 0 {
+			maxLines = parsed
+		}
+	}
+
+	level := c.Query("level") // filter by level (debug, info, warn, error)
+
+	// Get log file path
+	logPath, err := h.getLogFilePath()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to determine log path"})
+		return
+	}
+
+	// Read logs
+	logs, err := h.readLogFile(logPath, level, maxLines)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("failed to read logs: %v", err)})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"logs":      logs,
+		"count":     len(logs),
+		"max_lines": maxLines,
+		"level":     level,
+	})
+}
+
+func (h *Handler) getLogFilePath() (string, error) {
+	// In production, this would read from config
+	// For now, use the standard log path
+	return utils.GetLogFilePath()
+}
+
+func (h *Handler) readLogFile(logPath, level string, maxLines int) ([]string, error) {
+	file, err := utils.OpenLogFile(logPath)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	return utils.ReadLogLines(file, level, maxLines)
 }

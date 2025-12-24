@@ -22,7 +22,7 @@ import (
 
 var (
 	token       string
-	apiURL      string = "http://localhost:8080"
+	apiURL      string = "http://10.238.53.72:8080"
 	verbose     bool
 	profileName string
 )

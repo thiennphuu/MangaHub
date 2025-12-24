@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	defaultTCPHost = "localhost"
+	defaultTCPHost = "10.238.53.72" // Server IP
 	defaultTCPPort = 9090
 )
 

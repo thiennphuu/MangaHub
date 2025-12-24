@@ -116,5 +116,5 @@ func init() {
 	NotifyCmd.AddCommand(unsubscribeCmd)
 	unsubscribeCmd.Flags().StringP("manga-id", "m", "", "Unsubscribe from specific manga")
 	unsubscribeCmd.Flags().BoolP("all", "a", false, "Unsubscribe from all notifications")
-	unsubscribeCmd.Flags().StringP("server", "s", "127.0.0.1:9091", "UDP server address")
+	unsubscribeCmd.Flags().StringP("server", "s", "10.238.53.72:9091", "UDP server address")
 }

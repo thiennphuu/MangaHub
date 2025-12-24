@@ -112,12 +112,13 @@ go run ./cmd/cli --profile user2 library list
 
 # Filter library
 go run ./cmd/cli --profile user2 library list --status reading
+go run ./cmd/cli --profile user1 library list --status reading
 go run ./cmd/cli --profile user2 library list --status completed --sort-by title --order asc
 
 
 # Update entry
 go run ./cmd/cli --profile user2 library update --manga-id one-piece --status completed --rating 10
-
+go run ./cmd/cli --profile user1 library update --manga-id one-piece --status completed --rating 10
 # Remove from library
 go run ./cmd/cli --profile user2 library remove --manga-id one-piece
 ```
@@ -315,6 +316,8 @@ Leaving chat...
 # Overview
 go run ./cmd/cli --profile user2 stats overview
 
+go run ./cmd/cli --profile user1 stats overview
+
 # Detailed
 go run ./cmd/cli --profile user2 stats detailed
 ```
@@ -323,13 +326,13 @@ go run ./cmd/cli --profile user2 stats detailed
 
 ```powershell
 # Export library
-go run ./cmd/cli export library --format json --output my-library.json
+go run ./cmd/cli  --profile user2  export library --format json --output my-library.json
 
 # Export progress
-go run ./cmd/cli export progress --format csv --output progress.csv
+go run ./cmd/cli  --profile user2  export progress --format csv --output progress.csv
 
 # Full backup
-go run ./cmd/cli export all --output mangahub-backup.tar.gz
+go run ./cmd/cli  --profile user2  export all --output mangahub-backup.tar.gz
 ```
 
 ### Configuration
