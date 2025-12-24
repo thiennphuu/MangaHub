@@ -23,22 +23,25 @@ func main() {
 
 	cfg, err := config.LoadConfig(configPath)
 	if err != nil {
-		logger.Warn(fmt.Sprintf("failed to load config: %v, using defaults", err))
+		logger.Warn("failed to load config: %v, using defaults", err)
 		cfg = config.DefaultConfig()
 	}
 
-	logger.Info(fmt.Sprintf("Starting MangaHub TCP Server on %s:%d", cfg.TCP.Host, cfg.TCP.Port))
+	fmt.Println("--------------------------------------------------")
+	fmt.Println("       ⛩️  MangaHub TCP Sync Server ⛩️             ")
+	fmt.Println("--------------------------------------------------")
+	logger.Info("Starting MangaHub TCP Server on %s:%d", cfg.TCP.Host, cfg.TCP.Port)
 
 	// Initialize database
 	db, err := database.New(cfg.Database.Path)
 	if err != nil {
-		logger.Error(fmt.Sprintf("failed to initialize database: %v", err))
+		logger.Error("failed to initialize database: %v", err)
 		os.Exit(1)
 	}
 	defer db.Close()
 
 	if err := db.Init(); err != nil {
-		logger.Error(fmt.Sprintf("failed to initialize schema: %v", err))
+		logger.Error("failed to initialize schema: %v", err)
 		os.Exit(1)
 	}
 
@@ -48,7 +51,7 @@ func main() {
 	go func() {
 		logger.Info("TCP Server starting...")
 		if err := server.Start(); err != nil {
-			logger.Error(fmt.Sprintf("TCP server error: %v", err))
+			logger.Error("TCP server error: %v", err)
 		}
 	}()
 

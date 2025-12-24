@@ -56,7 +56,7 @@ go run ./cmd/cli --profile user1 auth login --username john2
 # Password: Thienphu123
 go run ./cmd/cli --profile user2 auth login --username john3
 # Password: Thienphu123
-
+go run ./cmd/cli --profile user3 auth login --username john3
 
 **Step 3: Check authentication status**
 ```powershell
@@ -227,7 +227,7 @@ go run ./cmd/cli grpc progress update --manga-id one-piece --chapter 1095
 # Join general chat
 go run ./cmd/cli --profile user1 chat join
 go run ./cmd/cli --profile user2 chat join
-
+go run ./cmd/cli --profile user3 chat join
 # Join specific manga discussion
 go run ./cmd/cli --profile user1 chat join --manga-id aot
 go run ./cmd/cli --profile user2 chat join --manga-id aot

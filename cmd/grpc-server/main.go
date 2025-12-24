@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net"
@@ -72,8 +73,19 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Create gRPC server
-	grpcServer := grpc.NewServer()
+	// Create gRPC server with logging interceptor
+	grpcServer := grpc.NewServer(
+		grpc.UnaryInterceptor(func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
+			resp, err := handler(ctx, req)
+			if err != nil {
+				logger.Error("Method: %s, Error: %v", info.FullMethod, err)
+			} else {
+				respJSON, _ := json.Marshal(resp)
+				logger.Info("Method: %s, Response: %s", info.FullMethod, string(respJSON))
+			}
+			return resp, err
+		}),
+	)
 
 	// Register services
 	mangaService := service.NewMangaService(db, logger)

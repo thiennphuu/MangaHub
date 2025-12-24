@@ -48,7 +48,7 @@ func (s *Server) Start() error {
 	}
 	defer listener.Close()
 
-	s.logger.Info(fmt.Sprintf("TCP server started on port %s", s.Port))
+	s.logger.Info("TCP server started on port %s", s.Port)
 
 	// Start broadcast handler
 	go s.handleBroadcast()
@@ -56,7 +56,7 @@ func (s *Server) Start() error {
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			s.logger.Error(fmt.Sprintf("Error accepting connection: %v", err))
+			s.logger.Error("Error accepting connection: %v", err)
 			continue
 		}
 
@@ -65,6 +65,7 @@ func (s *Server) Start() error {
 		s.Connections[connID] = conn
 		s.mutex.Unlock()
 
+		s.logger.Info("✅ New Connection | %-10s | %s", connID, conn.RemoteAddr())
 		go s.handleConnection(connID, conn)
 	}
 }
@@ -75,8 +76,9 @@ func (s *Server) handleConnection(connID string, conn net.Conn) {
 		s.mutex.Lock()
 		delete(s.Connections, connID)
 		s.mutex.Unlock()
+		addr := conn.RemoteAddr()
 		conn.Close()
-		s.logger.Info(fmt.Sprintf("Connection closed: %s", connID))
+		s.logger.Info("❌ Connection Closed | %-10s | %s", connID, addr)
 	}()
 
 	reader := bufio.NewReader(conn)
@@ -88,7 +90,7 @@ func (s *Server) handleConnection(connID string, conn net.Conn) {
 
 		var update models.ProgressUpdate
 		if err := json.Unmarshal([]byte(line), &update); err != nil {
-			s.logger.Error(fmt.Sprintf("Error parsing message: %v", err))
+			s.logger.Error("Error parsing message: %v", err)
 			continue
 		}
 
@@ -109,7 +111,7 @@ func (s *Server) handleBroadcast() {
 	for update := range s.Broadcast {
 		data, err := json.Marshal(update)
 		if err != nil {
-			s.logger.Error(fmt.Sprintf("Error marshaling update: %v", err))
+			s.logger.Error("Error marshaling update: %v", err)
 			continue
 		}
 
@@ -119,7 +121,7 @@ func (s *Server) handleBroadcast() {
 		}
 		s.mutex.RUnlock()
 
-		s.logger.Info(fmt.Sprintf("Broadcast update: User %s - Manga %s - Chapter %d", update.UserID, update.MangaID, update.Chapter))
+		s.logger.Info("📡 Broadcast | User: %s | Manga: %s | Ch: %d", update.UserID, update.MangaID, update.Chapter)
 	}
 }
 
