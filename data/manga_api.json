@@ -814,12 +814,17 @@
     "genres": [
       "Monsters",
       "Action",
+      "Demons",
       "Romance",
+      "Survival",
       "Adventure",
+      "Magic",
       "Isekai",
       "Gore",
       "Drama",
       "Fantasy",
+      "Monster Girls",
+      "Supernatural",
       "Adaptation"
     ]
   },
@@ -1192,6 +1197,29 @@
     ]
   },
   {
+    "id": "68112dc1-2b80-4f20-beb8-2f2a8716a430",
+    "title": "Dandadan",
+    "description": "After being aggressively rejected, Momo Ayase finds herself sulking when she stumbles across a boy being bullied. Saved by her rash kindness, the occult-obsessed boy attempts to speak to her about supernatural interests he believes they share. Rejecting his claims, Ayase proclaimed that she is instead a believer in ghosts, starting an argument between the two over which is real.\r\n\r\nIn a bet to determine who's correct, the two decide to separately visit locations associated with both the occult and the supernatural—Ayase visiting the former and the boy visiting the latter. When the two reach their respective places, it turns out that neither of them was wrong and that both the occult and ghosts do exist.\r\n\r\nThis marks the beginning of Ayase and the boy's adventure, who shares a name with Ayase's favorite idol—Ken Takakura, as they attempt to fix the surreal supernatural and sci-fi elements around them to return to a normal life.",
+    "status": "ongoing",
+    "genres": [
+      "Sci-Fi",
+      "Monsters",
+      "Action",
+      "Demons",
+      "Ghosts",
+      "Romance",
+      "Comedy",
+      "Magic",
+      "Drama",
+      "School Life",
+      "Monster Girls",
+      "Slice of Life",
+      "Aliens",
+      "Supernatural",
+      "Mystery"
+    ]
+  },
+  {
     "id": "83067b19-bdfb-4ba1-8178-7052e68b41bf",
     "title": "Goshujinsama to Yuku Isekai Survival!",
     "description": "Kosuke found himself in a whole different world. Standing there with the wilderness to the east and a forest to his left, he decided to make good use of the occurrence, and tests his knowledge, to where he finds this amazing crafting ability, just like the games from his original world! ――This is a light for life in a different world. When I thought, I was suddenly attacked by a beautiful dark elf...?!\n___\n- [Official LN (Eng)](https://sevenseasentertainment.com/series/survival-in-another-world-with-my-mistress-light-novel/)",
@@ -1213,29 +1241,6 @@
       "Fantasy",
       "Monster Girls",
       "Adaptation"
-    ]
-  },
-  {
-    "id": "68112dc1-2b80-4f20-beb8-2f2a8716a430",
-    "title": "Dandadan",
-    "description": "After being aggressively rejected, Momo Ayase finds herself sulking when she stumbles across a boy being bullied. Saved by her rash kindness, the occult-obsessed boy attempts to speak to her about supernatural interests he believes they share. Rejecting his claims, Ayase proclaimed that she is instead a believer in ghosts, starting an argument between the two over which is real.\r\n\r\nIn a bet to determine who's correct, the two decide to separately visit locations associated with both the occult and the supernatural—Ayase visiting the former and the boy visiting the latter. When the two reach their respective places, it turns out that neither of them was wrong and that both the occult and ghosts do exist.\r\n\r\nThis marks the beginning of Ayase and the boy's adventure, who shares a name with Ayase's favorite idol—Ken Takakura, as they attempt to fix the surreal supernatural and sci-fi elements around them to return to a normal life.",
-    "status": "ongoing",
-    "genres": [
-      "Sci-Fi",
-      "Monsters",
-      "Action",
-      "Demons",
-      "Ghosts",
-      "Romance",
-      "Comedy",
-      "Magic",
-      "Drama",
-      "School Life",
-      "Monster Girls",
-      "Slice of Life",
-      "Aliens",
-      "Supernatural",
-      "Mystery"
     ]
   },
   {
@@ -1501,19 +1506,6 @@
     ]
   },
   {
-    "id": "32fdfe9b-6e11-4a13-9e36-dcd8ea77b4e4",
-    "title": "Kanojo, Okarishimasu",
-    "description": "In today's Japan, \"rental\" services can deliver an afternoon with a \"friend,\" a \"parent,\" even a fake girlfriend! After a staggering betrayal by his girlfriend, hapless freshman Kazuya gets just desperate enough to give it a try. But he quickly discovers how complicated it can be to \"rent\" an emotional connection, and his new \"girlfriend,\" who's trying to keep her side hustle secret, will panic when she finds out her real life and Kazuya's are intertwined in surprising ways! Family, school, and life all start to go wrong, too...\n\n(Source: Kodansha Comics)\n___\n**Additional Links:**\n- Alt Official English: [K MANGA](https://kmanga.kodansha.com/title/10001/episode/312699) - United States, Japan, Canada, Australia, New Zealand, \u0026 Singapore only.\n- Official English Volumes: [Kodansha USA](https://kodansha.us/series/rent-a-girlfriend/)",
-    "status": "ongoing",
-    "genres": [
-      "Romance",
-      "Comedy",
-      "Drama",
-      "School Life",
-      "Slice of Life"
-    ]
-  },
-  {
     "id": "feff4eaf-01df-4a05-83f4-68bb5cdf4fad",
     "title": "Mahou Shoujo ni Akogarete",
     "description": "Hiiragi Utena, a girl who loves Magical Girls, lives her ordinary everyday life wishing to be like them. One day a curious character appears in front of her and offers her the power to make her wishes come true, but…  \nMagical Girls vs. The Forces of Evil, the fierce battle begins!  \n\n---\n**Links:**\n\n- [Alternative Official Release by Coolmic](https://coolmic.me/titles/1110)",
@@ -1528,6 +1520,19 @@
       "Magic",
       "Girls' Love",
       "Fantasy"
+    ]
+  },
+  {
+    "id": "32fdfe9b-6e11-4a13-9e36-dcd8ea77b4e4",
+    "title": "Kanojo, Okarishimasu",
+    "description": "In today's Japan, \"rental\" services can deliver an afternoon with a \"friend,\" a \"parent,\" even a fake girlfriend! After a staggering betrayal by his girlfriend, hapless freshman Kazuya gets just desperate enough to give it a try. But he quickly discovers how complicated it can be to \"rent\" an emotional connection, and his new \"girlfriend,\" who's trying to keep her side hustle secret, will panic when she finds out her real life and Kazuya's are intertwined in surprising ways! Family, school, and life all start to go wrong, too...\n\n(Source: Kodansha Comics)\n___\n**Additional Links:**\n- Alt Official English: [K MANGA](https://kmanga.kodansha.com/title/10001/episode/312699) - United States, Japan, Canada, Australia, New Zealand, \u0026 Singapore only.\n- Official English Volumes: [Kodansha USA](https://kodansha.us/series/rent-a-girlfriend/)",
+    "status": "ongoing",
+    "genres": [
+      "Romance",
+      "Comedy",
+      "Drama",
+      "School Life",
+      "Slice of Life"
     ]
   },
   {
@@ -1781,6 +1786,24 @@
     ]
   },
   {
+    "id": "fa197a3e-6dd6-470d-91e4-c0130a1392d3",
+    "title": "Tensei Shitara Dragon no Tamago datta: Ibara no Dragon Road",
+    "description": "**A fantasy isekai adventure about a man who has to restart life…as an egg?!**\n\nIn a world full of dangerous monsters, our unnamed protagonist finds himself reborn at the very bottom of the food chain as an immobile, powerless egg. Even just hatching will require leveling up by fighting monsters–the same monsters who’d love to eat him as a snack. But with the help of the mysterious voice in his head, he’s determined to grow into the most powerful creature in the world!\n\n*Source: Seven Seas Entertainment*\n\n**Note:** When the manga initially began, it used the light novel's “Saikyou Igai Mezasa nee” subtitle, but by the time of Volume 1, it used its own “Ibara no Dragon Road” subtitle.\n___\n**Character Designer:** [NAJI Yanagida](https://mangadex.org/author/741e1007-4b08-4ce7-981c-b72ba391936e)",
+    "status": "ongoing",
+    "genres": [
+      "Reincarnation",
+      "Monsters",
+      "Action",
+      "Comedy",
+      "Adventure",
+      "Magic",
+      "Isekai",
+      "Drama",
+      "Fantasy",
+      "Adaptation"
+    ]
+  },
+  {
     "id": "304ceac3-8cdb-4fe7-acf7-2b6ff7a60613",
     "title": "Attack on Titan",
     "description": "Several hundred years ago, humans were nearly exterminated by Titans. Titans are typically several stories tall, seem to have no intelligence, devour human beings and, worst of all, seem to do it for pleasure rather than as a food source.\nA small percentage of humanity survived by walling themselves in a city protected by extremely high walls, even taller than the biggest of Titans. Flash forward to the present and the southern district of Shinganshina has not seen a Titan in over 100 years.\n\nTeenage boy Eren and his foster sister Mikasa witness something horrific as one of the outer district walls is damaged by a 60 meter (196.85 feet) Titan causing a breach in the wall. As the smaller Titans flood the city, the two kids watch in horror the tragic events that follow, as the Titans devour people unimpeded.\n\nEren vows that he will wipe out every single Titan and take revenge for all of mankind.\n\n---\n- **Won the Kodansha Manga Award for Shonen in 2011**\n- **Won the Noma Publishing Culture Award in 2021**\n\n**Links:**\n- Alternative Official English - [Kodansha US](https://kodansha.us/series/attack-on-titan/), [Azuki](https://www.azuki.co/series/attack-on-titan), [Manga Planet](https://mangaplanet.com/comic/618e30af823f4), [MangaPlaza](https://mangaplaza.com/title/0303001570/?content_id=103030015700001), [Coolmic](https://coolmic.me/titles/524), [K MANGA](https://kmanga.kodansha.com/title/10136/episode/312468) (U.S. Only)",
@@ -1797,17 +1820,6 @@
       "Fantasy",
       "Police",
       "Tragedy"
-    ]
-  },
-  {
-    "id": "30f3ac69-21b6-45ad-a110-d011b7aaadaa",
-    "title": "Tonikaku Kawaii",
-    "description": "Described as a story full of \"love\" and \"dreams\", Tonikaku Kawaii follows a protagonist whose name is written with the characters for \"Hoshizora\" (\"Starry Sky\" in Japanese), but whose name is pronounced as \"Nasa\". On the day of his high school entrance exams, Nasa encounters a beautiful girl. For Nasa, it feels like destiny is finally calling out to him that he will have a girl friend, but…\n\nNote: Volume 15 and 16's numberings are correct, as this is how they are in the original.",
-    "status": "ongoing",
-    "genres": [
-      "Romance",
-      "Comedy",
-      "Slice of Life"
     ]
   }
 ]

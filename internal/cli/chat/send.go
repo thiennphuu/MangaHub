@@ -38,7 +38,7 @@ var sendCmd = &cobra.Command{
 		fmt.Printf("Sending message to #%s...\n", roomID)
 
 		// Create temporary client
-		wsClient := client.NewWebSocketClient("ws://localhost:9093", sess.UserID, sess.Username)
+		wsClient := client.NewWebSocketClient("ws://10.238.53.72:9093", sess.UserID, sess.Username)
 
 		if err := wsClient.Connect(roomID); err != nil {
 			fmt.Printf("❌ Failed to connect: %v\n", err)

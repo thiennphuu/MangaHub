@@ -9,3 +9,4 @@ var DBCmd = &cobra.Command{
 	Long:  `Inspect, repair, and view statistics for the local MangaHub SQLite database.`,
 }
 
+

@@ -181,7 +181,7 @@ func (cmd *Commander) UpdateProgress() error {
 	cmd.logger.Info("Progress updated successfully")
 	return nil
 }
-
+	
 // RemoveFromLibrary handles removing manga from library
 func (cmd *Commander) RemoveFromLibrary() error {
 	cmd.logger.Info("=== Remove from Library ===")

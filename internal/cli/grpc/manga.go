@@ -127,9 +127,9 @@ func init() {
 	mangaCmd.AddCommand(searchCmd)
 
 	getCmd.Flags().StringP("id", "i", "", "Manga ID (required)")
-	getCmd.Flags().StringP("server", "s", "localhost:9092", "gRPC server address")
+	getCmd.Flags().StringP("server", "s", "10.238.53.72:9092", "gRPC server address")
 
 	searchCmd.Flags().StringP("query", "q", "", "Search query (required)")
-	searchCmd.Flags().StringP("server", "s", "localhost:9092", "gRPC server address")
+	searchCmd.Flags().StringP("server", "s", "10.238.53.72:9092", "gRPC server address")
 	searchCmd.Flags().IntP("limit", "l", 10, "Maximum number of results")
 }

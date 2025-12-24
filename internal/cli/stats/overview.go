@@ -2,11 +2,10 @@ package stats
 
 import (
 	"fmt"
+	"os"
 	"time"
 
-	"mangahub/internal/cli/progress"
-	"mangahub/internal/manga"
-	"mangahub/internal/user"
+	"mangahub/pkg/client"
 	"mangahub/pkg/models"
 	"mangahub/pkg/session"
 
@@ -58,7 +57,13 @@ func init() {
 }
 
 // validateDateFlags validates the --from/--to date flags.
+// It also ensures the profile from root command is properly set.
 func validateDateFlags(cmd *cobra.Command, args []string) error {
+	// IMPORTANT: Set profile before any command runs
+	if profileFlag, err := cmd.Flags().GetString("profile"); err == nil && profileFlag != "" {
+		session.SetProfile(profileFlag)
+	}
+
 	if fromDate != "" {
 		if _, err := time.Parse("2006-01-02", fromDate); err != nil {
 			return fmt.Errorf("invalid --from date format: %w (expected YYYY-MM-DD)", err)
@@ -132,6 +137,14 @@ func runOverview(cmd *cobra.Command, args []string) error {
 }
 
 // getStats retrieves and calculates statistics using services.
+// getAPIURL returns the API server URL
+func getAPIURL() string {
+	if url := os.Getenv("MANGAHUB_API_URL"); url != "" {
+		return url
+	}
+	return "http://10.238.53.72:8080"
+}
+
 func getStats() (*StatsData, error) {
 	// Load session to get user ID
 	sess, err := session.Load()
@@ -139,17 +152,16 @@ func getStats() (*StatsData, error) {
 		return nil, fmt.Errorf("you are not logged in. Please login first: %w", err)
 	}
 
-	// Open database
-	dbPath := "./data/mangahub.db"
-	db, err := progress.RequireDatabase(dbPath)
-	if err != nil {
-		return nil, fmt.Errorf("failed to open database: %w", err)
-	}
-	defer db.Close()
+	// Fetch library from HTTP API instead of local database
+	fmt.Printf("Fetching library data for user: %s (profile: %s)\n", sess.Username, session.GetProfile())
+	httpClient := client.NewHTTPClient(getAPIURL(), sess.Token)
 
-	// Create services
-	libraryService := user.NewLibraryService(db)
-	mangaService := manga.NewService(db)
+	progressList, err := httpClient.GetLibrary("", 10000, 0)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch library via HTTP API: %w", err)
+	}
+
+	fmt.Printf("✓ Retrieved %d entries from server\n", len(progressList))
 
 	// Parse date flags
 	var fromDatePtr, toDatePtr *time.Time
@@ -172,12 +184,6 @@ func getStats() (*StatsData, error) {
 		toDatePtr = &endOfDay
 	}
 
-	// Fetch all progress entries (use large limit to get all)
-	progressList, err := libraryService.GetLibrary(sess.UserID, 10000, 0)
-	if err != nil {
-		return nil, fmt.Errorf("failed to fetch library: %w", err)
-	}
-
 	// Filter by date range if specified
 	var filteredProgress []models.Progress
 	for _, p := range progressList {
@@ -190,10 +196,11 @@ func getStats() (*StatsData, error) {
 		filteredProgress = append(filteredProgress, p)
 	}
 
-	// Fetch manga details for each progress entry
+	// Fetch manga details for each progress entry via HTTP API
 	progressWithManga := make([]ProgressWithManga, 0, len(filteredProgress))
 	for _, p := range filteredProgress {
-		m, err := mangaService.GetByID(p.MangaID)
+		// Fetch manga details from HTTP API
+		manga, err := httpClient.GetManga(p.MangaID)
 		if err != nil {
 			// Manga might not exist, continue without it
 			progressWithManga = append(progressWithManga, ProgressWithManga{
@@ -204,7 +211,7 @@ func getStats() (*StatsData, error) {
 		}
 		progressWithManga = append(progressWithManga, ProgressWithManga{
 			Progress: p,
-			Manga:    m,
+			Manga:    manga,
 		})
 	}
 

@@ -43,8 +43,8 @@ func main() {
 	}
 
 	// Create and start TCP server
-	//server := tcp.NewServer(fmt.Sprintf("%s:%d", cfg.TCP.Host, cfg.TCP.Port), logger)
-	server := tcp.NewServer(fmt.Sprintf("%d", cfg.TCP.Port), logger)
+	//server := tcp.NewServer(fmt.Sprintf("%s:%d", cfg.TCP.Host, cfg.TCP.Port), logger, db)
+	server := tcp.NewServer(fmt.Sprintf("%d", cfg.TCP.Port), logger, db)
 	go func() {
 		logger.Info("TCP Server starting...")
 		if err := server.Start(); err != nil {

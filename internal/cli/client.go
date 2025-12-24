@@ -7,7 +7,7 @@ import (
 	"mangahub/pkg/session"
 )
 
-const defaultAPIURL = "http://localhost:8080"
+const defaultAPIURL = "http://10.238.53.72:8080"
 
 // Re-export session types for convenience
 type Session = session.Session

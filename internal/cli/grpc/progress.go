@@ -77,5 +77,5 @@ func init() {
 	updateCmd.Flags().StringP("manga-id", "m", "", "Manga ID (required)")
 	updateCmd.Flags().IntP("chapter", "c", 0, "Chapter number (required)")
 	updateCmd.Flags().StringP("user-id", "u", "default-user", "User ID")
-	updateCmd.Flags().StringP("server", "s", "localhost:9092", "gRPC server address")
+	updateCmd.Flags().StringP("server", "s", "10.238.53.72:9092", "gRPC server address")
 }

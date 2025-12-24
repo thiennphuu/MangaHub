@@ -9,8 +9,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"mangahub/internal/cli/progress"
-	"mangahub/internal/user"
+	"mangahub/pkg/client"
 	"mangahub/pkg/models"
 	"mangahub/pkg/session"
 )
@@ -36,6 +35,14 @@ func runExportLibrary(cmd *cobra.Command, args []string) error {
 	return runExportLibraryForPath(format, output)
 }
 
+// getAPIURL returns the API server URL
+func getAPIURL() string {
+	if url := os.Getenv("MANGAHUB_API_URL"); url != "" {
+		return url
+	}
+	return "http://10.238.53.72:8080"
+}
+
 // runExportLibraryForPath is shared between `export library` and `export all`.
 func runExportLibraryForPath(format, output string) error {
 	if format == "" {
@@ -46,23 +53,23 @@ func runExportLibraryForPath(format, output string) error {
 		return fmt.Errorf("failed to create output directory: %w", err)
 	}
 
+	// Load session for authentication
 	sess, err := session.Load()
 	if err != nil {
 		return fmt.Errorf("you are not logged in. Please login first: %w", err)
 	}
 
-	dbPath := "./data/mangahub.db"
-	db, err := progress.RequireDatabase(dbPath)
-	if err != nil {
-		return fmt.Errorf("failed to open database: %w", err)
-	}
-	defer db.Close()
+	// Create HTTP client with authentication token
+	fmt.Printf("Fetching library from API server via HTTP...\n")
+	httpClient := client.NewHTTPClient(getAPIURL(), sess.Token)
 
-	libraryService := user.NewLibraryService(db)
-	entries, err := libraryService.GetLibrary(sess.UserID, 10000, 0)
+	// Fetch library from HTTP API (using network protocol!)
+	entries, err := httpClient.GetLibrary("", 10000, 0)
 	if err != nil {
-		return fmt.Errorf("failed to fetch library: %w", err)
+		return fmt.Errorf("failed to fetch library via HTTP API: %w", err)
 	}
+
+	fmt.Printf("✓ Retrieved %d entries from server\n", len(entries))
 
 	switch format {
 	case "json":
