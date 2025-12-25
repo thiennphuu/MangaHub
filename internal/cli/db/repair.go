@@ -1,10 +1,10 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 
-	"mangahub/pkg/database"
+	"mangahub/pkg/client"
+	"mangahub/pkg/session"
 
 	"github.com/spf13/cobra"
 )
@@ -13,58 +13,53 @@ import (
 var repairCmd = &cobra.Command{
 	Use:   "repair",
 	Short: "Attempt to repair the database",
-	Long: `Run lightweight SQLite maintenance commands (VACUUM, integrity check)
+	Long: `Run lightweight SQLite maintenance commands (VACUUM, integrity check) via HTTP API
 and re-run schema initialization to ensure tables and indexes exist.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		fmt.Printf("Repairing database at %s...\n\n", defaultDBPath)
-
-		db, err := database.New(defaultDBPath)
+		// Get session for authentication
+		sess, err := session.Load()
 		if err != nil {
-			return fmt.Errorf("failed to open database: %w", err)
-		}
-		defer db.Close()
-
-		if err := runQuickCheck(db.DB); err != nil {
-			fmt.Println("⚠️  quick_check reported issues:", err)
-		} else {
-			fmt.Println("✓ PRAGMA quick_check: ok")
+			return fmt.Errorf("not logged in: %w", err)
 		}
 
-		fmt.Println("Running VACUUM...")
-		if _, err := db.Exec("VACUUM;"); err != nil {
-			return fmt.Errorf("VACUUM failed: %w", err)
-		}
-		fmt.Println("✓ VACUUM completed")
+		// Create HTTP client
+		apiURL := getAPIURL()
+		httpClient := client.NewHTTPClient(apiURL, sess.Token)
 
-		fmt.Println("Re-initializing schema (idempotent)...")
-		if err := db.Init(); err != nil {
-			return fmt.Errorf("schema initialization failed: %w", err)
+		// Repair database on server
+		fmt.Printf("Repairing remote database via HTTP API...\n\n")
+		repairResp, err := httpClient.RepairDatabase()
+		if err != nil {
+			return fmt.Errorf("failed to repair database: %w", err)
 		}
 
-		fmt.Println("\n✓ Database repair/maintenance completed")
-		return nil
+		// Display results
+		if len(repairResp.Steps) == 0 && len(repairResp.Errors) == 0 {
+			fmt.Printf("⚠️  No steps or errors reported (status: %s)\n", repairResp.Status)
+		}
+
+		for _, step := range repairResp.Steps {
+			fmt.Printf("✓ %s\n", step)
+		}
+
+		if len(repairResp.Errors) > 0 {
+			fmt.Println("\nIssues encountered:")
+			for _, errMsg := range repairResp.Errors {
+				fmt.Printf("⚠️  %s\n", errMsg)
+			}
+		}
+
+		if repairResp.Status == "success" || repairResp.Status == "repaired" {
+			fmt.Println("\n✓ Database repair/maintenance completed")
+			return nil
+		} else if repairResp.Status == "partial" {
+			fmt.Println("\n⚠️  Database repair completed with some issues")
+			return nil
+		}
+		return fmt.Errorf("database repair failed (status: %s)", repairResp.Status)
 	},
 }
 
 func init() {
 	DBCmd.AddCommand(repairCmd)
-}
-
-func runQuickCheck(sqlDB *sql.DB) error {
-	rows, err := sqlDB.Query(`PRAGMA quick_check;`)
-	if err != nil {
-		return err
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var res string
-		if err := rows.Scan(&res); err != nil {
-			return err
-		}
-		if res != "ok" {
-			return fmt.Errorf("%s", res)
-		}
-	}
-	return rows.Err()
 }

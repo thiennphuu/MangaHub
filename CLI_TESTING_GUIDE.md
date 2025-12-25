@@ -351,31 +351,30 @@ go run ./cmd/cli config reset
 
 ```powershell
 # Check server health
-go run ./cmd/cli server health
+go run ./cmd/cli  server health
 
 # View server logs
-go run ./cmd/cli server logs
+go run ./cmd/cli --profile user2 server logs
 ```
-go run ./cmd/cli server status
+go run ./cmd/cl --profile user2 server status
 
-go run ./cmd/cli server start
+go run ./cmd/cli --profile user2 server start
 
-go run ./cmd/cli server stop
+go run ./cmd/cli --profile user2 server stop
 
 
 ### Database Management
 
 ```powershell
 # Check database
-go run ./cmd/cli db check
+go run ./cmd/cli --profile user2 db check
 
 # Database stats
-go run ./cmd/cli db stats
+go run ./cmd/cli --profile user2 db stats
 
-# Repair database
-go run ./cmd/cli db repair
+#
 ```
-go run ./cmd/cli db optimize
+go run ./cmd/cli --profile user2 db optimize
 ## Testing Output Examples
 
 ### Successful Search

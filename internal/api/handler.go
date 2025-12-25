@@ -3,7 +3,6 @@ package api
 import (
 	"fmt"
 	"net/http"
-	"os"
 	"strconv"
 
 	"mangahub/internal/auth"
@@ -18,25 +17,23 @@ import (
 
 // Handler holds API handlers
 type Handler struct {
+	db             *database.Database
 	authService    *auth.AuthService
 	userService    *user.Service
 	libraryService *user.LibraryService
 	mangaService   *manga.Service
 	logger         *utils.Logger
-	logPath        string
-	db             *database.Database
 }
 
 // NewHandler creates a new API handler
-func NewHandler(db *database.Database, logger *utils.Logger, logPath string, jwtSecret string) *Handler {
+func NewHandler(db *database.Database, logger *utils.Logger) *Handler {
 	return &Handler{
-		authService:    auth.NewAuthService(jwtSecret),
+		db:             db,
+		authService:    auth.NewAuthService("your-secret-key"),
 		userService:    user.NewService(db),
 		libraryService: user.NewLibraryService(db),
 		mangaService:   manga.NewService(db),
 		logger:         logger,
-		logPath:        logPath,
-		db:             db,
 	}
 }
 
@@ -57,16 +54,6 @@ func (h *Handler) RegisterRoutes(engine *gin.Engine) {
 		mangaGroup.POST("/search", h.SearchManga)
 	}
 
-	// Server management routes (Public for testing)
-	serverPublic := engine.Group("/server")
-	{
-		serverPublic.GET("/logs", h.GetServerLogs)
-		serverPublic.GET("/database/check", h.CheckDatabase)
-		serverPublic.POST("/database/optimize", h.OptimizeDatabase)
-		serverPublic.POST("/database/repair", h.RepairDatabase)
-		serverPublic.GET("/database/stats", h.GetDatabaseStats)
-	}
-
 	// Protected routes
 	protected := engine.Group("")
 	protected.Use(h.AuthMiddleware())
@@ -85,6 +72,16 @@ func (h *Handler) RegisterRoutes(engine *gin.Engine) {
 			library.POST("", h.AddToLibrary)
 			library.DELETE("/:mangaId", h.RemoveFromLibrary)
 			library.PUT("/:mangaId/progress", h.UpdateProgress)
+		}
+
+		// Server management routes
+		server := protected.Group("/server")
+		{
+			server.GET("/logs", h.GetServerLogs)
+			server.GET("/database/check", h.GetDatabaseCheck)
+			server.POST("/database/optimize", h.OptimizeDatabase)
+			server.GET("/database/stats", h.GetDatabaseStats)
+			server.POST("/database/repair", h.RepairDatabase)
 		}
 
 		// Admin routes (placeholder)
@@ -498,7 +495,6 @@ func (h *Handler) GetServerLogs(c *gin.Context) {
 	// Read logs
 	logs, err := h.readLogFile(logPath, level, maxLines)
 	if err != nil {
-		h.logger.Error("Failed to read log file at %s: %v", logPath, err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("failed to read logs: %v", err)})
 		return
 	}
@@ -511,136 +507,9 @@ func (h *Handler) GetServerLogs(c *gin.Context) {
 	})
 }
 
-// CheckDatabase verifies the database connection and schema
-func (h *Handler) CheckDatabase(c *gin.Context) {
-	status := gin.H{
-		"connection": "ok",
-		"tables":     make(map[string]string),
-	}
-
-	if h.db == nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "database not initialized"})
-		return
-	}
-
-	// Ping database
-	if err := h.db.DB.Ping(); err != nil {
-		status["connection"] = fmt.Sprintf("failed: %v", err)
-	}
-
-	// Check tables
-	tables := []string{"users", "manga", "user_progress", "chat_messages", "notifications", "notification_subscriptions", "notification_preferences"}
-	for _, table := range tables {
-		var name string
-		err := h.db.QueryRow("SELECT name FROM sqlite_master WHERE type='table' AND name=?", table).Scan(&name)
-		if err != nil {
-			status["tables"].(map[string]string)[table] = "missing"
-		} else {
-			status["tables"].(map[string]string)[table] = "ok"
-		}
-	}
-
-	c.JSON(http.StatusOK, status)
-}
-
-// OptimizeDatabase runs ANALYZE, REINDEX, and VACUUM
-func (h *Handler) OptimizeDatabase(c *gin.Context) {
-	if h.db == nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "database not initialized"})
-		return
-	}
-
-	h.logger.Info("Starting database optimization...")
-
-	if _, err := h.db.Exec("ANALYZE;"); err != nil {
-		h.logger.Error("ANALYZE failed: %v", err)
-	}
-	if _, err := h.db.Exec("REINDEX;"); err != nil {
-		h.logger.Error("REINDEX failed: %v", err)
-	}
-	if _, err := h.db.Exec("VACUUM;"); err != nil {
-		h.logger.Error("VACUUM failed: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "VACUUM failed"})
-		return
-	}
-
-	h.logger.Info("Database optimization completed")
-	c.JSON(http.StatusOK, gin.H{"status": "optimized", "message": "ANALYZE, REINDEX, and VACUUM completed successfully"})
-}
-
-// RepairDatabase runs quick_check, VACUUM, and re-initializes schema
-func (h *Handler) RepairDatabase(c *gin.Context) {
-	if h.db == nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "database not initialized"})
-		return
-	}
-
-	h.logger.Info("Starting database repair...")
-
-	// Quick check
-	var quickCheck string
-	if err := h.db.QueryRow("PRAGMA quick_check;").Scan(&quickCheck); err != nil {
-		h.logger.Error("quick_check query failed: %v", err)
-	}
-
-	// Vacuum
-	if _, err := h.db.Exec("VACUUM;"); err != nil {
-		h.logger.Error("VACUUM failed during repair: %v", err)
-	}
-
-	// Re-init schema
-	if err := h.db.Init(); err != nil {
-		h.logger.Error("Schema re-initialization failed: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "schema re-initialization failed"})
-		return
-	}
-
-	h.logger.Info("Database repair completed")
-	c.JSON(http.StatusOK, gin.H{
-		"status":      "repaired",
-		"quick_check": quickCheck,
-		"message":     "VACUUM and schema re-initialization completed",
-	})
-}
-
-// GetDatabaseStats returns database file size and row counts
-func (h *Handler) GetDatabaseStats(c *gin.Context) {
-	if h.db == nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "database not initialized"})
-		return
-	}
-
-	stats := gin.H{
-		"file_size_mb": 0.0,
-		"row_counts":   make(map[string]int),
-	}
-
-	// Get file size from the database path
-	if h.db.Path != "" {
-		fileInfo, err := os.Stat(h.db.Path)
-		if err == nil {
-			stats["file_size_mb"] = float64(fileInfo.Size()) / (1024 * 1024)
-		}
-	}
-
-	tables := []string{"users", "manga", "user_progress", "chat_messages", "notifications"}
-	for _, table := range tables {
-		var count int
-		err := h.db.QueryRow(fmt.Sprintf("SELECT COUNT(*) FROM %s", table)).Scan(&count)
-		if err != nil {
-			stats["row_counts"].(map[string]int)[table] = -1
-		} else {
-			stats["row_counts"].(map[string]int)[table] = count
-		}
-	}
-
-	c.JSON(http.StatusOK, stats)
-}
-
 func (h *Handler) getLogFilePath() (string, error) {
-	if h.logPath != "" {
-		return h.logPath, nil
-	}
+	// In production, this would read from config
+	// For now, use the standard log path
 	return utils.GetLogFilePath()
 }
 
@@ -652,4 +521,214 @@ func (h *Handler) readLogFile(logPath, level string, maxLines int) ([]string, er
 	defer file.Close()
 
 	return utils.ReadLogLines(file, level, maxLines)
+}
+
+// GetDatabaseCheck performs database integrity checks
+func (h *Handler) GetDatabaseCheck(c *gin.Context) {
+	// Run integrity check
+	integrityOK, integrityIssues, err := h.checkDatabaseIntegrity()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("integrity check failed: %v", err)})
+		return
+	}
+
+	// Verify core tables
+	tables, missingTables, err := h.verifyDatabaseTables()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("table verification failed: %v", err)})
+		return
+	}
+
+	// Determine overall status
+	status := "healthy"
+	if !integrityOK || len(missingTables) > 0 {
+		status = "unhealthy"
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": status,
+		"integrity": gin.H{
+			"ok":     integrityOK,
+			"issues": integrityIssues,
+		},
+		"tables": gin.H{
+			"verified": tables,
+			"missing":  missingTables,
+		},
+	})
+}
+
+func (h *Handler) checkDatabaseIntegrity() (bool, []string, error) {
+	rows, err := h.db.DB.Query(`PRAGMA integrity_check;`)
+	if err != nil {
+		return false, nil, err
+	}
+	defer rows.Close()
+
+	var issues []string
+	ok := true
+	for rows.Next() {
+		var res string
+		if err := rows.Scan(&res); err != nil {
+			return false, nil, err
+		}
+		if res != "ok" {
+			ok = false
+			issues = append(issues, res)
+		}
+	}
+	if err := rows.Err(); err != nil {
+		return false, nil, err
+	}
+
+	return ok, issues, nil
+}
+
+func (h *Handler) verifyDatabaseTables() ([]string, []string, error) {
+	required := []string{"users", "manga", "user_progress"}
+	var verified []string
+	var missing []string
+
+	for _, tbl := range required {
+		var name string
+		err := h.db.DB.QueryRow(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`, tbl).Scan(&name)
+		if err != nil {
+			missing = append(missing, tbl)
+		} else {
+			verified = append(verified, tbl)
+		}
+	}
+
+	return verified, missing, nil
+}
+
+// OptimizeDatabase runs database optimization commands
+func (h *Handler) OptimizeDatabase(c *gin.Context) {
+	var steps []string
+	var errors []string
+
+	// Run ANALYZE
+	if _, err := h.db.Exec("ANALYZE;"); err != nil {
+		errors = append(errors, fmt.Sprintf("ANALYZE failed: %v", err))
+	} else {
+		steps = append(steps, "ANALYZE completed")
+	}
+
+	// Run REINDEX
+	if _, err := h.db.Exec("REINDEX;"); err != nil {
+		errors = append(errors, fmt.Sprintf("REINDEX failed: %v", err))
+	} else {
+		steps = append(steps, "REINDEX completed")
+	}
+
+	// Run VACUUM
+	if _, err := h.db.Exec("VACUUM;"); err != nil {
+		errors = append(errors, fmt.Sprintf("VACUUM failed: %v", err))
+	} else {
+		steps = append(steps, "VACUUM completed")
+	}
+
+	status := "success"
+	if len(errors) > 0 {
+		status = "partial"
+		if len(errors) == 3 {
+			status = "failed"
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": status,
+		"steps":  steps,
+		"errors": errors,
+	})
+}
+
+// GetDatabaseStats returns database statistics
+func (h *Handler) GetDatabaseStats(c *gin.Context) {
+	// Get table counts
+	tables := map[string]int{}
+	tableNames := []string{"users", "manga", "user_progress", "chat_messages", "notifications"}
+
+	for _, name := range tableNames {
+		var count int
+		err := h.db.QueryRow(fmt.Sprintf("SELECT COUNT(*) FROM %s", name)).Scan(&count)
+		if err != nil {
+			tables[name] = -1 // Indicate error
+		} else {
+			tables[name] = count
+		}
+	}
+
+	// Get database file size using PRAGMA
+	var fileSize int64
+	var pageCount int
+	var pageSize int
+
+	if err := h.db.DB.QueryRow("PRAGMA page_count").Scan(&pageCount); err == nil {
+		if err := h.db.DB.QueryRow("PRAGMA page_size").Scan(&pageSize); err == nil {
+			fileSize = int64(pageCount * pageSize)
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"file_size_bytes": fileSize,
+		"file_size_mb":    float64(fileSize) / 1024.0 / 1024.0,
+		"tables":          tables,
+	})
+}
+
+// RepairDatabase performs database repair operations
+func (h *Handler) RepairDatabase(c *gin.Context) {
+	var steps []string
+	var errors []string
+
+	// Run quick_check
+	quickCheckOK := true
+	rows, err := h.db.DB.Query(`PRAGMA quick_check;`)
+	if err != nil {
+		errors = append(errors, fmt.Sprintf("quick_check failed: %v", err))
+		quickCheckOK = false
+	} else {
+		defer rows.Close()
+		for rows.Next() {
+			var res string
+			if err := rows.Scan(&res); err != nil {
+				errors = append(errors, fmt.Sprintf("quick_check scan error: %v", err))
+				quickCheckOK = false
+				break
+			}
+			if res != "ok" {
+				errors = append(errors, fmt.Sprintf("quick_check issue: %s", res))
+				quickCheckOK = false
+			}
+		}
+		if quickCheckOK {
+			steps = append(steps, "PRAGMA quick_check: ok")
+		}
+	}
+
+	// Run VACUUM
+	if _, err := h.db.Exec("VACUUM;"); err != nil {
+		errors = append(errors, fmt.Sprintf("VACUUM failed: %v", err))
+	} else {
+		steps = append(steps, "VACUUM completed")
+	}
+
+	// Re-initialize schema
+	if err := h.db.Init(); err != nil {
+		errors = append(errors, fmt.Sprintf("schema initialization failed: %v", err))
+	} else {
+		steps = append(steps, "Schema re-initialized")
+	}
+
+	status := "success"
+	if len(errors) > 0 {
+		status = "partial"
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": status,
+		"steps":  steps,
+		"errors": errors,
+	})
 }
