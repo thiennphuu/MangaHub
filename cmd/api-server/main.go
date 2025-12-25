@@ -75,7 +75,7 @@ func main() {
 	})
 
 	// Initialize API handler and register routes
-	handler := api.NewHandler(db, logger, cfg.App.Logging.Path, cfg.App.JWTSecret)
+	handler := api.NewHandler(db, logger)
 	handler.RegisterRoutes(engine)
 
 	// Health check endpoint with server configuration

@@ -195,3 +195,9 @@
 [INFO] 2025/12/25 10:31:47 TCP Server stopped
 [INFO] 2025/12/25 10:31:47 gRPC Server stopped
 [INFO] 2025/12/25 10:31:47 WebSocket Server stopped
+[INFO] 2025/12/25 22:29:39 Starting MangaHub API Server on 10.238.53.72:8080
+[INFO] 2025/12/25 22:29:39 Database initialized successfully
+[INFO] 2025/12/25 22:29:39 API Server listening on 10.238.53.72:8080
+[ERROR] 2025/12/25 22:29:39 server error: listen tcp 10.238.53.72:8080: bind: The requested address is not valid in its context.
+[INFO] 2025/12/25 22:29:47 Shutting down server...
+[INFO] 2025/12/25 22:29:47 Server stopped
