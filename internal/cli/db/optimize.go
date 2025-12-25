@@ -3,53 +3,65 @@ package db
 import (
 	"fmt"
 
-	"mangahub/pkg/database"
+	"mangahub/pkg/client"
+	"mangahub/pkg/session"
 
 	"github.com/spf13/cobra"
 )
 
 // optimizeCmd handles `mangahub db optimize`.
-// It runs lightweight SQLite optimizations: ANALYZE, REINDEX, and VACUUM.
+// It runs lightweight SQLite optimizations via HTTP API: ANALYZE, REINDEX, and VACUUM.
 var optimizeCmd = &cobra.Command{
 	Use:   "optimize",
 	Short: "Optimize database performance",
-	Long: `Run SQLite maintenance commands (ANALYZE, REINDEX, VACUUM) on the MangaHub database.
+	Long: `Run SQLite maintenance commands (ANALYZE, REINDEX, VACUUM) on the remote database via HTTP API.
 
 Use this periodically after large imports or many updates to keep the database compact and query plans up to date.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		fmt.Printf("Optimizing database at %s...\n\n", defaultDBPath)
-
-		db, err := database.New(defaultDBPath)
+		// Get session for authentication
+		sess, err := session.Load()
 		if err != nil {
-			return fmt.Errorf("failed to open database: %w", err)
+			return fmt.Errorf("not logged in: %w", err)
 		}
-		defer db.Close()
 
-		fmt.Println("Running ANALYZE...")
-		if _, err := db.Exec("ANALYZE;"); err != nil {
-			return fmt.Errorf("ANALYZE failed: %w", err)
+		// Create HTTP client
+		apiURL := getAPIURL()
+		httpClient := client.NewHTTPClient(apiURL, sess.Token)
+
+		// Optimize database on server
+		fmt.Printf("Optimizing remote database via HTTP API...\n\n")
+		optimizeResp, err := httpClient.OptimizeDatabase()
+		if err != nil {
+			return fmt.Errorf("failed to optimize database: %w", err)
 		}
-		fmt.Println("✓ ANALYZE completed")
 
-		fmt.Println("Running REINDEX...")
-		if _, err := db.Exec("REINDEX;"); err != nil {
-			return fmt.Errorf("REINDEX failed: %w", err)
+		// Display results
+		if len(optimizeResp.Steps) == 0 && len(optimizeResp.Errors) == 0 {
+			fmt.Printf("⚠️  No steps or errors reported (status: %s)\n", optimizeResp.Status)
 		}
-		fmt.Println("✓ REINDEX completed")
 
-		fmt.Println("Running VACUUM...")
-		if _, err := db.Exec("VACUUM;"); err != nil {
-			return fmt.Errorf("VACUUM failed: %w", err)
+		for _, step := range optimizeResp.Steps {
+			fmt.Printf("✓ %s\n", step)
 		}
-		fmt.Println("✓ VACUUM completed")
 
-		fmt.Println("\n✓ Database optimization completed successfully")
-		return nil
+		if len(optimizeResp.Errors) > 0 {
+			fmt.Println("\nErrors encountered:")
+			for _, errMsg := range optimizeResp.Errors {
+				fmt.Printf("✗ %s\n", errMsg)
+			}
+		}
+
+		if optimizeResp.Status == "success" || optimizeResp.Status == "optimized" {
+			fmt.Println("\n✓ Database optimization completed successfully")
+			return nil
+		} else if optimizeResp.Status == "partial" {
+			fmt.Println("\n⚠️  Database optimization completed with some errors")
+			return nil
+		}
+		return fmt.Errorf("database optimization failed (status: %s)", optimizeResp.Status)
 	},
 }
 
 func init() {
 	DBCmd.AddCommand(optimizeCmd)
 }
-
-

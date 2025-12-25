@@ -17,6 +17,7 @@ import (
 
 // Handler holds API handlers
 type Handler struct {
+	db             *database.Database
 	authService    *auth.AuthService
 	userService    *user.Service
 	libraryService *user.LibraryService
@@ -27,6 +28,7 @@ type Handler struct {
 // NewHandler creates a new API handler
 func NewHandler(db *database.Database, logger *utils.Logger) *Handler {
 	return &Handler{
+		db:             db,
 		authService:    auth.NewAuthService("your-secret-key"),
 		userService:    user.NewService(db),
 		libraryService: user.NewLibraryService(db),
@@ -76,6 +78,10 @@ func (h *Handler) RegisterRoutes(engine *gin.Engine) {
 		server := protected.Group("/server")
 		{
 			server.GET("/logs", h.GetServerLogs)
+			server.GET("/database/check", h.GetDatabaseCheck)
+			server.POST("/database/optimize", h.OptimizeDatabase)
+			server.GET("/database/stats", h.GetDatabaseStats)
+			server.POST("/database/repair", h.RepairDatabase)
 		}
 
 		// Admin routes (placeholder)
@@ -515,4 +521,214 @@ func (h *Handler) readLogFile(logPath, level string, maxLines int) ([]string, er
 	defer file.Close()
 
 	return utils.ReadLogLines(file, level, maxLines)
+}
+
+// GetDatabaseCheck performs database integrity checks
+func (h *Handler) GetDatabaseCheck(c *gin.Context) {
+	// Run integrity check
+	integrityOK, integrityIssues, err := h.checkDatabaseIntegrity()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("integrity check failed: %v", err)})
+		return
+	}
+
+	// Verify core tables
+	tables, missingTables, err := h.verifyDatabaseTables()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("table verification failed: %v", err)})
+		return
+	}
+
+	// Determine overall status
+	status := "healthy"
+	if !integrityOK || len(missingTables) > 0 {
+		status = "unhealthy"
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": status,
+		"integrity": gin.H{
+			"ok":     integrityOK,
+			"issues": integrityIssues,
+		},
+		"tables": gin.H{
+			"verified": tables,
+			"missing":  missingTables,
+		},
+	})
+}
+
+func (h *Handler) checkDatabaseIntegrity() (bool, []string, error) {
+	rows, err := h.db.DB.Query(`PRAGMA integrity_check;`)
+	if err != nil {
+		return false, nil, err
+	}
+	defer rows.Close()
+
+	var issues []string
+	ok := true
+	for rows.Next() {
+		var res string
+		if err := rows.Scan(&res); err != nil {
+			return false, nil, err
+		}
+		if res != "ok" {
+			ok = false
+			issues = append(issues, res)
+		}
+	}
+	if err := rows.Err(); err != nil {
+		return false, nil, err
+	}
+
+	return ok, issues, nil
+}
+
+func (h *Handler) verifyDatabaseTables() ([]string, []string, error) {
+	required := []string{"users", "manga", "user_progress"}
+	var verified []string
+	var missing []string
+
+	for _, tbl := range required {
+		var name string
+		err := h.db.DB.QueryRow(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`, tbl).Scan(&name)
+		if err != nil {
+			missing = append(missing, tbl)
+		} else {
+			verified = append(verified, tbl)
+		}
+	}
+
+	return verified, missing, nil
+}
+
+// OptimizeDatabase runs database optimization commands
+func (h *Handler) OptimizeDatabase(c *gin.Context) {
+	var steps []string
+	var errors []string
+
+	// Run ANALYZE
+	if _, err := h.db.Exec("ANALYZE;"); err != nil {
+		errors = append(errors, fmt.Sprintf("ANALYZE failed: %v", err))
+	} else {
+		steps = append(steps, "ANALYZE completed")
+	}
+
+	// Run REINDEX
+	if _, err := h.db.Exec("REINDEX;"); err != nil {
+		errors = append(errors, fmt.Sprintf("REINDEX failed: %v", err))
+	} else {
+		steps = append(steps, "REINDEX completed")
+	}
+
+	// Run VACUUM
+	if _, err := h.db.Exec("VACUUM;"); err != nil {
+		errors = append(errors, fmt.Sprintf("VACUUM failed: %v", err))
+	} else {
+		steps = append(steps, "VACUUM completed")
+	}
+
+	status := "success"
+	if len(errors) > 0 {
+		status = "partial"
+		if len(errors) == 3 {
+			status = "failed"
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": status,
+		"steps":  steps,
+		"errors": errors,
+	})
+}
+
+// GetDatabaseStats returns database statistics
+func (h *Handler) GetDatabaseStats(c *gin.Context) {
+	// Get table counts
+	tables := map[string]int{}
+	tableNames := []string{"users", "manga", "user_progress", "chat_messages", "notifications"}
+
+	for _, name := range tableNames {
+		var count int
+		err := h.db.QueryRow(fmt.Sprintf("SELECT COUNT(*) FROM %s", name)).Scan(&count)
+		if err != nil {
+			tables[name] = -1 // Indicate error
+		} else {
+			tables[name] = count
+		}
+	}
+
+	// Get database file size using PRAGMA
+	var fileSize int64
+	var pageCount int
+	var pageSize int
+
+	if err := h.db.DB.QueryRow("PRAGMA page_count").Scan(&pageCount); err == nil {
+		if err := h.db.DB.QueryRow("PRAGMA page_size").Scan(&pageSize); err == nil {
+			fileSize = int64(pageCount * pageSize)
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"file_size_bytes": fileSize,
+		"file_size_mb":    float64(fileSize) / 1024.0 / 1024.0,
+		"tables":          tables,
+	})
+}
+
+// RepairDatabase performs database repair operations
+func (h *Handler) RepairDatabase(c *gin.Context) {
+	var steps []string
+	var errors []string
+
+	// Run quick_check
+	quickCheckOK := true
+	rows, err := h.db.DB.Query(`PRAGMA quick_check;`)
+	if err != nil {
+		errors = append(errors, fmt.Sprintf("quick_check failed: %v", err))
+		quickCheckOK = false
+	} else {
+		defer rows.Close()
+		for rows.Next() {
+			var res string
+			if err := rows.Scan(&res); err != nil {
+				errors = append(errors, fmt.Sprintf("quick_check scan error: %v", err))
+				quickCheckOK = false
+				break
+			}
+			if res != "ok" {
+				errors = append(errors, fmt.Sprintf("quick_check issue: %s", res))
+				quickCheckOK = false
+			}
+		}
+		if quickCheckOK {
+			steps = append(steps, "PRAGMA quick_check: ok")
+		}
+	}
+
+	// Run VACUUM
+	if _, err := h.db.Exec("VACUUM;"); err != nil {
+		errors = append(errors, fmt.Sprintf("VACUUM failed: %v", err))
+	} else {
+		steps = append(steps, "VACUUM completed")
+	}
+
+	// Re-initialize schema
+	if err := h.db.Init(); err != nil {
+		errors = append(errors, fmt.Sprintf("schema initialization failed: %v", err))
+	} else {
+		steps = append(steps, "Schema re-initialized")
+	}
+
+	status := "success"
+	if len(errors) > 0 {
+		status = "partial"
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": status,
+		"steps":  steps,
+		"errors": errors,
+	})
 }

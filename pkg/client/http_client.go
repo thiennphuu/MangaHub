@@ -453,3 +453,121 @@ func (c *HTTPClient) GetServerLogs(maxLines int, level string) (*ServerLogsRespo
 
 	return &logsResp, nil
 }
+
+// DatabaseCheckResponse represents the database check API response
+type DatabaseCheckResponse struct {
+	Status    string `json:"status"`
+	Integrity struct {
+		OK     bool     `json:"ok"`
+		Issues []string `json:"issues"`
+	} `json:"integrity"`
+	Tables struct {
+		Verified []string `json:"verified"`
+		Missing  []string `json:"missing"`
+	} `json:"tables"`
+}
+
+// GetDatabaseCheck fetches database integrity check results from the API
+func (c *HTTPClient) GetDatabaseCheck() (*DatabaseCheckResponse, error) {
+	resp, err := c.get("/server/database/check")
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("failed to check database with status %d: %s", resp.StatusCode, string(body))
+	}
+
+	var checkResp DatabaseCheckResponse
+	if err := json.NewDecoder(resp.Body).Decode(&checkResp); err != nil {
+		return nil, fmt.Errorf("failed to decode database check response: %w", err)
+	}
+
+	return &checkResp, nil
+}
+
+// DatabaseOptimizeResponse represents the optimize API response
+type DatabaseOptimizeResponse struct {
+	Status string   `json:"status"`
+	Steps  []string `json:"steps"`
+	Errors []string `json:"errors"`
+}
+
+// OptimizeDatabase triggers database optimization on the server
+func (c *HTTPClient) OptimizeDatabase() (*DatabaseOptimizeResponse, error) {
+	resp, err := c.post("/server/database/optimize", nil)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("failed to optimize database with status %d: %s", resp.StatusCode, string(body))
+	}
+
+	var optimizeResp DatabaseOptimizeResponse
+	if err := json.NewDecoder(resp.Body).Decode(&optimizeResp); err != nil {
+		return nil, fmt.Errorf("failed to decode optimize response: %w", err)
+	}
+
+	return &optimizeResp, nil
+}
+
+// DatabaseStatsResponse represents the stats API response
+type DatabaseStatsResponse struct {
+	FileSizeBytes int64          `json:"file_size_bytes"`
+	FileSizeMB    float64        `json:"file_size_mb"`
+	Tables        map[string]int `json:"tables"`
+}
+
+// GetDatabaseStats fetches database statistics from the API
+func (c *HTTPClient) GetDatabaseStats() (*DatabaseStatsResponse, error) {
+	resp, err := c.get("/server/database/stats")
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("failed to get database stats with status %d: %s", resp.StatusCode, string(body))
+	}
+
+	var statsResp DatabaseStatsResponse
+	if err := json.NewDecoder(resp.Body).Decode(&statsResp); err != nil {
+		return nil, fmt.Errorf("failed to decode stats response: %w", err)
+	}
+
+	return &statsResp, nil
+}
+
+// DatabaseRepairResponse represents the repair API response
+type DatabaseRepairResponse struct {
+	Status string   `json:"status"`
+	Steps  []string `json:"steps"`
+	Errors []string `json:"errors"`
+}
+
+// RepairDatabase triggers database repair on the server
+func (c *HTTPClient) RepairDatabase() (*DatabaseRepairResponse, error) {
+	resp, err := c.post("/server/database/repair", nil)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("failed to repair database with status %d: %s", resp.StatusCode, string(body))
+	}
+
+	var repairResp DatabaseRepairResponse
+	if err := json.NewDecoder(resp.Body).Decode(&repairResp); err != nil {
+		return nil, fmt.Errorf("failed to decode repair response: %w", err)
+	}
+
+	return &repairResp, nil
+}
