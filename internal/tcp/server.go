@@ -125,7 +125,7 @@ func (s *Server) handleBroadcast() {
 	}
 }
 
-// Stop stops the server
+// Stop  the server
 func (s *Server) Stop() {
 	s.mutex.Lock()
 	for _, conn := range s.Connections {

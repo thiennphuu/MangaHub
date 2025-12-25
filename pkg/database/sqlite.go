@@ -10,7 +10,8 @@ import (
 
 // Database represents the SQLite database connection
 type Database struct {
-	DB *sql.DB
+	DB   *sql.DB
+	Path string
 }
 
 // New creates a new database connection
@@ -25,7 +26,7 @@ func New(dbPath string) (*Database, error) {
 		return nil, fmt.Errorf("failed to connect to database: %w", err)
 	}
 
-	return &Database{DB: db}, nil
+	return &Database{DB: db, Path: dbPath}, nil
 }
 
 // Init initializes the database schema

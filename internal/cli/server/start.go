@@ -2,25 +2,28 @@ package server
 
 import (
 	"fmt"
+	"os/exec"
+	"runtime"
 
 	"mangahub/pkg/config"
 
 	"github.com/spf13/cobra"
 )
 
-// startCmd now verifies whether components are already running and gives
-// concrete commands to start missing ones.
+// startCmd now verifies whether components are already running and can
+// start missing ones in the background.
 var startCmd = &cobra.Command{
 	Use:   "start",
 	Short: "Start server components",
-	Long: `Check and help start MangaHub server components. 
-This command checks if each component is reachable and prints the exact 'go run' command to start any missing ones:`,
+	Long: `Check and start MangaHub server components. 
+This command checks if each component is reachable and starts any missing ones in the background:`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		httpOnly, _ := cmd.Flags().GetBool("http-only")
 		tcpOnly, _ := cmd.Flags().GetBool("tcp-only")
 		udpOnly, _ := cmd.Flags().GetBool("udp-only")
 		grpcOnly, _ := cmd.Flags().GetBool("grpc-only")
 		wsOnly, _ := cmd.Flags().GetBool("ws-only")
+		all, _ := cmd.Flags().GetBool("all")
 
 		cfg, err := config.LoadConfig("config.yaml")
 		if err != nil {
@@ -28,13 +31,13 @@ This command checks if each component is reachable and prints the exact 'go run'
 			cfg = config.DefaultConfig()
 		}
 
-		startHTTP := (!tcpOnly && !udpOnly && !grpcOnly && !wsOnly) || httpOnly
-		startTCP := (!httpOnly && !udpOnly && !grpcOnly && !wsOnly) || tcpOnly
-		startUDP := (!httpOnly && !tcpOnly && !grpcOnly && !wsOnly) || udpOnly
-		startGRPC := (!httpOnly && !tcpOnly && !udpOnly && !wsOnly) || grpcOnly
-		startWS := (!httpOnly && !tcpOnly && !udpOnly && !grpcOnly) || wsOnly
+		startHTTP := all || httpOnly || (!tcpOnly && !udpOnly && !grpcOnly && !wsOnly)
+		startTCP := all || tcpOnly || (!httpOnly && !udpOnly && !grpcOnly && !wsOnly)
+		startUDP := all || udpOnly || (!httpOnly && !tcpOnly && !grpcOnly && !wsOnly)
+		startGRPC := all || grpcOnly || (!httpOnly && !tcpOnly && !udpOnly && !wsOnly)
+		startWS := all || wsOnly || (!httpOnly && !tcpOnly && !udpOnly && !grpcOnly)
 
-		fmt.Println("Checking MangaHub Server Components...")
+		fmt.Println("Checking and Starting MangaHub Server Components...")
 		fmt.Println()
 
 		if startHTTP {
@@ -42,7 +45,12 @@ This command checks if each component is reachable and prints the exact 'go run'
 			if checkHTTP(url, "HTTP API") {
 				fmt.Println("   Already running (no action needed).")
 			} else {
-				fmt.Println("   To start HTTP API server: go run ./cmd/api-server")
+				fmt.Println("   Starting HTTP API server...")
+				if err := runBackgroundTask("go", "run", "./cmd/api-server"); err != nil {
+					fmt.Printf("   ✗ Failed to start HTTP API: %v\n", err)
+				} else {
+					fmt.Println("   ✓ HTTP API started in background")
+				}
 			}
 			fmt.Println()
 		}
@@ -52,7 +60,12 @@ This command checks if each component is reachable and prints the exact 'go run'
 			if checkTCP(addr, "TCP Sync") {
 				fmt.Println("   Already running (no action needed).")
 			} else {
-				fmt.Println("   To start TCP sync server: go run ./cmd/tcp-server")
+				fmt.Println("   Starting TCP sync server...")
+				if err := runBackgroundTask("go", "run", "./cmd/tcp-server"); err != nil {
+					fmt.Printf("   ✗ Failed to start TCP Sync: %v\n", err)
+				} else {
+					fmt.Println("   ✓ TCP Sync started in background")
+				}
 			}
 			fmt.Println()
 		}
@@ -62,7 +75,12 @@ This command checks if each component is reachable and prints the exact 'go run'
 			if checkUDP(addr, "UDP Notify") {
 				fmt.Println("   Already running (no action needed).")
 			} else {
-				fmt.Println("   To start UDP notification server: go run ./cmd/udp-server")
+				fmt.Println("   Starting UDP notification server...")
+				if err := runBackgroundTask("go", "run", "./cmd/udp-server"); err != nil {
+					fmt.Printf("   ✗ Failed to start UDP Notify: %v\n", err)
+				} else {
+					fmt.Println("   ✓ UDP Notify started in background")
+				}
 			}
 			fmt.Println()
 		}
@@ -72,7 +90,12 @@ This command checks if each component is reachable and prints the exact 'go run'
 			if checkTCP(addr, "gRPC") {
 				fmt.Println("   Already running (no action needed).")
 			} else {
-				fmt.Println("   To start gRPC server: go run ./cmd/grpc-server")
+				fmt.Println("   Starting gRPC server...")
+				if err := runBackgroundTask("go", "run", "./cmd/grpc-server"); err != nil {
+					fmt.Printf("   ✗ Failed to start gRPC: %v\n", err)
+				} else {
+					fmt.Println("   ✓ gRPC started in background")
+				}
 			}
 			fmt.Println()
 		}
@@ -82,20 +105,42 @@ This command checks if each component is reachable and prints the exact 'go run'
 			if checkHTTP(url, "WebSocket") {
 				fmt.Println("   Already running (no action needed).")
 			} else {
-				fmt.Println("   To start WebSocket server: go run ./cmd/websocket-server")
+				fmt.Println("   Starting WebSocket server...")
+				if err := runBackgroundTask("go", "run", "./cmd/websocket-server"); err != nil {
+					fmt.Printf("   ✗ Failed to start WebSocket: %v\n", err)
+				} else {
+					fmt.Println("   ✓ WebSocket started in background")
+				}
 			}
 			fmt.Println()
 		}
 
+		fmt.Println("Verification: Run 'mangahub server status' in a few seconds.")
 		fmt.Println("Logs: mangahub server logs --follow")
 		return nil
 	},
 }
 
+func runBackgroundTask(name string, args ...string) error {
+	var cmd *exec.Cmd
+	if runtime.GOOS == "windows" {
+		// On Windows, use 'start /b' to run in background without a new window
+		fullCmd := append([]string{"/c", "start", "/b"}, name)
+		fullCmd = append(fullCmd, args...)
+		cmd = exec.Command("cmd", fullCmd...)
+	} else {
+		cmd = exec.Command(name, args...)
+	}
+
+	// Create a log file for this component to avoid crowding stdout
+	return cmd.Start()
+}
+
 func init() {
-	startCmd.Flags().Bool("http-only", false, "Check/start only HTTP API server")
-	startCmd.Flags().Bool("tcp-only", false, "Check/start only TCP sync server")
-	startCmd.Flags().Bool("udp-only", false, "Check/start only UDP notification server")
-	startCmd.Flags().Bool("grpc-only", false, "Check/start only gRPC internal service")
-	startCmd.Flags().Bool("ws-only", false, "Check/start only WebSocket chat server")
+	startCmd.Flags().Bool("http-only", false, "Start only HTTP API server")
+	startCmd.Flags().Bool("tcp-only", false, "Start only TCP sync server")
+	startCmd.Flags().Bool("udp-only", false, "Start only UDP notification server")
+	startCmd.Flags().Bool("grpc-only", false, "Start only gRPC internal service")
+	startCmd.Flags().Bool("ws-only", false, "Start only WebSocket chat server")
+	startCmd.Flags().Bool("all", false, "Start all server components (default)")
 }
