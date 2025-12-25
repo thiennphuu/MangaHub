@@ -2,20 +2,23 @@ package server
 
 import (
 	"fmt"
+	"os/exec"
+	"runtime"
+	"strings"
 
 	"mangahub/pkg/config"
 
 	"github.com/spf13/cobra"
 )
 
-// stopCmd checks which components are running and tells the user how to stop them.
-// Actual termination is done in the terminal where each server was started (Ctrl+C).
+// stopCmd now identifies and terminates running MangaHub server components.
 var stopCmd = &cobra.Command{
 	Use:   "stop",
 	Short: "Stop server components",
-	Long:  `Check running MangaHub server components and show how to stop them (typically via Ctrl+C in their terminal).`,
+	Long:  `Identify and terminate running MangaHub server components by closing processes on their ports.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		component, _ := cmd.Flags().GetString("component")
+		all, _ := cmd.Flags().GetBool("all")
 
 		cfg, err := config.LoadConfig("config.yaml")
 		if err != nil {
@@ -23,63 +26,92 @@ var stopCmd = &cobra.Command{
 			cfg = config.DefaultConfig()
 		}
 
-		fmt.Println("Checking running MangaHub server components...")
+		fmt.Println("Stopping MangaHub server components...")
 		fmt.Println()
 
-		if component == "" || component == "http" {
-			url := fmt.Sprintf("http://%s:%d/health", cfg.HTTP.Host, cfg.HTTP.Port)
-			if checkHTTP(url, "HTTP API") {
-				fmt.Println("   Stop by pressing Ctrl+C in the terminal running: go run ./cmd/api-server")
-			} else if component == "http" {
-				fmt.Println("   HTTP API server is not running.")
+		stopFunc := func(port int, name string) {
+			fmt.Printf("   Stopping %s (port %d)...\n", name, port)
+			if err := killProcessByPort(port); err != nil {
+				fmt.Printf("   ✗ Could not stop %s: %v\n", name, err)
+			} else {
+				fmt.Printf("   ✓ %s stopped\n", name)
 			}
 			fmt.Println()
 		}
 
-		if component == "" || component == "tcp" {
-			addr := fmt.Sprintf("%s:%d", cfg.TCP.Host, cfg.TCP.Port)
-			if checkTCP(addr, "TCP Sync") {
-				fmt.Println("   Stop by pressing Ctrl+C in the terminal running: go run ./cmd/tcp-server")
-			} else if component == "tcp" {
-				fmt.Println("   TCP sync server is not running.")
-			}
-			fmt.Println()
+		if all || component == "" || component == "http" {
+			stopFunc(cfg.HTTP.Port, "HTTP API")
 		}
 
-		if component == "" || component == "udp" {
-			addr := fmt.Sprintf("%s:%d", cfg.UDP.Host, cfg.UDP.Port)
-			if checkUDP(addr, "UDP Notify") {
-				fmt.Println("   Stop by pressing Ctrl+C in the terminal running: go run ./cmd/udp-server")
-			} else if component == "udp" {
-				fmt.Println("   UDP notification server is not running.")
-			}
-			fmt.Println()
+		if all || component == "" || component == "tcp" {
+			stopFunc(cfg.TCP.Port, "TCP Sync")
 		}
 
-		if component == "" || component == "grpc" {
-			addr := fmt.Sprintf("%s:%d", cfg.GRPC.Host, cfg.GRPC.Port)
-			if checkTCP(addr, "gRPC") {
-				fmt.Println("   Stop by pressing Ctrl+C in the terminal running: go run ./cmd/grpc-server")
-			} else if component == "grpc" {
-				fmt.Println("   gRPC server is not running.")
-			}
-			fmt.Println()
+		if all || component == "" || component == "udp" {
+			stopFunc(cfg.UDP.Port, "UDP Notify")
 		}
 
-		if component == "" || component == "ws" {
-			url := fmt.Sprintf("http://%s:%d/health", cfg.WebSocket.Host, cfg.WebSocket.Port)
-			if checkHTTP(url, "WebSocket") {
-				fmt.Println("   Stop by pressing Ctrl+C in the terminal running: go run ./cmd/websocket-server")
-			} else if component == "ws" {
-				fmt.Println("   WebSocket server is not running.")
-			}
-			fmt.Println()
+		if all || component == "" || component == "grpc" {
+			stopFunc(cfg.GRPC.Port, "gRPC")
+		}
+
+		if all || component == "" || component == "ws" {
+			stopFunc(cfg.WebSocket.Port, "WebSocket")
 		}
 
 		return nil
 	},
 }
 
+func killProcessByPort(port int) error {
+	if runtime.GOOS == "windows" {
+		// Find PID using netstat
+		out, err := exec.Command("cmd", "/c", fmt.Sprintf("netstat -ano | findstr :%d", port)).Output()
+		if err != nil {
+			return fmt.Errorf("process not found or port not in use")
+		}
+
+		lines := strings.Split(string(out), "\n")
+		pids := make(map[string]bool)
+		for _, line := range lines {
+			fields := strings.Fields(line)
+			if len(fields) >= 5 && strings.Contains(fields[1], fmt.Sprintf(":%d", port)) {
+				// The PID is the last column (or second to last if there's no state)
+				pid := fields[len(fields)-1]
+				if pid != "0" {
+					pids[pid] = true
+				}
+			}
+		}
+
+		if len(pids) == 0 {
+			return fmt.Errorf("no active PID found for port %d", port)
+		}
+
+		for pid := range pids {
+			// Kill the process and its children (/T) forcefully (/F)
+			if err := exec.Command("taskkill", "/F", "/T", "/PID", pid).Run(); err != nil {
+				return fmt.Errorf("failed to kill PID %s: %w", pid, err)
+			}
+		}
+		return nil
+	}
+
+	// Unix-like systems (lsof/fuser)
+	out, err := exec.Command("sh", "-c", fmt.Sprintf("lsof -t -i:%d", port)).Output()
+	if err != nil {
+		return fmt.Errorf("process not found")
+	}
+	pids := strings.Fields(string(out))
+	for _, pid := range pids {
+		if err := exec.Command("kill", "-9", pid).Run(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func init() {
-	stopCmd.Flags().StringP("component", "c", "", "Specific component to check/stop (http, tcp, udp, grpc, ws)")
+	stopCmd.Flags().StringP("component", "c", "", "Specific component to stop (http, tcp, udp, grpc, ws)")
+	stopCmd.Flags().Bool("all", false, "Stop all server components (default)")
 }

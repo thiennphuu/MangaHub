@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 
 	"mangahub/internal/auth"
@@ -22,16 +23,20 @@ type Handler struct {
 	libraryService *user.LibraryService
 	mangaService   *manga.Service
 	logger         *utils.Logger
+	logPath        string
+	db             *database.Database
 }
 
 // NewHandler creates a new API handler
-func NewHandler(db *database.Database, logger *utils.Logger) *Handler {
+func NewHandler(db *database.Database, logger *utils.Logger, logPath string, jwtSecret string) *Handler {
 	return &Handler{
-		authService:    auth.NewAuthService("your-secret-key"),
+		authService:    auth.NewAuthService(jwtSecret),
 		userService:    user.NewService(db),
 		libraryService: user.NewLibraryService(db),
 		mangaService:   manga.NewService(db),
 		logger:         logger,
+		logPath:        logPath,
+		db:             db,
 	}
 }
 
@@ -52,6 +57,16 @@ func (h *Handler) RegisterRoutes(engine *gin.Engine) {
 		mangaGroup.POST("/search", h.SearchManga)
 	}
 
+	// Server management routes (Public for testing)
+	serverPublic := engine.Group("/server")
+	{
+		serverPublic.GET("/logs", h.GetServerLogs)
+		serverPublic.GET("/database/check", h.CheckDatabase)
+		serverPublic.POST("/database/optimize", h.OptimizeDatabase)
+		serverPublic.POST("/database/repair", h.RepairDatabase)
+		serverPublic.GET("/database/stats", h.GetDatabaseStats)
+	}
+
 	// Protected routes
 	protected := engine.Group("")
 	protected.Use(h.AuthMiddleware())
@@ -70,12 +85,6 @@ func (h *Handler) RegisterRoutes(engine *gin.Engine) {
 			library.POST("", h.AddToLibrary)
 			library.DELETE("/:mangaId", h.RemoveFromLibrary)
 			library.PUT("/:mangaId/progress", h.UpdateProgress)
-		}
-
-		// Server management routes
-		server := protected.Group("/server")
-		{
-			server.GET("/logs", h.GetServerLogs)
 		}
 
 		// Admin routes (placeholder)
@@ -489,6 +498,7 @@ func (h *Handler) GetServerLogs(c *gin.Context) {
 	// Read logs
 	logs, err := h.readLogFile(logPath, level, maxLines)
 	if err != nil {
+		h.logger.Error("Failed to read log file at %s: %v", logPath, err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("failed to read logs: %v", err)})
 		return
 	}
@@ -501,9 +511,136 @@ func (h *Handler) GetServerLogs(c *gin.Context) {
 	})
 }
 
+// CheckDatabase verifies the database connection and schema
+func (h *Handler) CheckDatabase(c *gin.Context) {
+	status := gin.H{
+		"connection": "ok",
+		"tables":     make(map[string]string),
+	}
+
+	if h.db == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "database not initialized"})
+		return
+	}
+
+	// Ping database
+	if err := h.db.DB.Ping(); err != nil {
+		status["connection"] = fmt.Sprintf("failed: %v", err)
+	}
+
+	// Check tables
+	tables := []string{"users", "manga", "user_progress", "chat_messages", "notifications", "notification_subscriptions", "notification_preferences"}
+	for _, table := range tables {
+		var name string
+		err := h.db.QueryRow("SELECT name FROM sqlite_master WHERE type='table' AND name=?", table).Scan(&name)
+		if err != nil {
+			status["tables"].(map[string]string)[table] = "missing"
+		} else {
+			status["tables"].(map[string]string)[table] = "ok"
+		}
+	}
+
+	c.JSON(http.StatusOK, status)
+}
+
+// OptimizeDatabase runs ANALYZE, REINDEX, and VACUUM
+func (h *Handler) OptimizeDatabase(c *gin.Context) {
+	if h.db == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "database not initialized"})
+		return
+	}
+
+	h.logger.Info("Starting database optimization...")
+
+	if _, err := h.db.Exec("ANALYZE;"); err != nil {
+		h.logger.Error("ANALYZE failed: %v", err)
+	}
+	if _, err := h.db.Exec("REINDEX;"); err != nil {
+		h.logger.Error("REINDEX failed: %v", err)
+	}
+	if _, err := h.db.Exec("VACUUM;"); err != nil {
+		h.logger.Error("VACUUM failed: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "VACUUM failed"})
+		return
+	}
+
+	h.logger.Info("Database optimization completed")
+	c.JSON(http.StatusOK, gin.H{"status": "optimized", "message": "ANALYZE, REINDEX, and VACUUM completed successfully"})
+}
+
+// RepairDatabase runs quick_check, VACUUM, and re-initializes schema
+func (h *Handler) RepairDatabase(c *gin.Context) {
+	if h.db == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "database not initialized"})
+		return
+	}
+
+	h.logger.Info("Starting database repair...")
+
+	// Quick check
+	var quickCheck string
+	if err := h.db.QueryRow("PRAGMA quick_check;").Scan(&quickCheck); err != nil {
+		h.logger.Error("quick_check query failed: %v", err)
+	}
+
+	// Vacuum
+	if _, err := h.db.Exec("VACUUM;"); err != nil {
+		h.logger.Error("VACUUM failed during repair: %v", err)
+	}
+
+	// Re-init schema
+	if err := h.db.Init(); err != nil {
+		h.logger.Error("Schema re-initialization failed: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "schema re-initialization failed"})
+		return
+	}
+
+	h.logger.Info("Database repair completed")
+	c.JSON(http.StatusOK, gin.H{
+		"status":      "repaired",
+		"quick_check": quickCheck,
+		"message":     "VACUUM and schema re-initialization completed",
+	})
+}
+
+// GetDatabaseStats returns database file size and row counts
+func (h *Handler) GetDatabaseStats(c *gin.Context) {
+	if h.db == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "database not initialized"})
+		return
+	}
+
+	stats := gin.H{
+		"file_size_mb": 0.0,
+		"row_counts":   make(map[string]int),
+	}
+
+	// Get file size from the database path
+	if h.db.Path != "" {
+		fileInfo, err := os.Stat(h.db.Path)
+		if err == nil {
+			stats["file_size_mb"] = float64(fileInfo.Size()) / (1024 * 1024)
+		}
+	}
+
+	tables := []string{"users", "manga", "user_progress", "chat_messages", "notifications"}
+	for _, table := range tables {
+		var count int
+		err := h.db.QueryRow(fmt.Sprintf("SELECT COUNT(*) FROM %s", table)).Scan(&count)
+		if err != nil {
+			stats["row_counts"].(map[string]int)[table] = -1
+		} else {
+			stats["row_counts"].(map[string]int)[table] = count
+		}
+	}
+
+	c.JSON(http.StatusOK, stats)
+}
+
 func (h *Handler) getLogFilePath() (string, error) {
-	// In production, this would read from config
-	// For now, use the standard log path
+	if h.logPath != "" {
+		return h.logPath, nil
+	}
 	return utils.GetLogFilePath()
 }
 

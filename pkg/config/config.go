@@ -21,11 +21,18 @@ type Config struct {
 
 // AppConfig holds application-level configuration
 type AppConfig struct {
-	Name        string `yaml:"name"`
-	Version     string `yaml:"version"`
-	Environment string `yaml:"environment"`
-	JWTSecret   string `yaml:"jwt_secret"`
-	MaxUsers    int    `yaml:"max_users"`
+	Name        string        `yaml:"name"`
+	Version     string        `yaml:"version"`
+	Environment string        `yaml:"environment"`
+	JWTSecret   string        `yaml:"jwt_secret"`
+	MaxUsers    int           `yaml:"max_users"`
+	Logging     LoggingConfig `yaml:"logging"`
+}
+
+// LoggingConfig holds logging configuration
+type LoggingConfig struct {
+	Path  string `yaml:"path"`
+	Level string `yaml:"level"`
 }
 
 // DatabaseConfig holds database configuration
@@ -134,6 +141,10 @@ func DefaultConfig() *Config {
 			Environment: "development",
 			JWTSecret:   "your-secret-key-change-in-production",
 			MaxUsers:    100,
+			Logging: LoggingConfig{
+				Path:  "logs/server.log",
+				Level: "info",
+			},
 		},
 		Database: DatabaseConfig{
 			Type:        "sqlite3",

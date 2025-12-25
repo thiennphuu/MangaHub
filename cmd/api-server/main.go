@@ -28,23 +28,26 @@ func main() {
 
 	cfg, err := config.LoadConfig(configPath)
 	if err != nil {
-		logger.Warn(fmt.Sprintf("failed to load config: %v, using defaults", err))
+		logger.Warn("failed to load config: %v, using defaults", err)
 		cfg = config.DefaultConfig()
 	}
 
-	logger.Info(fmt.Sprintf("Starting MangaHub API Server on %s:%d", cfg.HTTP.Host, cfg.HTTP.Port))
+	// Initialize log file from config
+	logger.SetLogFile(cfg.App.Logging.Path)
+
+	logger.Info("Starting MangaHub API Server on %s:%d", cfg.HTTP.Host, cfg.HTTP.Port)
 
 	// Initialize database
 	db, err := database.New(cfg.Database.Path)
 	if err != nil {
-		logger.Error(fmt.Sprintf("failed to initialize database: %v", err))
+		logger.Error("failed to initialize database: %v", err)
 		os.Exit(1)
 	}
 	defer db.Close()
 
 	// Initialize schema
 	if err := db.Init(); err != nil {
-		logger.Error(fmt.Sprintf("failed to initialize schema: %v", err))
+		logger.Error("failed to initialize schema: %v", err)
 		os.Exit(1)
 	}
 
@@ -72,7 +75,7 @@ func main() {
 	})
 
 	// Initialize API handler and register routes
-	handler := api.NewHandler(db, logger)
+	handler := api.NewHandler(db, logger, cfg.App.Logging.Path, cfg.App.JWTSecret)
 	handler.RegisterRoutes(engine)
 
 	// Health check endpoint with server configuration
@@ -112,9 +115,9 @@ func main() {
 
 	// Start server in goroutine
 	go func() {
-		logger.Info(fmt.Sprintf("API Server listening on %s", server.Addr))
+		logger.Info("API Server listening on %s", server.Addr)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			logger.Error(fmt.Sprintf("server error: %v", err))
+			logger.Error("server error: %v", err)
 		}
 	}()
 
@@ -129,7 +132,7 @@ func main() {
 	defer cancel()
 
 	if err := server.Shutdown(ctx); err != nil {
-		logger.Error(fmt.Sprintf("forced shutdown: %v", err))
+		logger.Error("forced shutdown: %v", err)
 	}
 
 	logger.Info("Server stopped")

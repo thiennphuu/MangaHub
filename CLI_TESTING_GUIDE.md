@@ -20,7 +20,7 @@ All commands below should be run in a separate terminal while the API server is 
 ```powershell
 go build -o mangahub.exe ./cmd/cli
 ```
-# Fetch 100 additional series (popular) and just print them
+# Fetch 100 additional series (popular) 
 go run ./cmd/cli manga dex
 
 # Fetch 100 series and store them for seeding / integration
@@ -64,7 +64,6 @@ go run ./cmd/cli --profile user3 auth login --username john3
 go run ./cmd/cli --profile user2 auth status - john3
 go run ./cmd/cli --profile user1 auth status - john2
 
-# Shows current user info and token expiration
 ````
 
 **Step 4: Logout**

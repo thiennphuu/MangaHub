@@ -3,6 +3,7 @@ package utils
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -16,13 +17,40 @@ type Logger struct {
 	error *log.Logger
 }
 
-// NewLogger creates a new logger
+// NewLogger creates a new logger that logs to stdout
 func NewLogger() *Logger {
 	return &Logger{
 		info:  log.New(os.Stdout, "[INFO] ", log.LstdFlags),
 		warn:  log.New(os.Stdout, "[WARN] ", log.LstdFlags),
 		error: log.New(os.Stderr, "[ERROR] ", log.LstdFlags),
 	}
+}
+
+// SetLogFile adds a file to the logger output
+func (l *Logger) SetLogFile(logPath string) {
+	if logPath == "" {
+		return
+	}
+
+	// Ensure directory exists
+	if err := os.MkdirAll(filepath.Dir(logPath), 0755); err != nil {
+		fmt.Printf("Failed to create log directory for %s: %v\n", logPath, err)
+		return
+	}
+
+	file, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		fmt.Printf("Failed to open log file %s: %v\n", logPath, err)
+		return
+	}
+
+	// Create multi-writers for each level
+	infoWriter := io.MultiWriter(os.Stdout, file)
+	errorWriter := io.MultiWriter(os.Stderr, file)
+
+	l.info.SetOutput(infoWriter)
+	l.warn.SetOutput(infoWriter)
+	l.error.SetOutput(errorWriter)
 }
 
 // Info logs an info message
@@ -65,23 +93,23 @@ func OpenLogFile(path string) (*os.File, error) {
 func ReadLogLines(file *os.File, level string, maxLines int) ([]string, error) {
 	var lines []string
 	scanner := bufio.NewScanner(file)
-	
+
 	for scanner.Scan() {
 		line := scanner.Text()
 		if filterLogLevel(line, level) {
 			lines = append(lines, line)
 		}
 	}
-	
+
 	if err := scanner.Err(); err != nil {
 		return nil, err
 	}
-	
+
 	// Return only the last maxLines
 	if len(lines) > maxLines {
 		lines = lines[len(lines)-maxLines:]
 	}
-	
+
 	return lines, nil
 }
 

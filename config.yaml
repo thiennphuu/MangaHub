@@ -4,6 +4,9 @@ app:
   environment: development
   jwt_secret: your-secret-key-change-in-production
   max_users: 100
+  logging:
+    path: logs/server.log
+    level: info
 
 database:
   type: sqlite
