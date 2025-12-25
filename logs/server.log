@@ -201,3 +201,10 @@
 [ERROR] 2025/12/25 22:29:39 server error: listen tcp 10.238.53.72:8080: bind: The requested address is not valid in its context.
 [INFO] 2025/12/25 22:29:47 Shutting down server...
 [INFO] 2025/12/25 22:29:47 Server stopped
+[INFO] 2025/12/25 22:30:12 Starting MangaHub API Server on 10.238.53.72:8080
+[INFO] 2025/12/25 22:30:12 Database initialized successfully
+[INFO] 2025/12/25 22:30:12 API Server listening on 10.238.53.72:8080
+[ERROR] 2025/12/25 22:30:12 server error: listen tcp 10.238.53.72:8080: bind: The requested address is not valid in its context.
+[INFO] 2025/12/25 22:31:30 Starting MangaHub TCP Server on 10.0.238.209:9090
+[INFO] 2025/12/25 22:31:30 TCP Server starting...
+[INFO] 2025/12/25 22:31:30 TCP server started on port 9090
