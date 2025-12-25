@@ -20,7 +20,7 @@ All commands below should be run in a separate terminal while the API server is 
 ```powershell
 go build -o mangahub.exe ./cmd/cli
 ```
-# Fetch 100 additional series (popular) 
+# Fetch 100 additional series (popular) and just print them
 go run ./cmd/cli manga dex
 
 # Fetch 100 series and store them for seeding / integration
@@ -64,6 +64,7 @@ go run ./cmd/cli --profile user3 auth login --username john3
 go run ./cmd/cli --profile user2 auth status - john3
 go run ./cmd/cli --profile user1 auth status - john2
 
+# Shows current user info and token expiration
 ````
 
 **Step 4: Logout**
@@ -351,30 +352,31 @@ go run ./cmd/cli config reset
 
 ```powershell
 # Check server health
-go run ./cmd/cli  server health
+go run ./cmd/cli server health
 
 # View server logs
-go run ./cmd/cli --profile user2 server logs
+go run ./cmd/cli server logs
 ```
-go run ./cmd/cl --profile user2 server status
+go run ./cmd/cli server status
 
-go run ./cmd/cli --profile user2 server start
+go run ./cmd/cli server start
 
-go run ./cmd/cli --profile user2 server stop
+go run ./cmd/cli server stop
 
 
 ### Database Management
 
 ```powershell
 # Check database
-go run ./cmd/cli --profile user2 db check
+go run ./cmd/cli db check
 
 # Database stats
-go run ./cmd/cli --profile user2 db stats
+go run ./cmd/cli db stats
 
-#
+# Repair database
+go run ./cmd/cli db repair
 ```
-go run ./cmd/cli --profile user2 db optimize
+go run ./cmd/cli db optimize
 ## Testing Output Examples
 
 ### Successful Search

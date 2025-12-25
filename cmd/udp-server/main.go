@@ -23,25 +23,22 @@ func main() {
 
 	cfg, err := config.LoadConfig(configPath)
 	if err != nil {
-		logger.Warn("failed to load config: %v, using defaults", err)
+		logger.Warn(fmt.Sprintf("failed to load config: %v, using defaults", err))
 		cfg = config.DefaultConfig()
 	}
 
-	// Initialize log file from config
-	logger.SetLogFile(cfg.App.Logging.Path)
-
-	logger.Info("Starting MangaHub UDP Server on %s:%d", cfg.UDP.Host, cfg.UDP.Port)
+	logger.Info(fmt.Sprintf("Starting MangaHub UDP Server on %s:%d", cfg.UDP.Host, cfg.UDP.Port))
 
 	// Initialize database
 	db, err := database.New(cfg.Database.Path)
 	if err != nil {
-		logger.Error("failed to initialize database: %v", err)
+		logger.Error(fmt.Sprintf("failed to initialize database: %v", err))
 		os.Exit(1)
 	}
 	defer db.Close()
 
 	if err := db.Init(); err != nil {
-		logger.Error("failed to initialize schema: %v", err)
+		logger.Error(fmt.Sprintf("failed to initialize schema: %v", err))
 		os.Exit(1)
 	}
 
@@ -51,7 +48,7 @@ func main() {
 	go func() {
 		logger.Info("UDP Server starting...")
 		if err := server.Start(); err != nil {
-			logger.Error("UDP server error: %v", err)
+			logger.Error(fmt.Sprintf("UDP server error: %v", err))
 		}
 	}()
 

@@ -28,25 +28,22 @@ func main() {
 
 	cfg, err := config.LoadConfig(configPath)
 	if err != nil {
-		logger.Warn("failed to load config: %v, using defaults", err)
+		logger.Warn(fmt.Sprintf("failed to load config: %v, using defaults", err))
 		cfg = config.DefaultConfig()
 	}
 
-	// Initialize log file from config
-	logger.SetLogFile(cfg.App.Logging.Path)
-
-	logger.Info("Starting MangaHub WebSocket Server on %s:%d", cfg.WebSocket.Host, cfg.WebSocket.Port)
+	logger.Info(fmt.Sprintf("Starting MangaHub WebSocket Server on %s:%d", cfg.WebSocket.Host, cfg.WebSocket.Port))
 
 	// Initialize database
 	db, err := database.New(cfg.Database.Path)
 	if err != nil {
-		logger.Error("failed to initialize database: %v", err)
+		logger.Error(fmt.Sprintf("failed to initialize database: %v", err))
 		os.Exit(1)
 	}
 	defer db.Close()
 
 	if err := db.Init(); err != nil {
-		logger.Error("failed to initialize schema: %v", err)
+		logger.Error(fmt.Sprintf("failed to initialize schema: %v", err))
 		os.Exit(1)
 	}
 
@@ -81,9 +78,9 @@ func main() {
 
 	// Start server in goroutine
 	go func() {
-		logger.Info("WebSocket Server listening on %s", server.Addr)
+		logger.Info(fmt.Sprintf("WebSocket Server listening on %s", server.Addr))
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			logger.Error("server error: %v", err)
+			logger.Error(fmt.Sprintf("server error: %v", err))
 		}
 	}()
 
@@ -98,7 +95,7 @@ func main() {
 	defer cancel()
 
 	if err := server.Shutdown(ctx); err != nil {
-		logger.Error("forced shutdown: %v", err)
+		logger.Error(fmt.Sprintf("forced shutdown: %v", err))
 	}
 
 	logger.Info("WebSocket Server stopped")

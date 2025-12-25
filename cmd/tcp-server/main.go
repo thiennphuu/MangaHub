@@ -27,9 +27,6 @@ func main() {
 		cfg = config.DefaultConfig()
 	}
 
-	// Initialize log file from config
-	logger.SetLogFile(cfg.App.Logging.Path)
-
 	fmt.Println("--------------------------------------------------")
 	fmt.Println("       ⛩️  MangaHub TCP Sync Server ⛩️             ")
 	fmt.Println("--------------------------------------------------")
