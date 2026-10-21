@@ -3,6 +3,7 @@ package chat
 import (
 	"fmt"
 	"mangahub/internal/cli/progress"
+	"mangahub/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -29,7 +30,8 @@ var historyCmd = &cobra.Command{
 		// Show messages from local SQLite
 		err := showMessagesHistory(roomID, limit)
 		if err != nil {
-			fmt.Printf("Error: %v\n", err)
+			utils.NewLogger().Error("failed to load chat history: %v", err)
+			fmt.Println("Error loading chat history")
 		}
 		fmt.Println()
 		fmt.Println("To view live messages, use:")

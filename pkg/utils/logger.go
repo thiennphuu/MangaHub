@@ -34,13 +34,13 @@ func (l *Logger) SetLogFile(logPath string) {
 
 	// Ensure directory exists
 	if err := os.MkdirAll(filepath.Dir(logPath), 0755); err != nil {
-		fmt.Printf("Failed to create log directory for %s: %v\n", logPath, err)
+		NewLogger().Error("failed to create log directory for %s: %v", logPath, err)
 		return
 	}
 
 	file, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
-		fmt.Printf("Failed to open log file %s: %v\n", logPath, err)
+		NewLogger().Error("failed to open log file %s: %v", logPath, err)
 		return
 	}
 

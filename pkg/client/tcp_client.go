@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"mangahub/pkg/models"
+	"mangahub/pkg/utils"
 )
 
 // TCPClient is a thin wrapper around a TCP connection to the sync server.
@@ -73,7 +74,9 @@ func (c *TCPClient) MonitorUpdates(stop <-chan struct{}, handler func(models.Pro
 	// Handle external stop signal
 	go func() {
 		<-stop
-		_ = conn.Close()
+		if err := conn.Close(); err != nil {
+			utils.NewLogger().Error("failed to close TCP monitor connection: %v", err)
+		}
 	}()
 
 	scanner := bufio.NewScanner(conn)
@@ -82,8 +85,7 @@ func (c *TCPClient) MonitorUpdates(stop <-chan struct{}, handler func(models.Pro
 
 		var update models.ProgressUpdate
 		if err := json.Unmarshal(line, &update); err != nil {
-			// For CLI usage we log to stdout/stderr via fmt
-			fmt.Printf("Error parsing sync update: %v\n", err)
+			utils.NewLogger().Error("error parsing sync update: %v", err)
 			continue
 		}
 

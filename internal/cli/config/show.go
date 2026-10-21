@@ -8,6 +8,7 @@ import (
 
 	"mangahub/pkg/client"
 	"mangahub/pkg/config"
+	"mangahub/pkg/utils"
 )
 
 // getAPIURL returns the API server URL
@@ -24,6 +25,7 @@ var showCmd = &cobra.Command{
 	Short: "Show configuration by fetching server info via HTTP API",
 	Args:  cobra.RangeArgs(0, 1),
 	RunE: func(cmd *cobra.Command, args []string) error {
+		logger := utils.NewLogger()
 		// Fetch server health/config info via HTTP API
 		fmt.Println("Fetching server configuration via HTTP API...")
 		httpClient := client.NewHTTPClient(getAPIURL(), "")
@@ -31,7 +33,7 @@ var showCmd = &cobra.Command{
 		// Try to get server health endpoint
 		resp, err := httpClient.GetServerHealth()
 		if err != nil {
-			fmt.Printf("⚠️  Warning: Could not connect to API server: %v\n", err)
+			logger.Warn("could not connect to API server: %v", err)
 			fmt.Println("Showing local configuration instead...\n")
 			if len(args) == 0 {
 				printFullConfig()
@@ -55,7 +57,7 @@ func showSection(section string) error {
 	// Load config from file
 	cfg, err := config.LoadConfig("config.yaml")
 	if err != nil {
-		fmt.Printf("Warning: Could not load config.yaml, using defaults: %v\n", err)
+		utils.NewLogger().Warn("could not load config.yaml, using defaults: %v", err)
 		cfg = config.DefaultConfig()
 	}
 
@@ -91,7 +93,7 @@ func printFullConfig() {
 	// Load config from file
 	cfg, err := config.LoadConfig("config.yaml")
 	if err != nil {
-		fmt.Printf("Warning: Could not load config.yaml, using defaults: %v\n", err)
+		utils.NewLogger().Warn("could not load config.yaml, using defaults: %v", err)
 		cfg = config.DefaultConfig()
 	}
 
@@ -113,7 +115,7 @@ func printFullConfigFromServer(healthData map[string]interface{}) {
 	// Load config from file for endpoint info
 	cfg, err := config.LoadConfig("config.yaml")
 	if err != nil {
-		fmt.Printf("Warning: Could not load config.yaml, using defaults: %v\n", err)
+		utils.NewLogger().Warn("could not load config.yaml, using defaults: %v", err)
 		cfg = config.DefaultConfig()
 	}
 

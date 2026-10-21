@@ -10,6 +10,7 @@ import (
 	"mangahub/internal/cli/progress"
 	"mangahub/pkg/client"
 	"mangahub/pkg/session"
+	"mangahub/pkg/utils"
 )
 
 var sendCmd = &cobra.Command{
@@ -18,6 +19,7 @@ var sendCmd = &cobra.Command{
 	Long:  `Send a message to the general chat or a specific manga discussion room.`,
 	Args:  cobra.MinimumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
+		logger := utils.NewLogger()
 		mangaID, _ := cmd.Flags().GetString("manga-id")
 		message := strings.Join(args, " ")
 
@@ -41,7 +43,8 @@ var sendCmd = &cobra.Command{
 		wsClient := client.NewWebSocketClient("ws://10.238.53.72:9093", sess.UserID, sess.Username)
 
 		if err := wsClient.Connect(roomID); err != nil {
-			fmt.Printf("❌ Failed to connect: %v\n", err)
+			logger.Error("failed to connect to chat: %v", err)
+			fmt.Println("❌ Failed to connect")
 			fmt.Println("\nMake sure the WebSocket server is running:")
 			fmt.Println("  go run ./cmd/websocket-server")
 			return nil
@@ -49,7 +52,8 @@ var sendCmd = &cobra.Command{
 
 		// Send message
 		if err := wsClient.SendMessage(message); err != nil {
-			fmt.Printf("❌ Failed to send: %v\n", err)
+			logger.Error("failed to send chat message: %v", err)
+			fmt.Println("❌ Failed to send")
 			wsClient.Disconnect()
 			return nil
 		}
@@ -69,10 +73,12 @@ var sendCmd = &cobra.Command{
 			_, err := db.Exec(`INSERT INTO chat_messages (id, user_id, username, room_id, message, timestamp) VALUES (?, ?, ?, ?, ?, ?)`,
 				msgID, sess.UserID, sess.Username, roomID, message, timestamp)
 			if err != nil {
-				fmt.Printf("(SQLite) Failed to store message: %v\n", err)
+				logger.Error("SQLite failed to store message: %v", err)
+				fmt.Println("(SQLite) Failed to store message")
 			}
 		} else {
-			fmt.Printf("(SQLite) Failed to open DB: %v\n", err)
+			logger.Error("SQLite failed to open database: %v", err)
+			fmt.Println("(SQLite) Failed to open DB")
 		}
 
 		wsClient.Disconnect()

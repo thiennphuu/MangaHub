@@ -7,17 +7,18 @@ import (
 	"github.com/spf13/cobra"
 
 	"mangahub/pkg/client"
-)
-
-const (
-	defaultTCPHost = "10.238.53.72" // Server IP
-	defaultTCPPort = 9090
+	"mangahub/pkg/config"
+	"mangahub/pkg/utils"
 )
 
 // getTCPClient returns a TCP client configured for the sync server.
-// Later this can be wired to real CLI config/profile if needed.
-func getTCPClient() *client.TCPClient {
-	return client.NewTCPClient(defaultTCPHost, defaultTCPPort)
+func getTCPClient() (*client.TCPClient, *config.Config, error) {
+	cfg, err := config.LoadConfig("config.yaml")
+	if err != nil {
+		return nil, nil, fmt.Errorf("failed to load config.yaml: %w", err)
+	}
+
+	return client.NewTCPClient(cfg.TCP.Host, cfg.TCP.Port), cfg, nil
 }
 
 // connectCmd handles `mangahub sync connect`.
@@ -25,11 +26,18 @@ var connectCmd = &cobra.Command{
 	Use:   "connect",
 	Short: "Connect to sync server",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		fmt.Printf("Connecting to TCP sync server at %s:%d...\n", defaultTCPHost, defaultTCPPort)
+		logger := utils.NewLogger()
+		c, cfg, err := getTCPClient()
+		if err != nil {
+			logger.Error("%v", err)
+			return err
+		}
 
-		c := getTCPClient()
+		fmt.Printf("Connecting to TCP sync server at %s:%d...\n", cfg.TCP.Host, cfg.TCP.Port)
+
 		conn, err := c.Connect()
 		if err != nil {
+			logger.Error("failed to connect to sync server at %s:%d: %v", cfg.TCP.Host, cfg.TCP.Port, err)
 			return fmt.Errorf("failed to connect to sync server: %w", err)
 		}
 		defer conn.Close()
@@ -38,7 +46,7 @@ var connectCmd = &cobra.Command{
 
 		fmt.Println("✓ Connected successfully!")
 		fmt.Println("\nConnection Details:")
-		fmt.Printf(" Server: %s:%d\n", defaultTCPHost, defaultTCPPort)
+		fmt.Printf(" Server: %s:%d\n", cfg.TCP.Host, cfg.TCP.Port)
 		fmt.Println(" Connection: TCP")
 		fmt.Printf(" Connected at: %s\n", now)
 		return nil

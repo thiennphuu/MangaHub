@@ -12,6 +12,7 @@ import (
 	"mangahub/pkg/client"
 	"mangahub/pkg/models"
 	"mangahub/pkg/session"
+	"mangahub/pkg/utils"
 )
 
 var wsClient *client.WebSocketClient
@@ -21,6 +22,7 @@ var joinCmd = &cobra.Command{
 	Short: "Join a chat room",
 	Long:  `Join the general chat room or a specific manga discussion room.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		logger := utils.NewLogger()
 		mangaID, _ := cmd.Flags().GetString("manga-id")
 
 		// Load session for user info
@@ -54,7 +56,8 @@ var joinCmd = &cobra.Command{
 				fmt.Printf("%s> ", sess.Username)
 			},
 			func(err error) {
-				fmt.Printf("\r❌ Error: %v\n", err)
+				logger.Error("chat connection error: %v", err)
+				fmt.Print("\r❌ Chat connection error\n")
 				fmt.Printf("%s> ", sess.Username)
 			},
 			func() {
@@ -67,7 +70,8 @@ var joinCmd = &cobra.Command{
 
 		// Connect to server
 		if err := wsClient.Connect(roomID); err != nil {
-			fmt.Printf("❌ Failed to connect: %v\n", err)
+			logger.Error("failed to connect to chat: %v", err)
+			fmt.Println("❌ Failed to connect")
 			fmt.Println("\nMake sure the WebSocket server is running:")
 			fmt.Println("  go run ./cmd/websocket-server")
 			return nil
@@ -116,7 +120,8 @@ var joinCmd = &cobra.Command{
 
 			// Send message
 			if err := wsClient.SendMessage(input); err != nil {
-				fmt.Printf("❌ Failed to send message: %v\n", err)
+				logger.Error("failed to send message: %v", err)
+				fmt.Println("❌ Failed to send message")
 			}
 			fmt.Printf("%s> ", sess.Username)
 		}
@@ -170,7 +175,8 @@ func handleCommand(input, username string) bool {
 			message := strings.Join(parts[2:], " ")
 			if wsClient != nil {
 				if err := wsClient.SendPrivateMessage(targetUser, message); err != nil {
-					fmt.Printf("❌ Failed to send PM: %v\n", err)
+					utils.NewLogger().Error("failed to send private message: %v", err)
+					fmt.Println("❌ Failed to send PM")
 				} else {
 					fmt.Printf("[PM to %s] %s\n", targetUser, message)
 				}
@@ -185,7 +191,8 @@ func handleCommand(input, username string) bool {
 			fmt.Printf("Switching to %s discussion...\n", mangaID)
 			if wsClient != nil {
 				if err := wsClient.SwitchRoom(mangaID); err != nil {
-					fmt.Printf("❌ Failed to switch room: %v\n", err)
+					utils.NewLogger().Error("failed to switch chat room: %v", err)
+					fmt.Println("❌ Failed to switch room")
 				} else {
 					fmt.Printf("✓ Joined #%s\n", mangaID)
 				}

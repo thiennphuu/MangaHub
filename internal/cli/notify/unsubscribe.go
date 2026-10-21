@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"mangahub/pkg/client"
+	"mangahub/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -24,6 +25,7 @@ Examples:
 }
 
 func runUnsubscribe(cmd *cobra.Command, args []string) error {
+	logger := utils.NewLogger()
 	mangaID, _ := cmd.Flags().GetString("manga-id")
 	all, _ := cmd.Flags().GetBool("all")
 	serverAddr, _ := cmd.Flags().GetString("server")
@@ -31,6 +33,7 @@ func runUnsubscribe(cmd *cobra.Command, args []string) error {
 	// Check if user is logged in
 	session, err := loadSession()
 	if err != nil {
+		logger.Warn("user is not logged in")
 		fmt.Println("You are not logged in.")
 		fmt.Println("\nPlease login first:")
 		fmt.Println("  mangahub auth login --username <username>")
@@ -48,7 +51,7 @@ func runUnsubscribe(cmd *cobra.Command, args []string) error {
 	udpClient := client.NewUDPClient(serverAddr)
 	err = udpClient.Connect()
 	if err != nil {
-		fmt.Printf("⚠ Warning: Could not connect to UDP server: %v\n", err)
+		logger.Warn("could not connect to UDP server: %v", err)
 		fmt.Println("  Continuing with local database unsubscription only.")
 	} else {
 		defer udpClient.Close()
@@ -56,7 +59,7 @@ func runUnsubscribe(cmd *cobra.Command, args []string) error {
 		// Unregister from UDP server
 		err = udpClient.Unregister()
 		if err != nil {
-			fmt.Printf("⚠ Warning: Failed to unregister from UDP server: %v\n", err)
+			logger.Warn("failed to unregister from UDP server: %v", err)
 		} else {
 			fmt.Println("✓ Unregistered from UDP notification server")
 		}

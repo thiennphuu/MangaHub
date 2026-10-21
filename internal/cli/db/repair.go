@@ -5,6 +5,7 @@ import (
 
 	"mangahub/pkg/client"
 	"mangahub/pkg/session"
+	"mangahub/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -16,6 +17,7 @@ var repairCmd = &cobra.Command{
 	Long: `Run lightweight SQLite maintenance commands (VACUUM, integrity check) via HTTP API
 and re-run schema initialization to ensure tables and indexes exist.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		logger := utils.NewLogger()
 		// Get session for authentication
 		sess, err := session.Load()
 		if err != nil {
@@ -35,6 +37,7 @@ and re-run schema initialization to ensure tables and indexes exist.`,
 
 		// Display results
 		if len(repairResp.Steps) == 0 && len(repairResp.Errors) == 0 {
+			logger.Warn("no database repair steps or errors reported (status: %s)", repairResp.Status)
 			fmt.Printf("⚠️  No steps or errors reported (status: %s)\n", repairResp.Status)
 		}
 
@@ -45,6 +48,7 @@ and re-run schema initialization to ensure tables and indexes exist.`,
 		if len(repairResp.Errors) > 0 {
 			fmt.Println("\nIssues encountered:")
 			for _, errMsg := range repairResp.Errors {
+				logger.Error("database repair issue: %s", errMsg)
 				fmt.Printf("⚠️  %s\n", errMsg)
 			}
 		}
@@ -53,6 +57,7 @@ and re-run schema initialization to ensure tables and indexes exist.`,
 			fmt.Println("\n✓ Database repair/maintenance completed")
 			return nil
 		} else if repairResp.Status == "partial" {
+			logger.Warn("database repair completed with some issues")
 			fmt.Println("\n⚠️  Database repair completed with some issues")
 			return nil
 		}

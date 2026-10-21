@@ -9,6 +9,7 @@ import (
 
 	"mangahub/pkg/client"
 	"mangahub/pkg/models"
+	"mangahub/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -30,6 +31,7 @@ Examples:
 }
 
 func runSubscribe(cmd *cobra.Command, args []string) error {
+	logger := utils.NewLogger()
 	mangaID, _ := cmd.Flags().GetString("manga-id")
 	all, _ := cmd.Flags().GetBool("all")
 	listen, _ := cmd.Flags().GetBool("listen")
@@ -38,6 +40,7 @@ func runSubscribe(cmd *cobra.Command, args []string) error {
 	// Check if user is logged in
 	session, err := loadSession()
 	if err != nil {
+		logger.Warn("user is not logged in")
 		fmt.Println("You are not logged in.")
 		fmt.Println("\nPlease login first:")
 		fmt.Println("  mangahub auth login --username <username>")
@@ -55,7 +58,7 @@ func runSubscribe(cmd *cobra.Command, args []string) error {
 	udpClient := client.NewUDPClient(serverAddr)
 	err = udpClient.Connect()
 	if err != nil {
-		fmt.Printf("⚠ Warning: Could not connect to UDP server: %v\n", err)
+		logger.Warn("could not connect to UDP server: %v", err)
 		fmt.Println("  Continuing with local database subscription only.")
 		fmt.Println("  Make sure UDP server is running: go run ./cmd/udp-server")
 	} else {
@@ -64,7 +67,7 @@ func runSubscribe(cmd *cobra.Command, args []string) error {
 		// Register with UDP server
 		err = udpClient.Register()
 		if err != nil {
-			fmt.Printf("⚠ Warning: Failed to register with UDP server: %v\n", err)
+			logger.Warn("failed to register with UDP server: %v", err)
 		} else {
 			fmt.Println("✓ Registered with UDP notification server")
 			fmt.Printf("  Local address: %s\n", udpClient.GetLocalAddr())

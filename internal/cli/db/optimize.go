@@ -5,6 +5,7 @@ import (
 
 	"mangahub/pkg/client"
 	"mangahub/pkg/session"
+	"mangahub/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -18,6 +19,7 @@ var optimizeCmd = &cobra.Command{
 
 Use this periodically after large imports or many updates to keep the database compact and query plans up to date.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		logger := utils.NewLogger()
 		// Get session for authentication
 		sess, err := session.Load()
 		if err != nil {
@@ -37,6 +39,7 @@ Use this periodically after large imports or many updates to keep the database c
 
 		// Display results
 		if len(optimizeResp.Steps) == 0 && len(optimizeResp.Errors) == 0 {
+			logger.Warn("no database optimization steps or errors reported (status: %s)", optimizeResp.Status)
 			fmt.Printf("⚠️  No steps or errors reported (status: %s)\n", optimizeResp.Status)
 		}
 
@@ -47,6 +50,7 @@ Use this periodically after large imports or many updates to keep the database c
 		if len(optimizeResp.Errors) > 0 {
 			fmt.Println("\nErrors encountered:")
 			for _, errMsg := range optimizeResp.Errors {
+				logger.Error("database optimization error: %s", errMsg)
 				fmt.Printf("✗ %s\n", errMsg)
 			}
 		}
@@ -55,6 +59,7 @@ Use this periodically after large imports or many updates to keep the database c
 			fmt.Println("\n✓ Database optimization completed successfully")
 			return nil
 		} else if optimizeResp.Status == "partial" {
+			logger.Warn("database optimization completed with some errors")
 			fmt.Println("\n⚠️  Database optimization completed with some errors")
 			return nil
 		}

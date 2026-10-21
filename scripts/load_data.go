@@ -12,6 +12,8 @@ import (
 	"strings"
 	"time"
 
+	"mangahub/pkg/utils"
+
 	_ "modernc.org/sqlite"
 )
 
@@ -157,12 +159,14 @@ func saveCombinedData(filepath string, manga []MangaData) error {
 
 func educationalPractice() map[string]interface{} {
 	result := make(map[string]interface{})
+	logger := utils.NewLogger()
 
 	// Practice 1: quotes.toscrape.com (a website specifically designed for scraping practice)
 	fmt.Println("   Fetching from quotes.toscrape.com...")
 	quotes, err := fetchQuotes()
 	if err != nil {
-		fmt.Printf("   Warning: Could not fetch quotes: %v\n", err)
+		logger.Warn("could not fetch quotes: %v", err)
+		fmt.Println("   Warning: Could not fetch quotes")
 	} else {
 		result["quotes"] = quotes
 		fmt.Printf("   Fetched %d quotes\n", len(quotes))
@@ -172,7 +176,8 @@ func educationalPractice() map[string]interface{} {
 	fmt.Println("   Testing with httpbin.org...")
 	httpbinData, err := fetchHTTPBin()
 	if err != nil {
-		fmt.Printf("   Warning: Could not fetch httpbin data: %v\n", err)
+		logger.Warn("could not fetch httpbin data: %v", err)
+		fmt.Println("   Warning: Could not fetch httpbin data")
 	} else {
 		result["httpbin"] = httpbinData
 		fmt.Println("   HTTPBin test successful")

@@ -8,6 +8,7 @@ import (
 
 	"mangahub/pkg/config"
 	"mangahub/pkg/database"
+	"mangahub/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -18,10 +19,11 @@ var healthCmd = &cobra.Command{
 	Short: "Detailed health check",
 	Long:  `Perform a detailed health check on all server components using HTTP and TCP reachability checks.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		logger := utils.NewLogger()
 		// Load config (same default path as servers)
 		cfg, err := config.LoadConfig("config.yaml")
 		if err != nil {
-			fmt.Println("⚠️  Failed to load config.yaml, using built-in defaults:", err)
+			logger.Warn("failed to load config.yaml, using built-in defaults: %v", err)
 			cfg = config.DefaultConfig()
 		}
 
@@ -54,7 +56,8 @@ func checkHTTP(url, name string) bool {
 	client := &http.Client{Timeout: 2 * time.Second}
 	resp, err := client.Get(url)
 	if err != nil {
-		fmt.Printf(" ✗ %s: unreachable (%v)\n", name, err)
+		utils.NewLogger().Error("%s unreachable: %v", name, err)
+		fmt.Printf(" ✗ %s: unreachable\n", name)
 		return false
 	}
 	defer resp.Body.Close()
@@ -71,10 +74,14 @@ func checkHTTP(url, name string) bool {
 func checkTCP(addr, name string) bool {
 	conn, err := net.DialTimeout("tcp", addr, 2*time.Second)
 	if err != nil {
-		fmt.Printf(" ✗ %s: unreachable (%v)\n", name, err)
+		utils.NewLogger().Error("%s unreachable: %v", name, err)
+		fmt.Printf(" ✗ %s: unreachable\n", name)
 		return false
 	}
-	_ = conn.Close()
+	if err := conn.Close(); err != nil {
+		utils.NewLogger().Error("failed to close %s connection: %v", name, err)
+		return false
+	}
 	fmt.Printf(" ✓ %s: listening (%s)\n", name, addr)
 	return true
 }
@@ -82,10 +89,14 @@ func checkTCP(addr, name string) bool {
 func checkUDP(addr, name string) bool {
 	conn, err := net.DialTimeout("udp", addr, 2*time.Second)
 	if err != nil {
-		fmt.Printf(" ✗ %s: unreachable (%v)\n", name, err)
+		utils.NewLogger().Error("%s unreachable: %v", name, err)
+		fmt.Printf(" ✗ %s: unreachable\n", name)
 		return false
 	}
-	_ = conn.Close()
+	if err := conn.Close(); err != nil {
+		utils.NewLogger().Error("failed to close %s connection: %v", name, err)
+		return false
+	}
 	fmt.Printf(" ✓ %s: reachable (%s)\n", name, addr)
 	return true
 }
@@ -93,14 +104,16 @@ func checkUDP(addr, name string) bool {
 func checkDatabase(path string) bool {
 	db, err := database.New(path)
 	if err != nil {
-		fmt.Printf(" ✗ Database: failed to open (%v)\n", err)
+		utils.NewLogger().Error("database failed to open: %v", err)
+		fmt.Println(" ✗ Database: failed to open")
 		return false
 	}
 	defer db.Close()
 
 	// Simple readiness: try a quick Init in case schema is missing
 	if err := db.Init(); err != nil {
-		fmt.Printf(" ✗ Database: schema/init error (%v)\n", err)
+		utils.NewLogger().Error("database schema/init failed: %v", err)
+		fmt.Println(" ✗ Database: schema/init error")
 		return false
 	}
 

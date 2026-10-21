@@ -6,6 +6,7 @@ import (
 	"runtime"
 
 	"mangahub/pkg/config"
+	"mangahub/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -18,6 +19,7 @@ var startCmd = &cobra.Command{
 	Long: `Check and start MangaHub server components. 
 This command checks if each component is reachable and starts any missing ones in the background:`,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		logger := utils.NewLogger()
 		httpOnly, _ := cmd.Flags().GetBool("http-only")
 		tcpOnly, _ := cmd.Flags().GetBool("tcp-only")
 		udpOnly, _ := cmd.Flags().GetBool("udp-only")
@@ -27,7 +29,7 @@ This command checks if each component is reachable and starts any missing ones i
 
 		cfg, err := config.LoadConfig("config.yaml")
 		if err != nil {
-			fmt.Println("⚠️  Failed to load config.yaml, using built-in defaults:", err)
+			logger.Warn("failed to load config.yaml, using built-in defaults: %v", err)
 			cfg = config.DefaultConfig()
 		}
 
@@ -47,7 +49,8 @@ This command checks if each component is reachable and starts any missing ones i
 			} else {
 				fmt.Println("   Starting HTTP API server...")
 				if err := runBackgroundTask("go", "run", "./cmd/api-server"); err != nil {
-					fmt.Printf("   ✗ Failed to start HTTP API: %v\n", err)
+					logger.Error("failed to start HTTP API: %v", err)
+					fmt.Println("   ✗ Failed to start HTTP API")
 				} else {
 					fmt.Println("   ✓ HTTP API started in background")
 				}
@@ -62,7 +65,8 @@ This command checks if each component is reachable and starts any missing ones i
 			} else {
 				fmt.Println("   Starting TCP sync server...")
 				if err := runBackgroundTask("go", "run", "./cmd/tcp-server"); err != nil {
-					fmt.Printf("   ✗ Failed to start TCP Sync: %v\n", err)
+					logger.Error("failed to start TCP Sync: %v", err)
+					fmt.Println("   ✗ Failed to start TCP Sync")
 				} else {
 					fmt.Println("   ✓ TCP Sync started in background")
 				}
@@ -77,7 +81,8 @@ This command checks if each component is reachable and starts any missing ones i
 			} else {
 				fmt.Println("   Starting UDP notification server...")
 				if err := runBackgroundTask("go", "run", "./cmd/udp-server"); err != nil {
-					fmt.Printf("   ✗ Failed to start UDP Notify: %v\n", err)
+					logger.Error("failed to start UDP Notify: %v", err)
+					fmt.Println("   ✗ Failed to start UDP Notify")
 				} else {
 					fmt.Println("   ✓ UDP Notify started in background")
 				}
@@ -92,7 +97,8 @@ This command checks if each component is reachable and starts any missing ones i
 			} else {
 				fmt.Println("   Starting gRPC server...")
 				if err := runBackgroundTask("go", "run", "./cmd/grpc-server"); err != nil {
-					fmt.Printf("   ✗ Failed to start gRPC: %v\n", err)
+					logger.Error("failed to start gRPC: %v", err)
+					fmt.Println("   ✗ Failed to start gRPC")
 				} else {
 					fmt.Println("   ✓ gRPC started in background")
 				}
@@ -107,7 +113,8 @@ This command checks if each component is reachable and starts any missing ones i
 			} else {
 				fmt.Println("   Starting WebSocket server...")
 				if err := runBackgroundTask("go", "run", "./cmd/websocket-server"); err != nil {
-					fmt.Printf("   ✗ Failed to start WebSocket: %v\n", err)
+					logger.Error("failed to start WebSocket: %v", err)
+					fmt.Println("   ✗ Failed to start WebSocket")
 				} else {
 					fmt.Println("   ✓ WebSocket started in background")
 				}

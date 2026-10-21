@@ -5,6 +5,7 @@ import (
 
 	"mangahub/pkg/client"
 	"mangahub/pkg/session"
+	"mangahub/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -15,6 +16,7 @@ var statsCmd = &cobra.Command{
 	Short: "Show database statistics",
 	Long:  `Display basic statistics for the remote database via HTTP API such as size and row counts.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		logger := utils.NewLogger()
 		// Get session for authentication
 		sess, err := session.Load()
 		if err != nil {
@@ -43,6 +45,7 @@ var statsCmd = &cobra.Command{
 				if count >= 0 {
 					fmt.Printf("  %s: %d rows\n", name, count)
 				} else {
+					logger.Error("failed to read row count for table %s", name)
 					fmt.Printf("  %s: error\n", name)
 				}
 			}

@@ -59,7 +59,7 @@ Examples:
 			ExpiresAt: loginResp.ExpiresAt.Format("2006-01-02 15:04:05 MST"),
 		}
 		if err := session.Save(sess); err != nil {
-			fmt.Printf("Warning: could not save session: %v\n", err)
+			utils.NewLogger().Warn("could not save session: %v", err)
 		}
 
 		fmt.Println("✓ Login successful")

@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"mangahub/pkg/config"
+	"mangahub/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -14,9 +15,10 @@ var statusCmd = &cobra.Command{
 	Short: "Check server status",
 	Long:  `Display current status of all MangaHub server components using health checks and port reachability.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		logger := utils.NewLogger()
 		cfg, err := config.LoadConfig("config.yaml")
 		if err != nil {
-			fmt.Println("⚠️  Failed to load config.yaml, using built-in defaults:", err)
+			logger.Warn("failed to load config.yaml, using built-in defaults: %v", err)
 			cfg = config.DefaultConfig()
 		}
 

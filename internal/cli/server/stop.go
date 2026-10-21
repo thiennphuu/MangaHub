@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"mangahub/pkg/config"
+	"mangahub/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -17,12 +18,13 @@ var stopCmd = &cobra.Command{
 	Short: "Stop server components",
 	Long:  `Identify and terminate running MangaHub server components by closing processes on their ports.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		logger := utils.NewLogger()
 		component, _ := cmd.Flags().GetString("component")
 		all, _ := cmd.Flags().GetBool("all")
 
 		cfg, err := config.LoadConfig("config.yaml")
 		if err != nil {
-			fmt.Println("⚠️  Failed to load config.yaml, using built-in defaults:", err)
+			logger.Warn("failed to load config.yaml, using built-in defaults: %v", err)
 			cfg = config.DefaultConfig()
 		}
 
@@ -32,7 +34,8 @@ var stopCmd = &cobra.Command{
 		stopFunc := func(port int, name string) {
 			fmt.Printf("   Stopping %s (port %d)...\n", name, port)
 			if err := killProcessByPort(port); err != nil {
-				fmt.Printf("   ✗ Could not stop %s: %v\n", name, err)
+				logger.Error("could not stop %s: %v", name, err)
+				fmt.Printf("   ✗ Could not stop %s\n", name)
 			} else {
 				fmt.Printf("   ✓ %s stopped\n", name)
 			}
