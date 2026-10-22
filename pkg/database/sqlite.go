@@ -47,7 +47,7 @@ func (d *Database) Init() error {
 		author TEXT,
 		genres TEXT,
 		status TEXT,
-		total_chapters INTEGER,
+		chapters INTEGER,
 		description TEXT,
 		cover_url TEXT,
 		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -68,6 +68,17 @@ func (d *Database) Init() error {
 		FOREIGN KEY (user_id) REFERENCES users(id),
 		FOREIGN KEY (manga_id) REFERENCES manga(id)
 	);
+
+	CREATE TABLE IF NOT EXISTS frontend_reading_progress (
+		user_id TEXT NOT NULL,
+		manga_id TEXT NOT NULL,
+		current_chapter INTEGER NOT NULL DEFAULT 0,
+		current_page INTEGER NOT NULL DEFAULT 0,
+		updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		PRIMARY KEY (user_id, manga_id)
+	);
+
+	CREATE INDEX IF NOT EXISTS idx_frontend_progress_user ON frontend_reading_progress(user_id);
 
 	CREATE TABLE IF NOT EXISTS chat_messages (
 		id TEXT PRIMARY KEY,
@@ -122,7 +133,50 @@ func (d *Database) Init() error {
 		return fmt.Errorf("failed to initialize schema: %w", err)
 	}
 
+	if err := d.ensureMangaChapterColumn(); err != nil {
+		return err
+	}
+
 	log.Println("Database schema initialized successfully")
+	return nil
+}
+
+func (d *Database) ensureMangaChapterColumn() error {
+	rows, err := d.DB.Query("PRAGMA table_info(manga)")
+	if err != nil {
+		return fmt.Errorf("failed to inspect manga schema: %w", err)
+	}
+	defer rows.Close()
+
+	hasChapters, hasLegacyTotalChapters := false, false
+	for rows.Next() {
+		var cid int
+		var name, columnType string
+		var notNull, primaryKey int
+		var defaultValue interface{}
+		if err := rows.Scan(&cid, &name, &columnType, &notNull, &defaultValue, &primaryKey); err != nil {
+			return fmt.Errorf("failed to inspect manga schema: %w", err)
+		}
+		switch name {
+		case "chapters":
+			hasChapters = true
+		case "total_chapters":
+			hasLegacyTotalChapters = true
+		}
+	}
+	if err := rows.Err(); err != nil {
+		return fmt.Errorf("failed to inspect manga schema: %w", err)
+	}
+	if hasChapters || !hasLegacyTotalChapters {
+		return nil
+	}
+
+	if _, err := d.DB.Exec("ALTER TABLE manga ADD COLUMN chapters INTEGER"); err != nil {
+		return fmt.Errorf("failed to migrate manga chapters column: %w", err)
+	}
+	if _, err := d.DB.Exec("UPDATE manga SET chapters = total_chapters WHERE chapters IS NULL"); err != nil {
+		return fmt.Errorf("failed to migrate manga chapter values: %w", err)
+	}
 	return nil
 }
 

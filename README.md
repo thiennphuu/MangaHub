@@ -146,6 +146,45 @@ tcp:
 
 ## Configuration
 
+Copy `config.example.yaml` to a local configuration file and set secrets
+through environment variables rather than committing them:
+
+```powershell
+$env:MANGAHUB_JWT_SECRET = "replace-with-a-long-random-secret"
+$env:MANGAHUB_CORS_ORIGINS = "http://localhost:3000"
+go run .\cmd\api-server .\config.yaml
+```
+
+Supported overrides include `MANGAHUB_JWT_SECRET`, `MANGAHUB_HTTP_HOST`,
+`MANGAHUB_HTTP_PORT`, `MANGAHUB_CORS_ORIGINS`, and `MANGAHUB_LOG_LEVEL`.
+Production CORS must use an explicit origin allowlist; wildcard origins are
+not enabled by the API server.
+
+### Frontend API and Render
+
+The frontend API is available under `/api`:
+
+- `GET /api/manga`
+- `GET /api/manga/:id`
+- `GET /api/library`
+- `GET /api/reading-progress`
+- `POST /api/reading-progress`
+
+Responses use a `{ "data": ... }` envelope. A progress request accepts
+`mangaId`, `currentChapter`, and `currentPage`. The optional `X-User-ID` header
+or `userId` query parameter keeps progress separate between frontend users;
+when omitted, the `public` progress profile is used. The API also accepts
+`PORT` (used by Render) and `MANGAHUB_DATABASE_PATH`.
+
+Render can deploy this service from the included `render.yaml`. The persistent
+disk is used for SQLite data; configure the frontend with the deployed Render
+URL as its API base URL.
+
+All server components use `app.logging.path` and `app.logging.level` from the
+configuration file. Supported levels are `debug`, `info`, `warn`, and `error`;
+the configured file receives the same messages that are emitted to the
+corresponding console streams.
+
 Configuration is managed via `config.yaml`:
 
 ```yaml

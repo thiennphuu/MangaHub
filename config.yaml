@@ -4,6 +4,9 @@ app:
   environment: development
   jwt_secret: your-secret-key-change-in-production
   max_users: 100
+  logging:
+    path: logs/server.log
+    level: info
 
 database:
   type: sqlite
@@ -15,6 +18,11 @@ database:
 http:
   host: 127.0.0.1
   port: 8080
+  cors_origins:
+    - https://mangathienphu-src.vercel.app
+    - https://manga-thien-phu.vercel.app
+    - http://localhost:3000
+    - http://127.0.0.1:3000
   read_timeout: 15
   write_timeout: 15
   shutdown_timeout: 10

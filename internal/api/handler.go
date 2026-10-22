@@ -23,22 +23,26 @@ type Handler struct {
 	libraryService *user.LibraryService
 	mangaService   *manga.Service
 	logger         *utils.Logger
+	logPath        string
 }
 
 // NewHandler creates a new API handler
-func NewHandler(db *database.Database, logger *utils.Logger) *Handler {
+func NewHandler(db *database.Database, logger *utils.Logger, jwtSecret, logPath string) *Handler {
 	return &Handler{
 		db:             db,
-		authService:    auth.NewAuthService("your-secret-key"),
+		authService:    auth.NewAuthService(jwtSecret),
 		userService:    user.NewService(db),
 		libraryService: user.NewLibraryService(db),
 		mangaService:   manga.NewService(db),
 		logger:         logger,
+		logPath:        logPath,
 	}
 }
 
 // RegisterRoutes registers all API routes
 func (h *Handler) RegisterRoutes(engine *gin.Engine) {
+	h.registerFrontendRoutes(engine)
+
 	// Auth routes
 	auth := engine.Group("/auth")
 	{
@@ -126,6 +130,7 @@ func (h *Handler) Register(c *gin.Context) {
 	// Hash password
 	hashedPassword, err := h.authService.HashPassword(req.Password)
 	if err != nil {
+		h.logger.Error("failed to hash password: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to hash password"})
 		return
 	}
@@ -171,6 +176,7 @@ func (h *Handler) Login(c *gin.Context) {
 	// Generate token
 	token, expiresAt, err := h.authService.GenerateToken(user.ID, user.Username, user.Email)
 	if err != nil {
+		h.logger.Error("failed to generate token for user %s: %v", user.ID, err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate token"})
 		return
 	}
@@ -216,6 +222,7 @@ func (h *Handler) UpdateProfile(c *gin.Context) {
 
 	req.ID = userID.(string)
 	if err := h.userService.Update(&req); err != nil {
+		h.logger.Error("failed to update profile for user %s: %v", userID, err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to update profile"})
 		return
 	}
@@ -241,6 +248,7 @@ func (h *Handler) ListManga(c *gin.Context) {
 
 	mangaList, err := h.mangaService.List(limit, offset)
 	if err != nil {
+		h.logger.Error("failed to list manga: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to list manga"})
 		return
 	}
@@ -271,6 +279,7 @@ func (h *Handler) SearchManga(c *gin.Context) {
 
 	results, err := h.mangaService.Search(&filter)
 	if err != nil {
+		h.logger.Error("failed to search manga: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to search manga"})
 		return
 	}
@@ -287,6 +296,7 @@ func (h *Handler) CreateManga(c *gin.Context) {
 	}
 
 	if err := h.mangaService.Create(&manga); err != nil {
+		h.logger.Error("failed to create manga: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create manga"})
 		return
 	}
@@ -306,6 +316,7 @@ func (h *Handler) UpdateManga(c *gin.Context) {
 
 	manga.ID = id
 	if err := h.mangaService.Update(&manga); err != nil {
+		h.logger.Error("failed to update manga %s: %v", id, err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to update manga"})
 		return
 	}
@@ -318,6 +329,7 @@ func (h *Handler) DeleteManga(c *gin.Context) {
 	id := c.Param("id")
 
 	if err := h.mangaService.Delete(id); err != nil {
+		h.logger.Error("failed to delete manga %s: %v", id, err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to delete manga"})
 		return
 	}
@@ -357,6 +369,7 @@ func (h *Handler) GetLibrary(c *gin.Context) {
 	}
 
 	if err != nil {
+		h.logger.Error("failed to get library for user %s: %v", userID, err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to get library"})
 		return
 	}
@@ -384,6 +397,7 @@ func (h *Handler) AddToLibrary(c *gin.Context) {
 	}
 
 	if err := h.libraryService.AddToLibrary(userID.(string), req.MangaID, req.Status, req.Rating, req.Notes); err != nil {
+		h.logger.Error("failed to add manga %s to library for user %s: %v", req.MangaID, userID, err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to add to library"})
 		return
 	}
@@ -402,6 +416,7 @@ func (h *Handler) RemoveFromLibrary(c *gin.Context) {
 	mangaID := c.Param("mangaId")
 
 	if err := h.libraryService.RemoveFromLibrary(userID.(string), mangaID); err != nil {
+		h.logger.Error("failed to remove manga %s from library for user %s: %v", mangaID, userID, err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to remove from library"})
 		return
 	}
@@ -429,6 +444,7 @@ func (h *Handler) UpdateProgress(c *gin.Context) {
 	req.MangaID = mangaID
 
 	if err := h.libraryService.UpdateLibraryEntry(&req); err != nil {
+		h.logger.Error("failed to update progress for user %s and manga %s: %v", userID, mangaID, err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to update progress"})
 		return
 	}
@@ -488,6 +504,7 @@ func (h *Handler) GetServerLogs(c *gin.Context) {
 	// Get log file path
 	logPath, err := h.getLogFilePath()
 	if err != nil {
+		h.logger.Error("failed to determine log path: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to determine log path"})
 		return
 	}
@@ -495,6 +512,7 @@ func (h *Handler) GetServerLogs(c *gin.Context) {
 	// Read logs
 	logs, err := h.readLogFile(logPath, level, maxLines)
 	if err != nil {
+		h.logger.Error("failed to read logs: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("failed to read logs: %v", err)})
 		return
 	}
@@ -508,8 +526,9 @@ func (h *Handler) GetServerLogs(c *gin.Context) {
 }
 
 func (h *Handler) getLogFilePath() (string, error) {
-	// In production, this would read from config
-	// For now, use the standard log path
+	if h.logPath != "" {
+		return h.logPath, nil
+	}
 	return utils.GetLogFilePath()
 }
 
@@ -528,6 +547,7 @@ func (h *Handler) GetDatabaseCheck(c *gin.Context) {
 	// Run integrity check
 	integrityOK, integrityIssues, err := h.checkDatabaseIntegrity()
 	if err != nil {
+		h.logger.Error("database integrity check failed: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("integrity check failed: %v", err)})
 		return
 	}
@@ -535,6 +555,7 @@ func (h *Handler) GetDatabaseCheck(c *gin.Context) {
 	// Verify core tables
 	tables, missingTables, err := h.verifyDatabaseTables()
 	if err != nil {
+		h.logger.Error("database table verification failed: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("table verification failed: %v", err)})
 		return
 	}
